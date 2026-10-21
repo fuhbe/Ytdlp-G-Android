@@ -1,6 +1,6 @@
 # Ytdlp-G for Android
 
-A small video and playlist downloader for Android, with a translucent interface. Paste a link, inspect qualities that are actually available, and save regular files or one ZIP. The interface follows the device language in English, Brazilian Portuguese, and Spanish.
+A small video and playlist downloader for Android, with a translucent interface. Paste a link, inspect qualities that are actually available, and save regular files or one ZIP. The interface follows the device language in English, Brazilian Portuguese, and Spanish. On Android 13 and later, you can also choose the app language in system settings.
 
 ## Current status
 

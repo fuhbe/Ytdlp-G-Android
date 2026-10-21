@@ -6,6 +6,7 @@
     <application
         android:allowBackup="false"
         android:label="Ytdlp-G"
+        android:localeConfig="@xml/locales_config"
         android:icon="@drawable/ic_launcher"
         android:theme="@android:style/Theme.Material.Light.NoActionBar"
         android:usesCleartextTraffic="false">
