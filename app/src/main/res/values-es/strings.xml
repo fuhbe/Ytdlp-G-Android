@@ -1,0 +1,31 @@
+<resources>
+    <string name="app_name">Ytdlp-G</string>
+    <string name="headline">Descarga un video o una lista</string>
+    <string name="link_hint">Pega un enlace de video o lista</string>
+    <string name="analyze">Buscar calidades</string>
+    <string name="analyzing">Comprobando formatos disponibles…</string>
+    <string name="content">Contenido</string>
+    <string name="video_audio">Video y audio</string>
+    <string name="audio_only">Solo audio</string>
+    <string name="quality">Calidad</string>
+    <string name="mp3_quality">MP3 · mejor fuente · 320 kbps</string>
+    <string name="save_to">Guardar en</string>
+    <string name="choose_folder">Elegir carpeta</string>
+    <string name="output">Salida</string>
+    <string name="normal_files">Archivos normales</string>
+    <string name="zip_file">Un archivo ZIP</string>
+    <string name="download">Descargar</string>
+    <string name="cancel">Cancelar</string>
+    <string name="ready">Pega un enlace para ver las calidades disponibles.</string>
+    <plurals name="playlist_count"><item quantity="one">Lista · %1$d elemento</item><item quantity="other">Lista · %1$d elementos</item></plurals>
+    <string name="single_video">Video único</string>
+    <string name="finished">Finalizado · descargados: %1$d · fallidos: %2$d</string>
+    <string name="working">Descargando %1$d de %2$d: %3$s</string>
+    <string name="folder_required">Elige primero una carpeta de destino.</string>
+    <string name="nothing_available">No se encontraron calidades compatibles.</string>
+    <string name="invalid_link">Introduce un enlace http o https válido.</string>
+    <string name="notification_channel">Descargas</string>
+    <string name="download_in_progress">Descarga en curso</string>
+    <string name="all_qualities">Calidades disponibles en todos los elementos accesibles de la lista.</string>
+    <string name="best_available">mejor disponible</string>
+</resources>

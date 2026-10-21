@@ -1,0 +1,31 @@
+<resources>
+    <string name="app_name">Ytdlp-G</string>
+    <string name="headline">Download a video or playlist</string>
+    <string name="link_hint">Paste a video or playlist link</string>
+    <string name="analyze">Find qualities</string>
+    <string name="analyzing">Checking available formats…</string>
+    <string name="content">Content</string>
+    <string name="video_audio">Video and audio</string>
+    <string name="audio_only">Audio only</string>
+    <string name="quality">Quality</string>
+    <string name="mp3_quality">MP3 · best source · 320 kbps</string>
+    <string name="save_to">Save to</string>
+    <string name="choose_folder">Choose folder</string>
+    <string name="output">Output</string>
+    <string name="normal_files">Regular files</string>
+    <string name="zip_file">One ZIP file</string>
+    <string name="download">Download</string>
+    <string name="cancel">Cancel</string>
+    <string name="ready">Paste a link to see available qualities.</string>
+    <plurals name="playlist_count"><item quantity="one">Playlist · %1$d item</item><item quantity="other">Playlist · %1$d items</item></plurals>
+    <string name="single_video">Single video</string>
+    <string name="finished">Finished · downloaded: %1$d · failed: %2$d</string>
+    <string name="working">Downloading %1$d of %2$d: %3$s</string>
+    <string name="folder_required">Choose a destination folder first.</string>
+    <string name="nothing_available">No compatible qualities were found.</string>
+    <string name="invalid_link">Enter a valid http or https link.</string>
+    <string name="notification_channel">Downloads</string>
+    <string name="download_in_progress">Download in progress</string>
+    <string name="all_qualities">Available qualities shared by all accessible playlist items.</string>
+    <string name="best_available">best available</string>
+</resources>

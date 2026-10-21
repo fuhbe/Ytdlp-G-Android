@@ -1,0 +1,31 @@
+<resources>
+    <string name="app_name">Ytdlp-G</string>
+    <string name="headline">Baixe um vídeo ou playlist</string>
+    <string name="link_hint">Cole um link de vídeo ou playlist</string>
+    <string name="analyze">Buscar qualidades</string>
+    <string name="analyzing">Verificando formatos disponíveis…</string>
+    <string name="content">Conteúdo</string>
+    <string name="video_audio">Vídeo e áudio</string>
+    <string name="audio_only">Apenas áudio</string>
+    <string name="quality">Qualidade</string>
+    <string name="mp3_quality">MP3 · melhor fonte · 320 kbps</string>
+    <string name="save_to">Salvar em</string>
+    <string name="choose_folder">Escolher pasta</string>
+    <string name="output">Saída</string>
+    <string name="normal_files">Arquivos normais</string>
+    <string name="zip_file">Um arquivo ZIP</string>
+    <string name="download">Baixar</string>
+    <string name="cancel">Cancelar</string>
+    <string name="ready">Cole um link para ver as qualidades disponíveis.</string>
+    <plurals name="playlist_count"><item quantity="one">Playlist · %1$d item</item><item quantity="other">Playlist · %1$d itens</item></plurals>
+    <string name="single_video">Vídeo único</string>
+    <string name="finished">Concluído · baixados: %1$d · falhas: %2$d</string>
+    <string name="working">Baixando %1$d de %2$d: %3$s</string>
+    <string name="folder_required">Escolha uma pasta de destino primeiro.</string>
+    <string name="nothing_available">Nenhuma qualidade compatível encontrada.</string>
+    <string name="invalid_link">Insira um link http ou https válido.</string>
+    <string name="notification_channel">Downloads</string>
+    <string name="download_in_progress">Download em andamento</string>
+    <string name="all_qualities">Qualidades disponíveis em todos os itens acessíveis da playlist.</string>
+    <string name="best_available">melhor disponível</string>
+</resources>
