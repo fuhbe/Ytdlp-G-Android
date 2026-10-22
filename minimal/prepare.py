@@ -60,7 +60,7 @@ object FileUtil {
  fun getDefaultApksPath() = File(SimpleApp.instance.cacheDir, "updates").absolutePath
 }
 ''')
-    plugins = ROOT / "experimental/overlay/app/src/main/assets/yt_dlp_plugins"
+    plugins = HERE / "plugins"
     shutil.copytree(plugins, GENERATED / "assets/yt_dlp_plugins", dirs_exist_ok=True,
                     ignore=shutil.ignore_patterns("__pycache__", "*.pyc"))
     shutil.copytree(ROOT / "app/src/main/assets/licenses", GENERATED / "assets/licenses", dirs_exist_ok=True)

@@ -15,7 +15,7 @@ import threading
 
 ROOT = Path(__file__).resolve().parent.parent
 ENGINE = ROOT / "minimal/app/build/generated/runtime/res/raw/ytdlp"
-PLUGINS = ROOT / "experimental/overlay/app/src/main/assets/yt_dlp_plugins"
+PLUGINS = ROOT / "minimal/plugins"
 
 def run(*args):
     result = subprocess.run(list(map(str, args)), capture_output=True, text=True, timeout=150)

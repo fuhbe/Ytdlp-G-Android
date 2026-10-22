@@ -304,7 +304,7 @@ private fun Color.luminanceValue() = red * .2126f + green * .7152f + blue * .072
                     Text("ZIP reúne os arquivos selecionados. Os originais temporários são preservados até você limpar os concluídos.", fontSize = 12.sp, color = MaterialTheme.colorScheme.onSurfaceVariant, modifier = Modifier.padding(top = 8.dp))
                 }
             }
-            item { ActionButton(if (playlist) "Baixar playlist" else "Baixar", Icons.Default.Download, model.selected.isNotEmpty(), download) }
+            item { ActionButton(if (model.queuing) "Iniciando…" else if (playlist) "Baixar playlist" else "Baixar", Icons.Default.Download, model.selected.isNotEmpty() && !model.queuing, download) }
         }
         if (inspection == null && !model.busy) item {
             Text("Vídeos e playlists, em MP3 ou MP4. Cole vários links, um por linha.\n\nBaixe apenas conteúdo que você tem autorização para salvar.", color = MaterialTheme.colorScheme.onSurfaceVariant, fontSize = 13.sp, modifier = Modifier.padding(10.dp))
@@ -353,6 +353,9 @@ private fun Color.luminanceValue() = red * .2126f + green * .7152f + blue * .072
 }
 @Composable private fun DestinationCard(folder: String, choose: () -> Unit) {
     val context = LocalContext.current
+    val label by produceState(if (folder.isBlank()) "Downloads/Ytdlp-G" else "Pasta selecionada", folder) {
+        value = kotlinx.coroutines.withContext(kotlinx.coroutines.Dispatchers.IO) { Storage.folderName(context, folder) }
+    }
     GlassCard {
         Heading("Pasta de destino")
         Surface(onClick = choose, color = MaterialTheme.colorScheme.surface.copy(alpha = .3f), shape = RoundedCornerShape(16.dp), modifier = Modifier.fillMaxWidth().heightIn(min = 56.dp)) {
@@ -360,7 +363,7 @@ private fun Color.luminanceValue() = red * .2126f + green * .7152f + blue * .072
                 Icon(Icons.Default.FolderOpen, null); Spacer(Modifier.width(12.dp))
                 Column(Modifier.weight(1f)) {
                     Text("Salvar em", fontSize = 13.sp, fontWeight = FontWeight.SemiBold)
-                    Text(Storage.folderName(context, folder), fontSize = 12.sp, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                    Text(label, fontSize = 12.sp, color = MaterialTheme.colorScheme.onSurfaceVariant)
                 }
                 Icon(Icons.Default.ChevronRight, "Alterar pasta")
             }

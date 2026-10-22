@@ -36,7 +36,7 @@ jobs:
           python3 scripts/prepare_smoke_ffmpeg.py "$PWD/.smoke-bin"
           export PATH="$PWD/.smoke-bin:$PATH"
           python3 minimal/smoke.py
-          python3 experimental/verify_mp4.py minimal/app/build/generated/runtime/res/raw/ytdlp
+          python3 minimal/verify_mp4.py minimal/app/build/generated/runtime/res/raw/ytdlp
       - name: Package exact APK and corresponding source
         run: |
           python3 minimal/package.py

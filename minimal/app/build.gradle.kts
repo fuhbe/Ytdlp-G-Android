@@ -44,7 +44,7 @@ val prepareRuntime by tasks.registering(Exec::class) {
     inputs.file(rootProject.file("upstream.json"))
     inputs.file(rootProject.file("prepare.py"))
     inputs.file(rootProject.file("../scripts/prepare_runtime.py"))
-    inputs.dir(rootProject.file("../experimental/overlay/app/src/main/assets/yt_dlp_plugins"))
+    inputs.dir(rootProject.file("plugins"))
     outputs.dir(layout.buildDirectory.dir("generated/upstream"))
     outputs.dir(layout.buildDirectory.dir("generated/runtime"))
 }

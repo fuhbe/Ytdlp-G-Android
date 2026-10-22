@@ -20,6 +20,7 @@ class AppModel(app: Application) : AndroidViewModel(app) {
     var theme by mutableStateOf(Store.preferences(app).getString("theme", "system").orEmpty())
     var area by mutableStateOf("home")
     var updating by mutableStateOf(false)
+    var queuing by mutableStateOf(false)
     private var analysis: Job? = null
     private var cachedInput = ""
     private var cachedAt = 0L
@@ -65,17 +66,23 @@ class AppModel(app: Application) : AndroidViewModel(app) {
         Store.preferences(getApplication()).edit().putString("theme", value).apply()
     }
     fun enqueue() {
+        if (queuing) return
         val inspected = inspection ?: return
         val items = inspected.items.filter { it.id in selected && it.available }
         if (items.isEmpty()) { error = "Selecione pelo menos um vídeo."; return }
         val app = getApplication<Application>()
-        try { Storage.validate(app, folder) } catch (e: Exception) { error = e.message.orEmpty(); return }
         val job = QueueJob(title = if (items.size == 1) items.first().title else inspected.title, items = items,
             choice = Policy.choice(choice, items.size), folder = folder)
+        queuing = true
         viewModelScope.launch(Dispatchers.IO) {
-            Store.insert(job)
-            QueueWorker.kick(app)
-            withContext(Dispatchers.Main) { area = "downloads" }
+            try {
+                Storage.validate(app, job.folder)
+                Store.insert(job)
+                QueueWorker.kick(app)
+                withContext(Dispatchers.Main) { area = "downloads" }
+            } catch (e: CancellationException) { throw e }
+            catch (e: Exception) { withContext(Dispatchers.Main) { error = Policy.readableError(e.message.orEmpty()) } }
+            finally { withContext(NonCancellable + Dispatchers.Main) { queuing = false } }
         }
     }
     fun control(id: String, action: String) { viewModelScope.launch(Dispatchers.IO) { QueueWorker.control(getApplication(), id, action) } }

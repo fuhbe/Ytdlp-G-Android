@@ -33,9 +33,6 @@ with zipfile.ZipFile(source, "w", zipfile.ZIP_DEFLATED) as z:
         if path.is_file():
             z.write(path, str(path.relative_to(ROOT)))
     z.write(HERE / "build/upstream.tar.gz", "minimal/build/upstream.tar.gz")
-    plugin = ROOT / "experimental/overlay/app/src/main/assets/yt_dlp_plugins"
-    for path in plugin.rglob("*.py"):
-        z.write(path, str(path.relative_to(ROOT)))
     z.write(HERE / "build/source-manifest.json", "minimal/source-manifest.json")
 for name in ["README.md", "VERIFICATION.md"]:
     shutil.copy2(HERE / name, output / name)
