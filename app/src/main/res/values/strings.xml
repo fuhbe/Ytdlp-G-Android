@@ -4,6 +4,9 @@
     <string name="link_hint">Paste a video or playlist link</string>
     <string name="analyze">Find qualities</string>
     <string name="analyzing">Checking available formats…</string>
+    <string name="inspect_progress">Checking item %1$d of %2$d…</string>
+    <string name="paste">Paste</string>
+    <string name="available_only">Available qualities</string>
     <string name="content">Content</string>
     <string name="video_audio">Video and audio</string>
     <string name="audio_only">Audio only</string>

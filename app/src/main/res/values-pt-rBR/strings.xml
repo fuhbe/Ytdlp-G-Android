@@ -4,6 +4,9 @@
     <string name="link_hint">Cole um link de vídeo ou playlist</string>
     <string name="analyze">Buscar qualidades</string>
     <string name="analyzing">Verificando formatos disponíveis…</string>
+    <string name="inspect_progress">Verificando item %1$d de %2$d…</string>
+    <string name="paste">Colar</string>
+    <string name="available_only">Qualidades disponíveis</string>
     <string name="content">Conteúdo</string>
     <string name="video_audio">Vídeo e áudio</string>
     <string name="audio_only">Apenas áudio</string>

@@ -9,6 +9,7 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Build
 import android.os.IBinder
+import android.util.Log
 import androidx.core.app.NotificationCompat
 import androidx.documentfile.provider.DocumentFile
 import kotlinx.coroutines.CoroutineScope
@@ -29,6 +30,7 @@ object DownloadState {
     val status = MutableStateFlow("")
     val progress = MutableStateFlow(0f)
     val running = MutableStateFlow(false)
+    val errors = MutableStateFlow<List<String>>(emptyList())
     var task: Task? = null
 }
 
@@ -63,7 +65,12 @@ class DownloadService : Service() {
         startForeground(1, notification(getString(R.string.download_in_progress)))
         job = scope.launch {
             try { runTask(task) }
-            catch (e: Exception) { if (!cancelled) DownloadState.status.value = e.message ?: e.javaClass.simpleName }
+            catch (e: Exception) {
+                if (!cancelled) {
+                    Log.e("YtdlpG", "Download task failed", e)
+                    DownloadState.status.value = e.message ?: e.javaClass.simpleName
+                }
+            }
             finally {
                 DownloadState.running.value = false
                 DownloadState.task = null
@@ -93,6 +100,7 @@ class DownloadService : Service() {
         var done = 0
         var failed = 0
         val files = mutableListOf<File>()
+        val archiveNames = mutableMapOf<File, String>()
         try {
             task.inspection.items.forEachIndexed { index, item ->
                 if (cancelled) return@forEachIndexed
@@ -105,14 +113,24 @@ class DownloadService : Service() {
                         DownloadState.progress.value = (index + pct.coerceIn(0f, 100f) / 100f) / task.inspection.items.size
                     }
                     require(outputs.isNotEmpty()) { "No output file was produced" }
-                    if (task.zip) files += outputs
+                    if (task.zip) {
+                        files += outputs
+                        outputs.forEach { archiveNames[it] = "%03d-%s".format(index + 1, it.name) }
+                    }
                     else {
                         outputs.forEach { copyToTree(it, destination) }
                         itemDir.deleteRecursively()
                     }
                     done++
                 } catch (e: Exception) {
-                    if (!cancelled) failed++
+                    if (!cancelled) {
+                        failed++
+                        Log.e("YtdlpG", "Item ${index + 1} failed: ${item.title}", e)
+                        val lines = e.message.orEmpty().lineSequence().map { it.trim() }.filter { it.isNotEmpty() }.toList()
+                        val detail = (lines.lastOrNull { it.contains("ERROR:", ignoreCase = true) }
+                            ?: lines.lastOrNull() ?: e.javaClass.simpleName).take(280)
+                        DownloadState.errors.value += "${index + 1}. ${item.title}: $detail"
+                    }
                     itemDir.deleteRecursively()
                 }
             }
@@ -120,7 +138,7 @@ class DownloadService : Service() {
                 val zip = File(tempRoot, "playlist.zip")
                 ZipOutputStream(zip.outputStream().buffered()).use { out ->
                     files.forEach { file ->
-                        out.putNextEntry(ZipEntry(file.name))
+                        out.putNextEntry(ZipEntry(archiveNames.getValue(file)))
                         FileInputStream(file).use { it.copyTo(out) }
                         out.closeEntry()
                     }

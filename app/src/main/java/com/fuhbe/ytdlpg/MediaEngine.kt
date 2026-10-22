@@ -12,7 +12,7 @@ import java.net.URI
 data class Quality(val key: String, val label: String, val kind: String)
 data class MediaItem(val url: String, val title: String, val formats: List<Format>)
 data class Format(val id: String, val ext: String, val height: Int, val abr: Int, val hasVideo: Boolean, val hasAudio: Boolean)
-data class Inspection(val title: String, val items: List<MediaItem>, val qualities: List<Quality>, val skipped: Int)
+data class Inspection(val title: String, val thumbnail: String, val items: List<MediaItem>, val qualities: List<Quality>, val skipped: Int)
 
 class MediaEngine(private val context: Context) {
     fun initialize() {
@@ -24,12 +24,11 @@ class MediaEngine(private val context: Context) {
         val request = YoutubeDLRequest(url)
         request.addOption("--dump-single-json")
         request.addOption("--skip-download")
-        request.addOption("--no-warnings")
         if (flat) request.addOption("--flat-playlist") else request.addOption("--no-playlist")
         return JSONObject(YoutubeDL.execute(request).out.trim())
     }
 
-    fun inspect(url: String): Inspection {
+    fun inspect(url: String, onProgress: (Int, Int) -> Unit = { _, _ -> }): Inspection {
         val uri = URI(url)
         require(uri.scheme == "http" || uri.scheme == "https")
         val root = json(url, true)
@@ -44,9 +43,11 @@ class MediaEngine(private val context: Context) {
         }
         val items = mutableListOf<MediaItem>()
         var skipped = 0
-        for (link in links) {
+        var firstFailure: Exception? = null
+        for ((index, link) in links.withIndex()) {
             try {
-                val info = json(link)
+                // A single video already contains its formats in the first response.
+                val info = if (entries == null && root.optJSONArray("formats") != null) root else json(link)
                 val formats = info.optJSONArray("formats")
                 if (formats == null) { skipped++; continue }
                 val parsed = (0 until formats.length()).mapNotNull { i ->
@@ -55,11 +56,18 @@ class MediaEngine(private val context: Context) {
                     if (id.isBlank()) return@mapNotNull null
                     val vc = f.optString("vcodec", "none")
                     val ac = f.optString("acodec", "none")
+                    val protocol = f.optString("protocol")
+                    if (f.optString("url").isBlank() || protocol == "mhtml") return@mapNotNull null
                     Format(id, f.optString("ext"), f.optInt("height"), f.optDouble("abr", 0.0).toInt(), vc != "none", ac != "none")
                 }
                 if (parsed.isNotEmpty()) items += MediaItem(link, info.optString("title", link), parsed) else skipped++
-            } catch (_: Exception) { skipped++ }
+            } catch (error: Exception) {
+                skipped++
+                if (firstFailure == null) firstFailure = error
+            }
+            onProgress(index + 1, links.size)
         }
+        if (items.isEmpty() && firstFailure != null) throw firstFailure
         require(items.isNotEmpty()) { context.getString(R.string.nothing_available) }
         val shared = items.map { item ->
             buildSet {
@@ -77,7 +85,7 @@ class MediaEngine(private val context: Context) {
         }.sortedWith(compareBy<Quality> { if (it.kind == "video") 0 else 1 }
             .thenByDescending { it.key.substringAfter(':', "0").toIntOrNull() ?: 0 }
             .thenBy { it.label })
-        return Inspection(root.optString("title", items.first().title), items, qualities, skipped)
+        return Inspection(root.optString("title", items.first().title), root.optString("thumbnail"), items, qualities, skipped)
     }
 
     fun download(item: MediaItem, quality: Quality, directory: File, processId: String, progress: (Float) -> Unit): List<File> {
@@ -96,15 +104,12 @@ class MediaEngine(private val context: Context) {
             }
             quality.kind == "audio" -> {
                 val ext = quality.key.substringAfter(':')
-                val format = item.formats.filter { it.hasAudio && !it.hasVideo && it.ext == ext }.maxByOrNull { it.abr }!!
-                request.addOption("-f", format.id)
+                request.addOption("-f", "bestaudio[ext=$ext]")
             }
             else -> {
                 val height = quality.key.substringAfter(':').toInt()
-                val video = item.formats.filter { it.hasVideo && it.height == height }
-                    .maxWithOrNull(compareBy<Format> { if (it.hasAudio) 0 else 1 }.thenBy { it.id })!!
-                val audio = item.formats.filter { it.hasAudio && !it.hasVideo }.maxByOrNull { it.abr }
-                request.addOption("-f", if (video.hasAudio || audio == null) video.id else "${video.id}+${audio.id}")
+                // Re-resolve formats when downloading: site format IDs can change after inspection.
+                request.addOption("-f", "bestvideo[height=$height]+bestaudio/best[height=$height]")
                 request.addOption("--merge-output-format", "mkv")
             }
         }

@@ -4,6 +4,9 @@
     <string name="link_hint">Pega un enlace de video o lista</string>
     <string name="analyze">Buscar calidades</string>
     <string name="analyzing">Comprobando formatos disponibles…</string>
+    <string name="inspect_progress">Comprobando elemento %1$d de %2$d…</string>
+    <string name="paste">Pegar</string>
+    <string name="available_only">Calidades disponibles</string>
     <string name="content">Contenido</string>
     <string name="video_audio">Video y audio</string>
     <string name="audio_only">Solo audio</string>
