@@ -41,10 +41,10 @@ jobs:
         run: python3 full-glass/audit.py
       - name: Compile APK and test native video/audio cards and themes
         working-directory: full-glass/build/upstream
-        run: bash gradlew :app:assembleIzzyDebug :app:testIzzyDebugUnitTest --no-daemon --max-workers=2 --warning-mode=none
+        run: bash gradlew :app:assembleGithubDebug :app:testGithubDebugUnitTest --no-daemon --max-workers=2 --warning-mode=none
       - name: Verify packaged native application and signature
         run: |
-          apk_path="$(find full-glass/build/upstream/app/build/outputs/apk/izzy/debug -name '*.apk' -print -quit)"
+          apk_path="$(find full-glass/build/upstream/app/build/outputs/apk/github/debug -name '*.apk' -print -quit)"
           test -n "$apk_path"
           python3 full-glass/check_apk.py "$apk_path"
           "$ANDROID_HOME/build-tools/36.0.0/apksigner" verify --verbose "$apk_path"

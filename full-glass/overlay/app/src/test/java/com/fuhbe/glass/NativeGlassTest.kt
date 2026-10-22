@@ -36,6 +36,11 @@ class NativeGlassTest {
         val versionNumber = BuildConfig.VERSION_NAME.replace("-beta", "").replace(".", "").padEnd(10, '0').toInt()
         assertTrue(versionNumber > 0)
         assertEquals("1.9.1.1", BuildConfig.VERSION_NAME)
+        assertEquals("github", BuildConfig.FLAVOR)
+        val app = RuntimeEnvironment.getApplication()
+        assertEquals("Ytdlp-G", app.applicationInfo.loadLabel(app.packageManager).toString())
+        assertNotNull(app.getDrawable(R.mipmap.ic_launcher))
+        assertNotNull(app.getDrawable(R.mipmap.ic_launcher_blue))
     }
 
     private fun context(night: Boolean): Context {

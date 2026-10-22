@@ -192,6 +192,41 @@ def layouts():
             write_xml(path, tree)
 
 
+BRANDING_DRAWABLES = {
+    "ic_launcher_foreground", "ic_launcher_foreground_blue", "ic_launcher_foreground_green",
+    "ic_launcher_foreground_large", "ic_launcher_background", "ic_app_icon",
+}
+
+
+def branding():
+    resources = SOURCE / "app/src/main/res"
+    arrow = "M21,10h6v16h6L24,35 15,26h6zM14,38h20v3H14z"
+    square = "M9,4h30a5,5 0,0 1,5 5v30a5,5 0,0 1,-5 5H9a5,5 0,0 1,-5 -5V9a5,5 0,0 1,5 -5z"
+    def vector(size, children):
+        return (f'<vector xmlns:android="{ANDROID}" android:width="{size}dp" '
+                f'android:height="{size}dp" android:viewportWidth="{size}" '
+                f'android:viewportHeight="{size}">{children}</vector>\n')
+    legacy = vector(48, f'<path android:fillColor="#176BEA" android:pathData="{square}"/>'
+                        f'<path android:fillColor="#FFFFFF" android:pathData="{arrow}"/>')
+    for name, color in (("ic_launcher_foreground", "#FFFFFF"),
+                        ("ic_launcher_foreground_blue", "#176BEA"),
+                        ("ic_launcher_foreground_green", "#18854F")):
+        (resources / f"drawable/{name}.xml").write_text(vector(108,
+            '<group android:scaleX="1.6" android:scaleY="1.6" '
+            'android:translateX="15.6" android:translateY="13.2">'
+            f'<path android:fillColor="{color}" android:pathData="{arrow}"/></group>'))
+    (resources / "drawable/ic_launcher_background.xml").write_text(vector(108,
+        '<path android:fillColor="#176BEA" android:pathData="M0,0H108V108H0Z"/>'))
+    for name in ("ic_app_icon", "ic_launcher_foreground_large"):
+        (resources / f"drawable/{name}.xml").write_text(legacy)
+    # API 24/25 use the same Ytdlp-G glyph; API 26+ retain all native adaptive
+    # variants and app-icon settings, using the branded foregrounds above.
+    legacy_dir = resources / "mipmap-anydpi"
+    legacy_dir.mkdir(exist_ok=True)
+    for name in ("ic_launcher", "ic_launcher_round"):
+        (legacy_dir / f"{name}.xml").write_text(legacy)
+
+
 def prepare():
     extract()
     replace(SOURCE / "settings.gradle", "include ':common', ':app', ':library', ':ffmpeg'", "include ':app'")
@@ -205,6 +240,21 @@ def prepare():
         stream.write('''
 // Host-side native widget verification; no production dependency is added.
 dependencies { testImplementation 'org.robolectric:robolectric:4.16' }
+// Keep the original GitHub flavor (including Bash, Python 3.14 and updater
+// settings). Add only QuickJS's native executable, without replacing Python.
+configurations { quickJsNative }
+dependencies { quickJsNative('io.github.junkfood02.youtubedl-android:library:0.18.1@aar') { transitive = false } }
+def quickJsOutput = layout.buildDirectory.dir('generated/quickjs-native')
+def prepareQuickJs = tasks.register('prepareQuickJs', Sync) {
+    from({ zipTree(configurations.quickJsNative.singleFile) }) {
+        include 'jni/**/libqjs.so'
+        eachFile { path = path.replaceFirst('jni/', '') }
+        includeEmptyDirs = false
+    }
+    into quickJsOutput
+}
+android.sourceSets.main.jniLibs.srcDir(quickJsOutput)
+tasks.named('preBuild').configure { dependsOn prepareQuickJs }
 android.testOptions.unitTests.includeAndroidResources = true
 tasks.withType(Test).configureEach {
     maxHeapSize = '2g'
@@ -215,11 +265,12 @@ tasks.withType(Test).configureEach {
 }
 ''')
     manifest = SOURCE / "app/src/main/AndroidManifest.xml"
-    replace(manifest, 'android:label="YTDLnis"', 'android:label="Ytdlp-G Glass"')
+    replace(manifest, 'android:label="YTDLnis"', 'android:label="Ytdlp-G"')
     theme_util = SOURCE / "app/src/main/java/com/deniscerri/ytdl/util/ThemeUtil.kt"
     replace(theme_util, "YTDL</span>nis", "Ytdlp</span>-G")
     shutil.copytree(HERE / "overlay", SOURCE, dirs_exist_ok=True,
                     ignore=shutil.ignore_patterns("__pycache__", "*.pyc"))
+    branding()
     theme()
     layouts()
     # Upstream's pipeline supplies this ignored resource separately as well.

@@ -10,7 +10,7 @@ from prepare import HERE, PIN, SOURCE, BUILD
 output = BUILD / "distribution"
 output.mkdir(exist_ok=True)
 version = PIN["version"]
-apks = list((SOURCE / "app/build/outputs/apk/izzy/debug").glob("*.apk"))
+apks = list((SOURCE / f"app/build/outputs/apk/{PIN['flavor']}/debug").glob("*.apk"))
 assert len(apks) == 1
 shutil.copy2(apks[0], output / f"Ytdlp-G-Glass-v{version}.apk")
 source_zip = output / f"Ytdlp-G-Glass-v{version}-source.zip"

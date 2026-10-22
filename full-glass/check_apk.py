@@ -26,6 +26,7 @@ def check(path):
         for abi in ("arm64-v8a", "armeabi-v7a", "x86", "x86_64"):
             for library in ("libpython.so", "libpython.zip.so", "libffmpeg.so", "libffmpeg.zip.so", "libqjs.so"):
                 assert f"lib/{abi}/{library}" in names
+            assert f"lib/{abi}/libbash.zip.so" in names
     print("Complete native launcher, format renderer, settings, worker and all four ABIs verified")
 
 

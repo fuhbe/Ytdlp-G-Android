@@ -5,7 +5,7 @@ import json
 import tarfile
 import xml.etree.ElementTree as ET
 from pathlib import Path
-from prepare import ARCHIVE, BUILD, PIN, SOURCE, ANDROID, APP
+from prepare import ARCHIVE, BUILD, PIN, SOURCE, ANDROID, APP, BRANDING_DRAWABLES
 
 VISUAL = {
     f"{{{ANDROID}}}{key}" for key in (
@@ -62,7 +62,9 @@ def audit():
                 assert old == new, f"Menu/action removed: {name}"
                 counts["menu_xml"] += 1
             elif name == "app/src/main/AndroidManifest.xml":
-                assert new == old.replace(b'android:label="YTDLnis"', b'android:label="Ytdlp-G Glass"')
+                assert new == old.replace(b'android:label="YTDLnis"', b'android:label="Ytdlp-G"')
+            elif relative.parent == Path("app/src/main/res/drawable") and relative.stem in BRANDING_DRAWABLES:
+                assert ET.fromstring(new).tag == "vector", f"Branding must stay a drawable: {name}"
             elif old != new and name not in {"app/build.gradle", "settings.gradle"}:
                 assert name.endswith(("/themes.xml", "/colors.xml")), f"Unexpected source change: {name}"
             if old != new:

@@ -14,7 +14,8 @@ controls video/audio options and conversion behavior.
 - Translucent cards, fine edges, gentle highlights, rounded controls and a
   floating navigation bar.
 - Glass presentation for native toolbars, tabs and preference rows.
-- App label/package identity: **Ytdlp-G Glass** / `com.fuhbe.ytdlpg.fullglass`.
+- Installed app name: **Ytdlp-G**, with its blue download-arrow icon.
+- Package identity: `com.fuhbe.ytdlpg.fullglass`.
 
 The Glass distribution is `0.5.0-glass.1`; the app retains the native numeric
 version `1.9.1.1` so the original updater's version parser remains compatible.
@@ -50,13 +51,15 @@ JDK 21, Android SDK platform 36/build tools 36.0.0 and Python 3 are required.
 python3 full-glass/prepare.py
 python3 full-glass/audit.py
 cd full-glass/build/upstream
-bash gradlew :app:assembleIzzyDebug :app:testIzzyDebugUnitTest
+bash gradlew :app:assembleGithubDebug :app:testGithubDebugUnitTest
 ```
 
 `prepare.py` downloads and verifies the exact full source archive pinned in
 `upstream.json`. It copies every original file and applies the presentation
-changes. The `izzy` flavor bundles Python, FFmpeg and QuickJS so another runtime
-application is not required. The pinned yt-dlp includes its JavaScript solver.
+changes. The original `github` flavor retains Bash, Python 3.14, FFmpeg and all
+native updater settings. QuickJS's standalone executable is also bundled, so
+another JavaScript runtime application is not required. The pinned yt-dlp
+includes its JavaScript solver. Python is not replaced by a different build.
 
 `audit.py` rejects missing original files, changed native logic, changed settings,
 changed navigation/actions, removed layout controls or changed nonvisual widget
@@ -80,9 +83,11 @@ assets and license remain in the prepared project and corresponding source
 archive. Runtime dependency notices are included with the APK.
 
 Native runtime packaging and corresponding build recipes are provided by
-[youtubedl-android](https://github.com/junkfood02/youtubedl-android): library
-0.18.1, FFmpeg 0.17.2 and aria2c 0.18.1, as declared in the retained upstream
-Gradle file. Python uses the PSF license, QuickJS the MIT license, yt-dlp the
+[youtubedl-android](https://github.com/junkfood02/youtubedl-android): standalone
+QuickJS from library 0.18.1, FFmpeg 0.17.2 and aria2c 0.18.1. The original
+[YTDLnis packages](https://github.com/deniscerri/ytdlnis-packages) supply Bash
+1.0.0 and Python 3.14.6, as declared in the retained upstream Gradle file.
+Python uses the PSF license, QuickJS the MIT license, yt-dlp the
 Unlicense, its EJS component the ISC license, and the bundled FFmpeg build
 includes GPL components. Their notices and the applicable GPL text are packaged
 with the app. Source links: [Python](https://www.python.org/downloads/source/),
