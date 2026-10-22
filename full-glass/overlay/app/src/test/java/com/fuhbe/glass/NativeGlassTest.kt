@@ -13,6 +13,7 @@ import android.util.TypedValue
 import android.graphics.Color
 import androidx.core.graphics.ColorUtils
 import com.deniscerri.ytdl.R
+import com.deniscerri.ytdl.BuildConfig
 import com.deniscerri.ytdl.database.models.Format
 import com.deniscerri.ytdl.util.UiUtil
 import com.google.android.material.card.MaterialCardView
@@ -31,6 +32,12 @@ import java.io.File
 @Config(sdk = [35], application = Application::class)
 @GraphicsMode(GraphicsMode.Mode.NATIVE)
 class NativeGlassTest {
+    @Test fun nativeVersionRemainsCompatibleWithTheUnmodifiedUpdater() {
+        val versionNumber = BuildConfig.VERSION_NAME.replace("-beta", "").replace(".", "").padEnd(10, '0').toInt()
+        assertTrue(versionNumber > 0)
+        assertEquals("1.9.1.1", BuildConfig.VERSION_NAME)
+    }
+
     private fun context(night: Boolean): Context {
         RuntimeEnvironment.setQualifiers("w411dp-h891dp-${if (night) "night" else "notnight"}-xxhdpi")
         return ContextThemeWrapper(RuntimeEnvironment.getApplication(), R.style.Theme_Blue)
@@ -52,8 +59,11 @@ class NativeGlassTest {
                     ColorUtils.calculateContrast(label.currentTextColor, fill) >= 4.5)
             }
             assertTrue(card.isCheckable)
+            val unselected = card.cardBackgroundColor.getColorForState(card.drawableState, 0)
             card.isChecked = true
             assertTrue(card.isChecked)
+            val selected = card.cardBackgroundColor.getColorForState(card.drawableState, 0)
+            assertNotEquals("Selected cards must remain visibly distinguishable", unselected, selected)
             card.isChecked = false
             assertFalse(card.isChecked)
         }

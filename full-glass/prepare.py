@@ -140,9 +140,9 @@ def layouts():
             if tag == "com.google.android.material.card.MaterialCardView":
                 node.set(attr(APP, "cardCornerRadius"), "20dp")
                 node.set(attr(APP, "cardElevation"), "0dp")
-                node.set(attr(APP, "cardBackgroundColor"), "?attr/liquidCardFill")
-                node.set(attr(ANDROID, "backgroundTint"), "?attr/liquidCardFill")
-                node.set(attr(APP, "strokeColor"), "?attr/liquidGlassEdge")
+                node.set(attr(APP, "cardBackgroundColor"), "@color/liquid_card_tint")
+                node.set(attr(ANDROID, "backgroundTint"), "@color/liquid_card_tint")
+                node.set(attr(APP, "strokeColor"), "@color/liquid_card_edge")
                 node.set(attr(APP, "strokeWidth"), "1dp")
                 # A background on the existing content adds light without replacing
                 # the card's native checked icon, ripple or touch handling.
@@ -197,7 +197,8 @@ def prepare():
     replace(SOURCE / "settings.gradle", "include ':common', ':app', ':library', ':ffmpeg'", "include ':app'")
     gradle = SOURCE / "app/build.gradle"
     replace(gradle, 'applicationId "com.deniscerri.ytdl"', f'applicationId "{PIN["application_id"]}"')
-    replace(gradle, 'versionName "${versionMajor}.${versionMinor}.${versionPatch}${versionExt}"', f'versionName "{PIN["version"]}"')
+    # Keep upstream's numeric version: its unmodified updater parses it as an Int.
+    # The Glass edition number is a distribution label, not a native app version.
     # A single universal package keeps every ABI supplied by upstream.
     replace(gradle, 'enable true', 'enable false')
     with gradle.open("a") as stream:

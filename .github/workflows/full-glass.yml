@@ -25,6 +25,9 @@ jobs:
           distribution: temurin
           java-version: '21'
           cache: gradle
+          cache-dependency-path: |
+            full-glass/upstream.json
+            full-glass/prepare.py
       - name: Install Android SDK
         run: |
           sdk_root="${ANDROID_HOME:-/usr/local/lib/android/sdk}"

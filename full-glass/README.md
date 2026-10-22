@@ -16,6 +16,10 @@ controls video/audio options and conversion behavior.
 - Glass presentation for native toolbars, tabs and preference rows.
 - App label/package identity: **Ytdlp-G Glass** / `com.fuhbe.ytdlpg.fullglass`.
 
+The Glass distribution is `0.5.0-glass.1`; the app retains the native numeric
+version `1.9.1.1` so the original updater's version parser remains compatible.
+No update algorithm or channel has been replaced.
+
 The glass effect uses drawable gradients and transparency. It does not add
 continuous background-blur processing or replace the original interaction code.
 
