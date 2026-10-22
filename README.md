@@ -4,7 +4,7 @@ A small video and playlist downloader for Android, with a translucent interface.
 
 ## Current status
 
-This is an early Android build. The APK is built from source by GitHub Actions. Playlist inspection, native video and audio selection, high-quality MP3 conversion, foreground downloads, cancellation, ZIP output, and Android's folder picker are implemented. Broad site/device testing is still in progress; please report links that do not analyze or download.
+This is an early Android build. The APK is built from source by GitHub Actions. Playlist inspection, native video and audio selection, high-quality MP3 conversion, foreground downloads, cancellation, ZIP output, and Android's folder picker are implemented. Please report links that do not analyze or download.
 
 The app bundles the [yt-dlp Android library](https://github.com/JunkFood02/youtubedl-android), Python, and FFmpeg through its dependencies. No separate Python installation is required. The APK can be large because it includes native runtimes. Android 8.0 or newer is required. Download only material you have permission to save and follow the source site's terms.
 
