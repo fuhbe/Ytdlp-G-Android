@@ -34,10 +34,8 @@ jobs:
         run: python3 scripts/check_apk.py app/build/outputs/apk/debug/app-debug.apk
       - name: Install FFmpeg for the HTTP and MP3 smoke test
         run: |
-          if ! command -v ffmpeg > /dev/null; then
-            sudo apt-get update
-            sudo apt-get install -y ffmpeg
-          fi
+          python3 scripts/prepare_smoke_ffmpeg.py "$PWD/.smoke-bin"
+          echo "$PWD/.smoke-bin" >> "$GITHUB_PATH"
       - name: Exercise extraction, download and conversion
         run: python3 scripts/smoke_runtime.py app/build/generated/runtime/res/raw/ytdlp
       - name: Prepare distribution
