@@ -2,6 +2,8 @@
 
 A small video and playlist downloader for Android, with a translucent interface. Paste a link, inspect qualities that are actually available, and save regular files or one ZIP. The interface follows the device language in English, Brazilian Portuguese, and Spanish. On Android 13 and later, you can also choose the app language in system settings.
 
+[Download the Android beta APK](https://github.com/fuhbe/Ytdlp-G-Android/releases/download/v0.3.0-beta.1/Ytdlp-G-Android-v0.3.0-beta.1.apk) · [Release notes and SHA-256](https://github.com/fuhbe/Ytdlp-G-Android/releases/tag/v0.3.0-beta.1)
+
 ## Current status
 
 The current preview is 0.3.0-beta.1. It follows the original glass design with a compact link bar, video/audio tabs, a quality panel and a separate download screen. Recent inspections are cached, playlist entries are checked two at a time, and analysis can be cancelled. Downloads include item-level results and source error details. Please include the copied error details when reporting a failing link.
