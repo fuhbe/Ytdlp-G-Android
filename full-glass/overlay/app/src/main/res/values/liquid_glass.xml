@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <attr name="liquidWallpaper" format="reference|color" />
+    <attr name="liquidCardFill" format="color" />
+    <attr name="liquidGlassEdge" format="color" />
+    <attr name="liquidBarBackground" format="reference|color" />
+    <attr name="liquidFieldFill" format="color" />
+    <attr name="liquidSheen" format="reference|color" />
+    <color name="liquid_card_fill">#C9FFFFFF</color>
+    <color name="liquid_field_fill">#DBF7FAFF</color>
+    <color name="liquid_edge">#EDFFFFFF</color>
+    <color name="liquid_bar_fill">#EDF6FAFF</color>
+    <color name="liquid_sheen_top">#65FFFFFF</color>
+    <color name="liquid_sheen_bottom">#00FFFFFF</color>
+    <color name="liquid_ripple">#251768D4</color>
+    <color name="liquid_wall_top">#D5E7FA</color>
+    <color name="liquid_wall_middle">#F2F5FD</color>
+    <color name="liquid_wall_bottom">#C3D8F0</color>
+    <color name="liquid_glow">#B8FFFFFF</color>
+    <color name="liquid_glow_clear">#00FFFFFF</color>
+    <color name="liquid_inactive">#62758D</color>
+    <style name="Liquid.Card" parent="Widget.Material3.CardView.Elevated">
+        <item name="cardCornerRadius">20dp</item>
+        <item name="cardElevation">0dp</item>
+        <item name="cardBackgroundColor">?attr/liquidCardFill</item>
+        <item name="strokeWidth">1dp</item>
+        <item name="strokeColor">?attr/liquidGlassEdge</item>
+    </style>
+    <style name="Liquid.Button" parent="Widget.Material3.Button">
+        <item name="cornerRadius">20dp</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:letterSpacing">0.01</item>
+        <item name="strokeWidth">1dp</item>
+        <item name="strokeColor">?attr/liquidGlassEdge</item>
+    </style>
+    <style name="Liquid.TextInput" parent="Widget.Material3.TextInputLayout.OutlinedBox">
+        <item name="boxBackgroundColor">?attr/liquidFieldFill</item>
+        <item name="boxCornerRadiusTopStart">18dp</item>
+        <item name="boxCornerRadiusTopEnd">18dp</item>
+        <item name="boxCornerRadiusBottomStart">18dp</item>
+        <item name="boxCornerRadiusBottomEnd">18dp</item>
+        <item name="hintTextColor">?attr/colorOnSurfaceVariant</item>
+    </style>
+    <style name="Liquid.NavigationIndicator" parent="Widget.Material3.BottomNavigationView.ActiveIndicator">
+        <item name="android:color">?attr/colorPrimaryContainer</item>
+        <item name="shapeAppearance">@style/Liquid.PillShape</item>
+    </style>
+    <style name="Liquid.PillShape" parent="ShapeAppearance.Material3.Corner.Full" />
+</resources>

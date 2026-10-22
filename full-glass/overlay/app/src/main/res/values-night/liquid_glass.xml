@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="liquid_card_fill">#CC203650</color>
+    <color name="liquid_field_fill">#DB172B46</color>
+    <color name="liquid_edge">#526D8BA8</color>
+    <color name="liquid_bar_fill">#EB172A43</color>
+    <color name="liquid_sheen_top">#20FFFFFF</color>
+    <color name="liquid_sheen_bottom">#00FFFFFF</color>
+    <color name="liquid_ripple">#35A3CCFF</color>
+    <color name="liquid_wall_top">#1B3A58</color>
+    <color name="liquid_wall_middle">#101C32</color>
+    <color name="liquid_wall_bottom">#132E49</color>
+    <color name="liquid_glow">#453F79A8</color>
+    <color name="liquid_glow_clear">#003F79A8</color>
+    <color name="liquid_inactive">#A9BDD4</color>
+</resources>

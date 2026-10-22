@@ -1,0 +1,70 @@
+name: Complete YTDLnis Glass APK
+on:
+  push:
+    branches: [design/full-ytdlnis-glass]
+    paths:
+      - 'full-glass/**'
+      - 'scripts/prepare_runtime.py'
+      - 'scripts/check_apk.py'
+      - 'scripts/smoke_runtime.py'
+      - '.github/workflows/full-glass.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: full-glass-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: '21'
+          cache: gradle
+      - name: Install Android SDK
+        run: |
+          sdk_root="${ANDROID_HOME:-/usr/local/lib/android/sdk}"
+          sdkmanager_bin="$(find "$sdk_root/cmdline-tools" -maxdepth 3 -type f -name sdkmanager | head -n 1)"
+          test -n "$sdkmanager_bin"
+          "$sdkmanager_bin" 'platforms;android-36' 'build-tools;36.0.0'
+          echo "ANDROID_HOME=$sdk_root" >> "$GITHUB_ENV"
+      - name: Prepare complete original application and Glass resources
+        run: python3 full-glass/prepare.py
+      - name: Audit native logic, settings and navigation preservation
+        run: python3 full-glass/audit.py
+      - name: Compile APK and test native video/audio cards and themes
+        working-directory: full-glass/build/upstream
+        run: bash gradlew :app:assembleIzzyDebug :app:testIzzyDebugUnitTest --no-daemon --max-workers=2 --warning-mode=none
+      - name: Verify packaged native application and signature
+        run: |
+          apk_path="$(find full-glass/build/upstream/app/build/outputs/apk/izzy/debug -name '*.apk' -print -quit)"
+          test -n "$apk_path"
+          python3 full-glass/check_apk.py "$apk_path"
+          "$ANDROID_HOME/build-tools/36.0.0/apksigner" verify --verbose "$apk_path"
+      - name: Verify bundled engine with real HTTP download and MP3 conversion
+        run: |
+          python3 scripts/prepare_smoke_ffmpeg.py "$PWD/.smoke-bin"
+          export PATH="$PWD/.smoke-bin:$PATH"
+          python3 scripts/smoke_runtime.py full-glass/build/runtime/raw/ytdlp
+      - name: Package full corresponding source and binary
+        run: python3 full-glass/package.py
+      - name: Upload APK, complete source and preservation audit
+        uses: actions/upload-artifact@v4
+        with:
+          name: Ytdlp-G-Glass-v0.5.0-glass.1
+          path: full-glass/build/distribution/*
+          if-no-files-found: error
+      - name: Upload native widget test reports and renders
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: Complete-Glass-verification
+          path: |
+            full-glass/build/upstream/app/build/reports/tests/
+            full-glass/build/upstream/app/build/test-results/
+            full-glass/build/upstream/app/build/reports/glass-screenshots/
+            full-glass/build/source-audit.json
