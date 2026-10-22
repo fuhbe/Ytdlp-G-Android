@@ -1,0 +1,6 @@
+-keep class com.fuhbe.ytdlpg.simple.Media { *; }
+-keep class com.fuhbe.ytdlpg.simple.Choice { *; }
+-keep class com.fuhbe.ytdlpg.simple.QueueJob { *; }
+-keep class com.fuhbe.ytdlpg.simple.SavedFile { *; }
+-keep class com.fuhbe.ytdlpg.simple.QueueWorker { public <init>(...); }
+-keepattributes Signature,*Annotation*
