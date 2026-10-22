@@ -29,13 +29,10 @@ jobs:
           mv release/app-debug.apk release/Ytdlp-G-Android-v0.1.0.apk
           sha256sum release/Ytdlp-G-Android-v0.1.0.apk
       - name: Create version tag
-        env:
-          GH_TOKEN: ${{ github.token }}
         run: |
-          gh api --method POST "repos/$GITHUB_REPOSITORY/git/refs" \
-            -f ref=refs/tags/v0.1.0 \
-            -f sha=77e2aa25b99a7462e69251086a59cbc6a1453ce4 \
-            --jq .ref
+          git fetch --no-tags origin 77e2aa25b99a7462e69251086a59cbc6a1453ce4
+          git tag v0.1.0 77e2aa25b99a7462e69251086a59cbc6a1453ce4
+          git push origin refs/tags/v0.1.0
       - name: Create preview release
         env:
           GH_TOKEN: ${{ github.token }}
