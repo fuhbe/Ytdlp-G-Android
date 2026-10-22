@@ -79,7 +79,18 @@ object BatchStore {
         currentId(context)?.let { id -> runCatching { render(read(context, id)) } }
     }
     fun observe(context: Context, scope: CoroutineScope) = scope.launch(Dispatchers.IO) {
-        while (isActive) { restore(context); delay(500) }
+        var observedId: String? = null
+        var modified = -1L
+        while (isActive) {
+            val id = currentId(context)
+            val stamp = id?.let { file(context, it).lastModified() } ?: 0L
+            if (id != observedId || stamp != modified) {
+                restore(context)
+                observedId = id
+                modified = stamp
+            }
+            delay(500)
+        }
     }
     fun render(batch: Batch) {
         DownloadState.task = DownloadState.Task(batch.inspection, batch.quality, batch.folder?.let(Uri::parse), batch.zip)
@@ -88,7 +99,7 @@ object BatchStore {
         DownloadState.current.value = batch.current
         DownloadState.detail.value = batch.detail
         DownloadState.results.value = batch.entries.mapNotNull { entry -> when {
-            entry.saved -> ItemResult(entry.media, entry.paths.sumOf { File(it).length() }.takeIf { it > 0 } ?: entry.download.format.filesize,
+            entry.saved -> ItemResult(entry.media, entry.download.format.filesize,
                 entry.outputUri?.let(Uri::parse))
             entry.error.isNotEmpty() -> ItemResult(entry.media, error = entry.error)
             else -> null
@@ -237,7 +248,9 @@ class BatchWorker(private val context: Context, params: WorkerParameters) : Coro
                 }
                 batch.progress = fractions.sum() / batch.entries.size * if (batch.zip) 0.9f else 1f
                 batch.status = context.getString(R.string.g_download_in_progress)
-                BatchStore.write(context, batch)
+                // Progress is transient; queue and export checkpoints are durable.
+                // Avoid rewriting and reparsing a large playlist every half-second.
+                BatchStore.render(batch)
                 if (ready == batch.entries.size) break
                 delay(500)
             }

@@ -31,7 +31,6 @@ class MediaViewModel(private val app: Application) : AndroidViewModel(app) {
 
     init {
         CoreInspection.seedDefaults(app)
-        BatchStore.restore(app)
         BatchStore.observe(app, viewModelScope)
     }
 
