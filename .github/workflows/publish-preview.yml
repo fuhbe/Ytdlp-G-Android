@@ -1,16 +1,14 @@
 name: Publish Android preview
 on:
-  push:
-    branches: [main]
-    paths:
-      - .github/workflows/publish-preview.yml
+  release:
+    types: [published]
   workflow_dispatch:
 permissions:
   actions: read
   contents: write
 jobs:
   publish:
-    if: github.event_name == 'workflow_dispatch' || github.event.head_commit.message == 'Publish Android preview v0.1.0'
+    if: github.event_name == 'workflow_dispatch' || github.event.release.tag_name == 'v0.1.0'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -28,18 +26,10 @@ jobs:
           unzip -t release/app-debug.apk > /dev/null
           mv release/app-debug.apk release/Ytdlp-G-Android-v0.1.0.apk
           sha256sum release/Ytdlp-G-Android-v0.1.0.apk
-      - name: Create version tag
-        run: |
-          git fetch --no-tags origin 77e2aa25b99a7462e69251086a59cbc6a1453ce4
-          git tag v0.1.0 77e2aa25b99a7462e69251086a59cbc6a1453ce4
-          git push origin refs/tags/v0.1.0
-      - name: Create preview release
+      - name: Attach APK to release
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          gh release create v0.1.0 release/Ytdlp-G-Android-v0.1.0.apk \
+          gh release upload v0.1.0 release/Ytdlp-G-Android-v0.1.0.apk \
             --repo "$GITHUB_REPOSITORY" \
-            --verify-tag \
-            --title 'Ytdlp-G Android v0.1.0 (Preview)' \
-            --notes-file docs/releases/v0.1.0.md \
-            --prerelease
+            --clobber
