@@ -1,0 +1,77 @@
+name: Android experimental core
+on:
+  push:
+    branches: [experimental/ytdlnis-core]
+    paths:
+      - 'experimental/**'
+      - 'app/src/main/**'
+      - 'app/src/test/**'
+      - 'scripts/**'
+      - '.github/workflows/experimental.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: android-experimental-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  preview:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: '21'
+          cache: gradle
+      - name: Install Android SDK
+        run: |
+          sdk_root="${ANDROID_HOME:-/usr/local/lib/android/sdk}"
+          sdkmanager_bin="$(find "$sdk_root/cmdline-tools" -maxdepth 3 -type f -name sdkmanager | head -n 1)"
+          test -n "$sdkmanager_bin"
+          "$sdkmanager_bin" 'platforms;android-36' 'build-tools;36.0.0'
+          echo "ANDROID_HOME=$sdk_root" >> "$GITHUB_ENV"
+      - name: Prepare pinned source and runtime
+        run: python3 experimental/prepare.py
+      - name: Check translations
+        run: python3 scripts/check_translations.py
+      - name: Build APK and run unit tests
+        working-directory: experimental/build/upstream
+        run: bash gradlew :app:assembleIzzyDebug :app:testIzzyDebugUnitTest --no-daemon --max-workers=2 --warning-mode=none
+      - name: Verify actual APK and signature
+        run: |
+          mkdir -p distribution
+          apk_path="$(find experimental/build/upstream/app/build/outputs/apk/izzy/debug -name '*.apk' -print -quit)"
+          test -n "$apk_path"
+          python3 experimental/check_preview.py "$apk_path"
+          "$ANDROID_HOME/build-tools/36.0.0/apksigner" verify --verbose "$apk_path"
+          cp "$apk_path" distribution/Ytdlp-G-Android-v0.4.0-preview.1.apk
+      - name: Verify real HTTP downloads, MP3 and MP4 conversion
+        run: |
+          python3 scripts/prepare_smoke_ffmpeg.py "$PWD/.smoke-bin"
+          export PATH="$PWD/.smoke-bin:$PATH"
+          set -o pipefail
+          python3 experimental/verify_mp4.py experimental/build/runtime/raw/ytdlp | tee distribution/MP4-verification.txt
+          python3 scripts/smoke_runtime.py experimental/build/runtime/raw/ytdlp | tee distribution/MP3-verification.txt
+      - name: Package source and checksums
+        run: |
+          python3 experimental/package_source.py distribution/Ytdlp-G-Android-v0.4.0-preview.1-source.zip
+          cp experimental/DEPENDENCIES.md distribution/DEPENDENCIES.md
+          cp experimental/README.md distribution/README.md
+          cd distribution
+          sha256sum *.apk *-source.zip > SHA256SUMS.txt
+      - name: Upload verified preview
+        uses: actions/upload-artifact@v4
+        with:
+          name: Ytdlp-G-Android-v0.4.0-preview.1
+          path: distribution/*
+          if-no-files-found: error
+      - name: Upload test reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: Experimental-verification-reports
+          path: |
+            experimental/build/upstream/app/build/reports/tests/
+            experimental/build/upstream/app/build/test-results/
