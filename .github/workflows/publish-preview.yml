@@ -28,13 +28,21 @@ jobs:
           unzip -t release/app-debug.apk > /dev/null
           mv release/app-debug.apk release/Ytdlp-G-Android-v0.1.0.apk
           sha256sum release/Ytdlp-G-Android-v0.1.0.apk
-      - name: Create preview release and tag
+      - name: Create version tag
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh api --method POST "repos/$GITHUB_REPOSITORY/git/refs" \
+            -f ref=refs/tags/v0.1.0 \
+            -f sha=77e2aa25b99a7462e69251086a59cbc6a1453ce4 \
+            --jq .ref
+      - name: Create preview release
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
           gh release create v0.1.0 release/Ytdlp-G-Android-v0.1.0.apk \
             --repo "$GITHUB_REPOSITORY" \
-            --target 77e2aa25b99a7462e69251086a59cbc6a1453ce4 \
+            --verify-tag \
             --title 'Ytdlp-G Android v0.1.0 (Preview)' \
             --notes-file docs/releases/v0.1.0.md \
             --prerelease
