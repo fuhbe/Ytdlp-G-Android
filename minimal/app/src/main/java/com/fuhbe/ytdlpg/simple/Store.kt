@@ -12,6 +12,7 @@ class SimpleApp : Application() {
     override fun onCreate() {
         super.onCreate()
         instance = this
+        Diagnostics.install(this)
         Store.init(this)
         Store.list().filter { it.state == "RUNNING" }.forEach { job ->
             Store.edit(job.id) { it.copy(state = "QUEUED", phase = "Retomando após interrupção") }

@@ -8,7 +8,8 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.*
 import java.io.File
 
-class AppModel(app: Application) : AndroidViewModel(app) {
+class AppModel(app: Application, private val backend: MediaBackend) : AndroidViewModel(app) {
+    constructor(app: Application) : this(app, Engine)
     var url by mutableStateOf("")
     var inspection by mutableStateOf<Inspection?>(null)
     var selected by mutableStateOf<Set<String>>(emptySet())
@@ -39,7 +40,9 @@ class AppModel(app: Application) : AndroidViewModel(app) {
         analysis = viewModelScope.launch {
             try {
                 status = "Preparando o mecanismo…"
-                val result = Engine.inspect(getApplication(), links) { message -> viewModelScope.launch { if (epoch == analysisEpoch) status = message } }
+                val result = RuntimeSafety.run(Diagnostics.Stage.ANALYZE) {
+                    backend.inspect(getApplication(), links) { message -> viewModelScope.launch { if (epoch == analysisEpoch) status = message } }
+                }
                 ensureActive()
                 inspection = result
                 selected = result.items.filter { it.available }.map { it.id }.toSet()
@@ -48,7 +51,7 @@ class AppModel(app: Application) : AndroidViewModel(app) {
                 cachedAt = System.currentTimeMillis()
             } catch (e: TimeoutCancellationException) { error = "A análise demorou a responder. Verifique a conexão e tente novamente." }
             catch (e: CancellationException) { throw e }
-            catch (e: Exception) { error = Policy.readableError(e.message.orEmpty()) }
+            catch (e: Exception) { if (epoch == analysisEpoch) error = Policy.readableError(e.message.orEmpty()) }
             finally { if (epoch == analysisEpoch) { busy = false; status = "" } }
         }
     }
@@ -91,9 +94,18 @@ class AppModel(app: Application) : AndroidViewModel(app) {
         updating = true
         error = ""
         viewModelScope.launch {
-            try { status = Engine.update(getApplication()) }
+            try { status = RuntimeSafety.run(Diagnostics.Stage.UPDATE) { backend.update(getApplication()) } }
+            catch (e: CancellationException) { throw e }
             catch (e: Exception) { error = Policy.readableError(e.message.orEmpty()) }
             finally { updating = false }
+        }
+    }
+    fun copyDiagnostics() {
+        viewModelScope.launch {
+            val report = withContext(Dispatchers.IO) { Diagnostics.snapshot(getApplication()) }
+            val clipboard = getApplication<Application>().getSystemService(android.content.Context.CLIPBOARD_SERVICE) as android.content.ClipboardManager
+            clipboard.setPrimaryClip(android.content.ClipData.newPlainText("Ytdlp-G diagnóstico", report))
+            status = "Diagnóstico copiado. Não inclui links, cookies, títulos ou comandos."
         }
     }
     fun cleanCompleted() {

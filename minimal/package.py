@@ -34,7 +34,7 @@ with zipfile.ZipFile(source, "w", zipfile.ZIP_DEFLATED) as z:
             z.write(path, str(path.relative_to(ROOT)))
     z.write(HERE / "build/upstream.tar.gz", "minimal/build/upstream.tar.gz")
     z.write(HERE / "build/source-manifest.json", "minimal/source-manifest.json")
-for name in ["README.md", "VERIFICATION.md"]:
+for name in ["README.md", "VERIFICATION.md", "CRASH_FIX.md", "LOGCAT.md"]:
     shutil.copy2(HERE / name, output / name)
 shutil.copy2(HERE / "app/build/generated/upstream/assets/licenses/YTDLnis-GPL-3.0.txt", output / "LICENSE.txt")
 if (HERE / "build/host-smoke.json").exists():

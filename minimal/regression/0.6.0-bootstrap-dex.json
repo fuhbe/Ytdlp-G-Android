@@ -1,0 +1,104 @@
+{
+  "apk": "Ytdlp-G.apk",
+  "checks": [
+    {
+      "class": "org.apache.commons.compress.archivers.zip.AsiExtraField",
+      "class_flags": 1025,
+      "public_noarg_constructor": false,
+      "concrete": false,
+      "pass": false
+    },
+    {
+      "class": "org.apache.commons.compress.archivers.zip.X5455_ExtendedTimestamp",
+      "class_flags": 1025,
+      "public_noarg_constructor": false,
+      "concrete": false,
+      "pass": false
+    },
+    {
+      "class": "org.apache.commons.compress.archivers.zip.X7875_NewUnix",
+      "class_flags": 1025,
+      "public_noarg_constructor": false,
+      "concrete": false,
+      "pass": false
+    },
+    {
+      "class": "org.apache.commons.compress.archivers.zip.JarMarker",
+      "class_flags": 1025,
+      "public_noarg_constructor": false,
+      "concrete": false,
+      "pass": false
+    },
+    {
+      "class": "org.apache.commons.compress.archivers.zip.UnicodePathExtraField",
+      "class_flags": 1025,
+      "public_noarg_constructor": false,
+      "concrete": false,
+      "pass": false
+    },
+    {
+      "class": "org.apache.commons.compress.archivers.zip.UnicodeCommentExtraField",
+      "class_flags": 1025,
+      "public_noarg_constructor": false,
+      "concrete": false,
+      "pass": false
+    },
+    {
+      "class": "org.apache.commons.compress.archivers.zip.Zip64ExtendedInformationExtraField",
+      "class_flags": 1025,
+      "public_noarg_constructor": false,
+      "concrete": false,
+      "pass": false
+    },
+    {
+      "class": "org.apache.commons.compress.archivers.zip.X000A_NTFS",
+      "class_flags": 1025,
+      "public_noarg_constructor": false,
+      "concrete": false,
+      "pass": false
+    },
+    {
+      "class": "org.apache.commons.compress.archivers.zip.X0014_X509Certificates",
+      "class_flags": 1025,
+      "public_noarg_constructor": false,
+      "concrete": false,
+      "pass": false
+    },
+    {
+      "class": "org.apache.commons.compress.archivers.zip.X0015_CertificateIdForFile",
+      "class_flags": 1025,
+      "public_noarg_constructor": false,
+      "concrete": false,
+      "pass": false
+    },
+    {
+      "class": "org.apache.commons.compress.archivers.zip.X0016_CertificateIdForCentralDirectory",
+      "class_flags": 1025,
+      "public_noarg_constructor": false,
+      "concrete": false,
+      "pass": false
+    },
+    {
+      "class": "org.apache.commons.compress.archivers.zip.X0017_StrongEncryptionHeader",
+      "class_flags": 1025,
+      "public_noarg_constructor": false,
+      "concrete": false,
+      "pass": false
+    },
+    {
+      "class": "org.apache.commons.compress.archivers.zip.X0019_EncryptionRecipientCertificateList",
+      "class_flags": 1025,
+      "public_noarg_constructor": false,
+      "concrete": false,
+      "pass": false
+    }
+  ],
+  "pass": false,
+  "version": "0.6.0",
+  "published_code_commit": "ea670680c779b8551b27d068ae5ddb8e63905d7a",
+  "artifact_id": 12456826567,
+  "apk_sha256": "6edf144e7d762e017ade7b3b9f3795ed57a4b2d667ce078f7d3438ff6656d769",
+  "purpose": "Observed defective DEX baseline; pass=false is the expected old result. Mapping resolves the obfuscated old class names.",
+  "mapping_origin": "Matching local 0.6.0 release build; old workflow did not publish its mapping. All 13 mapped class descriptors were found in the downloaded APK.",
+  "mapping_sha256": "e7a3a725a0d6ec62344d7338005ff853ecd28e9b742af4621e8aa88f295defb1"
+}

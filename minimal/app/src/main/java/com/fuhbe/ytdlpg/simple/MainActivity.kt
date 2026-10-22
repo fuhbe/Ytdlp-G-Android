@@ -444,6 +444,7 @@ private fun Color.luminanceValue() = red * .2126f + green * .7152f + blue * .072
                 Heading("Mecanismo de download")
                 Text("yt-dlp ${Store.preferences(context).getString("engine-version", "2026.10.21")}\nPython, FFmpeg e QuickJS incluídos.", fontSize = 13.sp)
                 TextButton(onClick = model::updateEngine, enabled = !model.updating) { Text(if (model.updating) "Atualizando…" else "Verificar e atualizar yt-dlp") }
+                TextButton(onClick = model::copyDiagnostics) { Text("Copiar diagnóstico") }
                 if (model.updating) LinearProgressIndicator(Modifier.fillMaxWidth())
             }
         }

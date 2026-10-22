@@ -52,6 +52,16 @@ class GlassUiTest {
         compose.onNodeWithText("MP4").assertIsDisplayed()
         compose.onAllNodesWithText("ZIP", substring = true).assertCountEquals(0)
     }
+    @Test @Config(sdk = [26, 31, 35]) fun analysisLoadingStateCanBeDisplayedAndCancelled() {
+        val model = AppModel(RuntimeEnvironment.getApplication())
+        model.url = "https://youtu.be/123456789ab"
+        model.busy = true
+        model.status = "Preparando o mecanismo…"
+        render(model, "analysis-loading")
+        compose.onNodeWithText("Cancelar análise").assertIsDisplayed().performClick()
+        compose.runOnIdle { assertFalse(model.busy) }
+        compose.onNodeWithText("Analisar link").assertIsDisplayed()
+    }
     @Test fun playlistSelectionsControlWhetherZipIsAvailable() {
         val model = model(true)
         render(model, "playlist-light")

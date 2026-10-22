@@ -12,6 +12,8 @@ workflow's reports contain the results for its exact commit and APK.
 | Queue | SQLite state/destination persistence, native process-control implementation reused | Pause/resume/cancel during native downloads, process death and background execution |
 | Storage | App-private temporary files and export implementation | Picker grants, provider errors, full disk and opening output on a phone |
 | UI | Compose/Robolectric layout fixtures: individual, playlist, manager error; 320/411/720/800 dp, large fonts, dark/light, scrolling | Real keyboard, Android navigation bars, accessibility and manufacturer-specific scaling |
+| Bootstrap | Actual APK DEX constructor/access checks for all 13 reflective ZIP classes; real Python/FFmpeg archives read after R8; negative control reproduces old initialization error | Redmi 10 Prime / Android 12 native startup |
+| Error recovery | Real Compose button clicks on Robolectric API 31 with injected ZIP initialization, linkage and HTTP errors; retry and cancellation; privacy and IO dispatcher assertions | Actual device failure Logcat correlation and successful live analysis/update |
 | Packaging | APK signature, installed label/application ID, bundled Python/FFmpeg/QuickJS/EJS and licenses | Installation and runtime startup on target hardware |
 
 Host fixtures are generated media served over a real local HTTP server. They
@@ -29,3 +31,8 @@ The direct host YouTube metadata attempt was rejected by the environment's
 network proxy (`Tunnel connection failed: 403 Forbidden`). No proxy bypass was
 attempted. The generated-media HTTP/HLS checks run locally and passed; they do
 not prove that a particular YouTube URL will download on the user's device.
+
+The loading UI also runs under Robolectric API 26, 31 and 35. These are Android
+framework tests on a JVM, not a physical device or emulator. The ZIP regression
+uses R8 classfile output and the real APK payloads; the DEX guard independently
+checks the actual optimized Android binary. See [CRASH_FIX.md](CRASH_FIX.md).

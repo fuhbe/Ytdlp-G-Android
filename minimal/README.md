@@ -53,8 +53,11 @@ Gradle 8.13. From this repository:
 python3 minimal/prepare.py
 bash minimal/gradlew -p minimal :app:assembleGithubRelease :app:testGithubDebugUnitTest --max-workers=1
 python3 minimal/smoke.py
+python3 minimal/verify_mp4.py minimal/app/build/generated/runtime/res/raw/ytdlp
 python3 minimal/package.py
 ANDROID_HOME=/path/to/android-sdk python3 minimal/verify.py minimal/build/distribution/Ytdlp-G.apk
+python3 minimal/dex_bootstrap.py minimal/build/distribution/Ytdlp-G.apk --report minimal/build/dex-bootstrap.json
+python3 minimal/regression_zip.py minimal/build/distribution/Ytdlp-G.apk
 ```
 
 The default APK is **ARM64**, reducing bundled runtime size. Other architectures
@@ -62,6 +65,12 @@ can be built with `-Pabis=arm64-v8a,armeabi-v7a,x86_64,x86`. The minimum Android
 version is 8.0 (API 26). The optimized release variant is signed with a test key
 for installation; a stable private signing key is required for production updates.
 No Python or separate download app needs to be installed by the end user.
+
+Version **0.6.1** restores the ZIP reflection rules required by optimized native
+runtime initialization. See [CRASH_FIX.md](CRASH_FIX.md) for the reproduced defect
+and [LOGCAT.md](LOGCAT.md) for safe diagnostics and device acceptance steps.
+Settings includes **Copy diagnostics** (shown as "Copiar diagnóstico") without
+URLs, titles, cookies, command arguments or raw exception messages.
 
 Settings offers an explicit yt-dlp update using the original upstream updater.
 Pause/finish queued downloads before updating. Application updates are separate

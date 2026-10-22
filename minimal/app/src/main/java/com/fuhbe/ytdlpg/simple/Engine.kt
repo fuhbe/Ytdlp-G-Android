@@ -10,11 +10,19 @@ import org.json.JSONObject
 import java.io.File
 import java.util.UUID
 
-object Engine {
+interface MediaBackend {
+    suspend fun inspect(context: Context, links: List<String>, progress: (String) -> Unit): Inspection
+    suspend fun update(context: Context): String
+}
+
+object Engine : MediaBackend {
     private val initLock = Mutex()
     suspend fun ready(context: Context) = initLock.withLock {
-        withContext(Dispatchers.IO) {
-            if (!RuntimeManager.initialized) RuntimeManager.init(context.applicationContext)
+        RuntimeSafety.run(Diagnostics.Stage.RUNTIME_INIT) {
+            if (!RuntimeManager.initialized) {
+                BundledRuntime.verify(context)
+                RuntimeManager.init(context.applicationContext)
+            }
             RuntimeManager.assertInit()
         }
     }
@@ -35,7 +43,7 @@ object Engine {
             }
         }
         return try {
-            withContext(Dispatchers.IO) {
+            RuntimeSafety.run(Diagnostics.Stage.PROCESS) {
                 try {
                     RuntimeManager.execute(request, id, redirectErrorStream = true) { percent, eta, line ->
                         if (line.contains("ERROR", true)) lastError.set(line.takeLast(1800))
@@ -49,7 +57,7 @@ object Engine {
         } finally { watchdog.cancel(); RuntimeManager.destroyProcessById(id) }
     }
 
-    suspend fun inspect(context: Context, links: List<String>, progress: (String) -> Unit): Inspection = withContext(Dispatchers.IO) {
+    override suspend fun inspect(context: Context, links: List<String>, progress: (String) -> Unit): Inspection = withContext(Dispatchers.IO) {
         ready(context)
         val items = mutableListOf<Media>()
         var title = "Links selecionados"
@@ -129,10 +137,13 @@ object Engine {
             if (hasAudio) Policy.heights(heights) else emptyList())
     }
 
-    suspend fun update(context: Context): String = initLock.withLock {
-        withContext(Dispatchers.IO) {
+    override suspend fun update(context: Context): String = initLock.withLock {
+        RuntimeSafety.run(Diagnostics.Stage.UPDATE) {
             check(Store.list().none { it.state in listOf("RUNNING", "QUEUED") }) { "Aguarde ou pause os downloads antes de atualizar." }
-            if (!RuntimeManager.initialized) RuntimeManager.init(context)
+            if (!RuntimeManager.initialized) {
+                BundledRuntime.verify(context)
+                RuntimeManager.init(context)
+            }
             RuntimeManager.updateYTDL(context)
             val version = RuntimeManager.execute(YTDLRequest(emptyList()).addOption("--version"), "version").out.trim()
             Store.preferences(context).edit().putString("engine-version", version).apply()

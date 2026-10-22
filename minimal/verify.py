@@ -11,6 +11,7 @@ import zipfile
 ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT / "scripts"))
 from prepare_runtime import SHA256, VERSION
+from dex_bootstrap import check as check_bootstrap
 
 def verify(path):
     path = Path(path)
@@ -22,6 +23,8 @@ def verify(path):
     assert "application-label:'Ytdlp-G'" in badging
     assert "name='com.fuhbe.ytdlpg.minimal'" in badging
     assert "android.permission.MANAGE_EXTERNAL_STORAGE" not in badging
+    bootstrap = check_bootstrap(path)
+    assert bootstrap["pass"], "R8 removed reflectively constructed ZIP bootstrap classes"
     with zipfile.ZipFile(path) as apk:
         assert apk.testzip() is None
         names = apk.namelist()
@@ -33,7 +36,7 @@ def verify(path):
         abis = sorted({n.split("/")[1] for n in names if n.startswith("lib/")})
         assert abis
         for abi in abis:
-            for library in ["libpython.so", "libpython.zip.so", "libffmpeg.so", "libffmpeg.zip.so", "libqjs.so"]:
+            for library in ["libpython.so", "libpython.zip.so", "libffmpeg.so", "libffprobe.so", "libffmpeg.zip.so", "libqjs.so"]:
                 assert len(apk.read(f"lib/{abi}/{library}")) > 0
         for license in ["YTDLnis-GPL-3.0.txt", "YTDLnis-NOTICE.txt", "Python.txt", "quickjs.txt", "yt-dlp.txt", "GPL-3.0.txt"]:
             assert len(apk.read("assets/licenses/" + license)) > 0
