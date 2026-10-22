@@ -2,6 +2,7 @@ plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
     id("org.jetbrains.kotlin.plugin.compose")
+    id("app.cash.paparazzi")
 }
 
 android {
@@ -12,8 +13,8 @@ android {
         applicationId = "com.fuhbe.ytdlpg"
         minSdk = 26
         targetSdk = 34
-        versionCode = 2
-        versionName = "0.2.0-beta.1"
+        versionCode = 3
+        versionName = "0.3.0-beta.1"
         ndk { abiFilters += listOf("arm64-v8a", "x86_64") }
     }
 
@@ -29,11 +30,22 @@ android {
     kotlinOptions { jvmTarget = "17" }
     buildFeatures { compose = true }
     packaging { jniLibs.useLegacyPackaging = true }
+    sourceSets["main"].res.srcDir(layout.buildDirectory.dir("generated/runtime/res"))
 }
+
+val prepareRuntime by tasks.registering(Exec::class) {
+    val output = layout.buildDirectory.dir("generated/runtime/res")
+    inputs.file(rootProject.file("scripts/prepare_runtime.py"))
+    outputs.dir(output)
+    commandLine("python3", rootProject.file("scripts/prepare_runtime.py"), output.get().asFile)
+}
+tasks.named("preBuild").configure { dependsOn(prepareRuntime) }
 
 dependencies {
     implementation(platform("androidx.compose:compose-bom:2024.10.01"))
     implementation("androidx.activity:activity-compose:1.9.3")
+    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.8.7")
+    implementation("androidx.compose.material:material-icons-core")
     implementation("androidx.compose.ui:ui")
     implementation("androidx.compose.foundation:foundation")
     implementation("androidx.compose.material3:material3")
@@ -44,4 +56,5 @@ dependencies {
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.9.0")
     implementation("io.github.junkfood02.youtubedl-android:library:0.18.1")
     implementation("io.github.junkfood02.youtubedl-android:ffmpeg:0.18.1")
+    testImplementation("junit:junit:4.13.2")
 }

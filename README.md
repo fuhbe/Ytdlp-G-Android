@@ -4,13 +4,23 @@ A small video and playlist downloader for Android, with a translucent interface.
 
 ## Current status
 
-This is an early Android build. The APK is built from source by GitHub Actions. Playlist inspection, native video and audio selection, high-quality MP3 conversion, foreground downloads, cancellation, ZIP output, and Android's folder picker are implemented. Please report links that do not analyze or download.
+The current preview is 0.3.0-beta.1. It follows the original glass design with a compact link bar, video/audio tabs, a quality panel and a separate download screen. Recent inspections are cached, playlist entries are checked two at a time, and analysis can be cancelled. Downloads include item-level results and source error details. Please include the copied error details when reporting a failing link.
 
-The app bundles the [yt-dlp Android library](https://github.com/JunkFood02/youtubedl-android), Python, and FFmpeg through its dependencies. No separate Python installation is required. The APK can be large because it includes native runtimes. Android 8.0 or newer is required. Download only material you have permission to save and follow the source site's terms.
+The app bundles the [yt-dlp Android library](https://github.com/JunkFood02/youtubedl-android), Python, FFmpeg and QuickJS. The official yt-dlp 2026.10.21 zipapp and its YouTube JavaScript solver are downloaded and checksum-verified during the build. App upgrades replace the previously installed extractor. No separate Python installation is required. Android 8.0 or newer is required. Android 10+ can save directly to Download/Ytdlp-G; a folder picker is also available. Download only material you have permission to save and follow the source site's terms.
+
+## Interface
+
+Layout renders using sample data:
+
+<img src="app/src/test/snapshots/images/com.fuhbe.ytdlpg_GlassScreenTest_editorMatchesTheGlassLayout.png" width="320" alt="Glass download configuration" /> <img src="app/src/test/snapshots/images/com.fuhbe.ytdlpg_GlassScreenTest_downloadingHasItsOwnProgressAndCompletedItemsScreen.png" width="320" alt="Playlist progress and saved files" />
 
 ## Build
 
-Open the project in Android Studio, or install Android SDK Platform 35 and run `./gradlew :app:assembleDebug`. Find the APK in `app/build/outputs/apk/debug/`. GitHub Actions uploads this APK as a workflow artifact. Debug builds carry a development certificate and may show an installation warning. This project does not yet offer a signed production release.
+Open the project in Android Studio, or install Android SDK Platform 35, Python 3 and Java 17, then run `./gradlew :app:assembleDebug`. Find the APK in `app/build/outputs/apk/debug/`. GitHub Actions publishes the APK and its SHA-256 as workflow artifacts. Debug builds carry a development certificate. If an older preview has a different certificate, uninstall it before installing the new APK; files already saved in Downloads are retained.
+
+## Verification
+
+Run `./gradlew :app:verifyPaparazziDebug :app:lintDebug` for the format, playlist, ZIP and screen regression checks. Run `python3 scripts/check_apk.py app/build/outputs/apk/debug/app-debug.apk` to check the actual engine, JavaScript solver and native dependencies in the APK. With FFmpeg installed, `python3 scripts/smoke_runtime.py app/build/generated/runtime/res/raw/ytdlp` exercises the pinned engine against a local HTTP fixture and performs a real MP3 conversion. Translation keys are checked with `python3 scripts/check_translations.py`.
 
 ## License
 

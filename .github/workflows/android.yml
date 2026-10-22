@@ -6,9 +6,11 @@ on:
   workflow_dispatch:
 permissions:
   contents: read
+concurrency:
+  group: android-${{ github.ref }}
+  cancel-in-progress: true
 jobs:
   build:
-    if: github.event.head_commit.message != 'Publish Android preview v0.1.0'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -16,6 +18,7 @@ jobs:
         with:
           distribution: temurin
           java-version: '17'
+          cache: gradle
       - name: Install SDK
         run: |
           sdk_root="${ANDROID_HOME:-/usr/local/lib/android/sdk}"
@@ -25,11 +28,35 @@ jobs:
           echo "ANDROID_HOME=$sdk_root" >> "$GITHUB_ENV"
       - name: Check translations
         run: python3 scripts/check_translations.py
-      - name: Build APK
-        run: ./gradlew :app:assembleDebug :app:lintDebug --no-daemon
+      - name: Build and verify
+        run: ./gradlew :app:assembleDebug :app:lintDebug :app:verifyPaparazziDebug --no-daemon
+      - name: Check packaged runtime
+        run: python3 scripts/check_apk.py app/build/outputs/apk/debug/app-debug.apk
+      - name: Install FFmpeg for the HTTP and MP3 smoke test
+        run: |
+          if ! command -v ffmpeg > /dev/null; then
+            sudo apt-get update
+            sudo apt-get install -y ffmpeg
+          fi
+      - name: Exercise extraction, download and conversion
+        run: python3 scripts/smoke_runtime.py app/build/generated/runtime/res/raw/ytdlp
+      - name: Prepare distribution
+        run: |
+          mkdir -p distribution
+          cp app/build/outputs/apk/debug/app-debug.apk distribution/Ytdlp-G-Android-v0.3.0-beta.1.apk
+          cd distribution
+          sha256sum Ytdlp-G-Android-v0.3.0-beta.1.apk > SHA256SUMS.txt
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
-          name: Ytdlp-G-Android-debug
-          path: app/build/outputs/apk/debug/app-debug.apk
+          name: Ytdlp-G-Android-v0.3.0-beta.1
+          path: distribution/*
           if-no-files-found: error
+      - name: Upload test and screen reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: Android-verification-reports
+          path: |
+            app/build/reports/
+            app/build/test-results/

@@ -1,35 +1,75 @@
 name: Publish Android preview
 on:
-  release:
-    types: [published]
+  workflow_run:
+    workflows: [Android APK]
+    types: [completed]
   workflow_dispatch:
+    inputs:
+      run_id:
+        description: Successful Android APK run to publish
+        required: true
 permissions:
   actions: read
   contents: write
 jobs:
   publish:
-    if: github.event_name == 'workflow_dispatch' || github.event.release.tag_name == 'v0.1.0'
+    if: >-
+      github.event_name == 'workflow_dispatch' ||
+      (github.event.workflow_run.conclusion == 'success' &&
+       github.event.workflow_run.head_branch == 'main' &&
+       github.event.workflow_run.head_repository.full_name == github.repository &&
+       startsWith(github.event.workflow_run.head_commit.message, 'Release Android v'))
     runs-on: ubuntu-latest
+    env:
+      GH_TOKEN: ${{ github.token }}
+      RUN_ID: ${{ github.event.workflow_run.id || inputs.run_id }}
     steps:
+      - name: Resolve verified source
+        id: source
+        run: |
+          gh api "repos/$GITHUB_REPOSITORY/actions/runs/$RUN_ID" > /tmp/android-run.json
+          python3 - <<'PY'
+          import json, os
+          run = json.load(open("/tmp/android-run.json"))
+          assert run["conclusion"] == "success"
+          assert run["head_branch"] == "main"
+          assert run["head_repository"]["full_name"] == os.environ["GITHUB_REPOSITORY"]
+          with open(os.environ["GITHUB_OUTPUT"], "a") as output:
+              output.write("sha=" + run["head_sha"] + "\n")
+          PY
       - uses: actions/checkout@v4
-      - name: Download verified APK artifact
+        with:
+          ref: ${{ steps.source.outputs.sha }}
+      - name: Resolve package version
+        id: version
+        run: |
+          python3 - <<'PY'
+          import os, pathlib, re
+          text = pathlib.Path("app/build.gradle.kts").read_text()
+          version = re.search(r'versionName = "([^"]+)"', text).group(1)
+          assert re.fullmatch(r"[0-9]+\.[0-9]+\.[0-9]+(?:-[a-z0-9.]+)?", version)
+          with open(os.environ["GITHUB_OUTPUT"], "a") as output:
+              output.write(f"tag=v{version}\nartifact=Ytdlp-G-Android-v{version}\n")
+          PY
+      - name: Download verified distribution
         uses: actions/download-artifact@v4
         with:
-          name: Ytdlp-G-Android-debug
-          path: release
-          run-id: 39702210036
-          repository: fuhbe/Ytdlp-G-Android
+          name: ${{ steps.version.outputs.artifact }}
+          path: distribution
+          run-id: ${{ env.RUN_ID }}
           github-token: ${{ github.token }}
-      - name: Check APK archive
-        run: |
-          test -s release/app-debug.apk
-          unzip -t release/app-debug.apk > /dev/null
-          mv release/app-debug.apk release/Ytdlp-G-Android-v0.1.0.apk
-          sha256sum release/Ytdlp-G-Android-v0.1.0.apk
-      - name: Attach APK to release
+      - name: Verify package and publish beta
         env:
-          GH_TOKEN: ${{ github.token }}
+          TAG: ${{ steps.version.outputs.tag }}
+          ARTIFACT: ${{ steps.version.outputs.artifact }}
+          SOURCE_SHA: ${{ steps.source.outputs.sha }}
         run: |
-          gh release upload v0.1.0 release/Ytdlp-G-Android-v0.1.0.apk \
+          cd distribution
+          sha256sum -c SHA256SUMS.txt
+          python3 ../scripts/check_apk.py "$ARTIFACT.apk"
+          gh release create "$TAG" "$ARTIFACT.apk" SHA256SUMS.txt \
             --repo "$GITHUB_REPOSITORY" \
-            --clobber
+            --target "$SOURCE_SHA" \
+            --title "Ytdlp-G Android $TAG" \
+            --notes-file "../docs/releases/$TAG.md" \
+            --prerelease
