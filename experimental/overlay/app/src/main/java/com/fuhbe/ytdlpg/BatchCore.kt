@@ -13,6 +13,7 @@ import android.os.Environment
 import android.provider.MediaStore
 import androidx.core.app.NotificationCompat
 import androidx.documentfile.provider.DocumentFile
+import androidx.room.withTransaction
 import androidx.work.*
 import com.deniscerri.ytdl.R
 import com.deniscerri.ytdl.core.RuntimeManager
@@ -190,8 +191,12 @@ class BatchWorker(private val context: Context, params: WorkerParameters) : Coro
             }
             while (currentCoroutineContext().isActive) {
                 if (BatchStore.isCancelled(context, batch.id)) throw CancellationException(context.getString(R.string.g_cancelled))
-                val history = db.historyDao.getGlassBatchHistory(ids).associateBy { it.downloadId }
-                val queued = db.downloadDao.getDownloadsByIds(ids).associateBy { it.id }
+                // A consistent snapshot avoids racing the core's history insert + queue
+                // deletion. A deleted task with no file must fail instead of spinning.
+                val (history, queued) = db.withTransaction {
+                    db.historyDao.getGlassBatchHistory(ids).associateBy { it.downloadId } to
+                        db.downloadDao.getDownloadsByIds(ids).associateBy { it.id }
+                }
                 batch.entries.forEach { entry ->
                     if (entry.saved || entry.error.isNotBlank()) return@forEach
                     val completed = history[entry.download.id]
@@ -203,6 +208,8 @@ class BatchWorker(private val context: Context, params: WorkerParameters) : Coro
                         entry.error = events[entry.download.id]?.second?.takeIf { it.contains("error", true) }
                             ?: log?.lineSequence()?.lastOrNull { it.contains("ERROR", true) }
                             ?: context.getString(R.string.g_download_failed)
+                    } else if (entry.paths.isEmpty() && entry.download.id !in queued && completed == null) {
+                        entry.error = context.getString(R.string.g_no_output)
                     }
                     if (!batch.zip && entry.paths.isNotEmpty() && !entry.saved) {
                         try {

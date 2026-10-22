@@ -24,7 +24,7 @@ class CoreInspection(private val context: Context) {
         withTimeout(180_000) {
             val results = withTimeout(60_000) {
                 repository.getResultsFromSource(url, resetResults = false, addToResults = false)
-            }.distinctBy { it.url }
+            }
             check(results.isNotEmpty()) { "No accessible media was returned by the extractor." }
             val gate = Semaphore(3)
             val completed = java.util.concurrent.atomic.AtomicInteger()

@@ -13,7 +13,7 @@ with zipfile.ZipFile(output, "w", zipfile.ZIP_DEFLATED) as archive:
         relative = path.relative_to(source)
         if not path.is_file() or any(part in {"build", ".gradle", ".idea", ".kotlin", "__pycache__"} for part in relative.parts):
             continue
-        if path.name in {"local.properties", "keystore.properties"} or path.suffix in {"jks", ".keystore"}:
+        if path.name in {"local.properties", "keystore.properties"} or path.suffix in {".jks", ".keystore"}:
             continue
         archive.write(path, "Ytdlp-G-Preview/" + str(relative))
     for name in ("README.md", "DEPENDENCIES.md", "upstream.json", "prepare.py"):
