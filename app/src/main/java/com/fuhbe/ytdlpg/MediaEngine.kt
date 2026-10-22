@@ -17,6 +17,10 @@ data class Inspection(val title: String, val thumbnail: String, val items: List<
 class MediaEngine(private val context: Context) {
     fun initialize() {
         YoutubeDL.init(context)
+    }
+
+    fun initializeDownload() {
+        initialize()
         FFmpeg.getInstance().init(context)
     }
 

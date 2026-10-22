@@ -93,7 +93,7 @@ class DownloadService : Service() {
     }
 
     private fun runTask(task: DownloadState.Task) {
-        engine.initialize()
+        engine.initializeDownload()
         val destination = DocumentFile.fromTreeUri(this, task.folder) ?: error(getString(R.string.folder_required))
         require(destination.canWrite()) { getString(R.string.folder_required) }
         val tempRoot = File(cacheDir, "download-${System.currentTimeMillis()}").apply { mkdirs() }
