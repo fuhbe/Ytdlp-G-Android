@@ -19,7 +19,7 @@ assert a[a.index('    val direction=sign'):]==b[b.index('    val direction=sign'
 p=P+'squareglass/DragGestureInspector.kt';b=(R/p).read_text().replace('import androidx.compose.ui.input.pointer.PointerEventPass\n','')
 b=b.replace('// The horizontal recognizer already owns this pointer. Consume\n                    // at Initial before scroll/click handlers run at Main, even\n                    // when the same finger travels outside the visual bounds.\n                    val event = awaitPointerEvent(PointerEventPass.Initial)','val event = awaitPointerEvent()')
 assert b==old(p),'Unexpected recognizer change outside owned-event dispatch phase'
-allowed_tests={'GlassEdgeGestureTest.kt','GlassDockGestureTest.kt','SquareGlassGestureTest.kt','GlassDiagonalGestureTest.kt'}
+allowed_tests={'GlassEdgeGestureTest.kt','GlassDockGestureTest.kt','SquareGlassGestureTest.kt','GlassDiagonalGestureTest.kt','GlassTotalInteractionTest.kt'}
 changed=subprocess.check_output(['git','diff','--name-only',baseline['commit']],cwd=R,text=True).splitlines()
 for p in changed:
  assert p in allowed or p.startswith('docs/') or p=='.github/workflows/glass-diagonal-066.yml' or (p.startswith('minimal/app/src/test/java/com/fuhbe/ytdlpg/simple/') and Path(p).name in allowed_tests),'Unexpected changed file: '+p

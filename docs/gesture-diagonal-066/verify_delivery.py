@@ -47,6 +47,6 @@ assert metrics['extraCompositions']==metrics['extraSourceRecords']==metrics['ext
 result=dict(version='0.6.6-test4',apk_sha256=hashlib.sha256(apk.read_bytes()).hexdigest(),apk_bytes=apk.stat().st_size,
  certificate_sha256=cert,same_key_as_test3=cert=='209656bb1c44b9a0858087b0b775f081c7b2494bb8c8e20566c4eed6e815c8ef',
  tests=len(cases),passed=len(cases)-sum(cases.values()),skipped=sum(cases.values()),baseline_tests_preserved=174,
- obsolete_vertical_escape_expectations_updated=3,new_diagonal_cases=12,reproduction=json.loads((H/'REPRODUCTION.json').read_text()),
+ obsolete_vertical_escape_test_methods_updated=5,new_diagonal_cases=12,reproduction=json.loads((H/'REPRODUCTION.json').read_text()),
  scope=scope,native_payloads=native,held_motion=metrics,physical_device_or_emulator_execution=False,gpu_fps_claim=False)
 (M/'build/glass-diagonal-delivery.json').write_text(json.dumps(result,indent=2)+'\n');(H/'VERIFIED.json').write_text(json.dumps(result,indent=2)+'\n');print(json.dumps(result))

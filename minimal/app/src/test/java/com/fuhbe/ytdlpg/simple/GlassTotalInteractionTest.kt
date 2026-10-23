@@ -50,7 +50,7 @@ class GlassTotalInteractionTest {
         assertEquals(0,glassDragTarget(Offset(190f,30f),size,bounds,150f))
         assertEquals(1,glassDragTarget(Offset(210f,30f),size,bounds,250f))
         assertEquals(2,glassDragTarget(Offset(110f,30f),size,bounds,150f))
-        assertNull(glassDragTarget(Offset(190f,-1f),size,bounds,50f))
+        assertEquals(0,glassDragTarget(Offset(190f,-1f),size,bounds,50f))
         assertNull(glassDragTarget(Offset(Float.NaN,30f),size,bounds,50f))
         val gapped=listOf(0 to Rect(0f,0f,90f,60f),1 to Rect(110f,0f,200f,60f))
         assertEquals(1,glassDragTarget(Offset(105f,30f),size,gapped,45f))

@@ -14,7 +14,7 @@ Before horizontal recognition, taps and vertical scrolling keep their existing e
 
 The MP3/MP4, Normal/ZIP, Downloads/Completed and bottom-navigation selectors share the corrected component. `verify_scope.py` checks the approved baseline byte-for-byte outside four allowed production files. It additionally verifies that the shared drawing/layout source is identical apart from its release-target call, optical calculations remain identical, and only owned-event dispatch changes in the recognizer. Download engines, native dependencies, workers, services, storage, wallpaper assets and permissions are preserved.
 
-Three earlier tests explicitly asserted that vertical escape cancels an owned drag. Their expectations are migrated to the newly requested behavior; their independent vertical-intent and real-cancellation checks remain. Endpoint, ripple, intermediate tolerance, accessibility, RTL and existing optics tests remain in the full suite.
+Three earlier gesture tests explicitly asserted that vertical escape cancels an owned drag. Their expectations are migrated to the newly requested behavior; their independent vertical-intent and real-cancellation checks remain. Two older target-arithmetic assertions also migrate from rejecting vertical escape to retaining the horizontal destination. Endpoint, ripple, intermediate tolerance, accessibility, RTL and existing optics tests remain in the full suite.
 
 ## Validation
 
