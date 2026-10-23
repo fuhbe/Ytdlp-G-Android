@@ -21,3 +21,7 @@ Three earlier gesture tests explicitly asserted that vertical escape cancels an 
 The new production-UI pointer tests cover upward/downward diagonals, releases inside/outside the track, 280/360/600 px widths, initial and target choices, API 26/32/35 software configurations, RTL, a final finger-up without a last move event, exit/reentry, true cancellation, multitouch, ancestor event consumption, normal parent scrolling, spring settlement and all four actual application selectors.
 
 Automated UI results are Robolectric native Skia software results. They do not establish device GPU frame rates or physical-device behavior. See [phone checks](DEVICE_CHECK.md). The final `VERIFIED.json` is generated only from the actual complete suite and packaged APK; a successful compilation alone is insufficient.
+
+## Verified APK
+
+[Download and actual verification results](DELIVERY.md). The published artifact has been downloaded and checked independently. Phone acceptance is pending.

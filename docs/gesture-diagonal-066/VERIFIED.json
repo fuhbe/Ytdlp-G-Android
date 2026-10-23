@@ -1,0 +1,49 @@
+{
+  "version": "0.6.6-test4",
+  "apk_sha256": "ee4714f57438782310f6179710d296345bc84439680222a4dbd4ab93b5abe43b",
+  "apk_bytes": 59626096,
+  "certificate_sha256": "385e111ca244f67d4c283c22c344f1f34e7d56cfea0bbb1a1967b1766674a657",
+  "same_key_as_test3": false,
+  "tests": 186,
+  "passed": 184,
+  "skipped": 2,
+  "baseline_tests_preserved": 174,
+  "obsolete_vertical_escape_test_methods_updated": 5,
+  "new_diagonal_cases": 12,
+  "reproduction": {
+    "baseline": "0aca45f6b60cde42ed483f10fb57a7ae944a4e88",
+    "class": "com.fuhbe.ytdlpg.simple.GlassDiagonalGestureTest",
+    "test": "diagonalReleaseAboveTheTrackReproducesTheReportedReturn",
+    "failure": "java.lang.AssertionError: A captured horizontal drag must select MP4 when released above the slider expected:<1> but was:<0>",
+    "renderer": "Robolectric native Skia software; actual production component and pointer stream"
+  },
+  "scope": {
+    "baseline": "0aca45f6b60cde42ed483f10fb57a7ae944a4e88",
+    "protected_files_unchanged": 91,
+    "engine_downloads_workers_storage_services_unchanged": true,
+    "rendering_layout_refraction_reflections_deformation_lighting_cache_unchanged": true,
+    "animation_sources_unchanged": true,
+    "ripple_suppression_and_edge_capture_padding_unchanged": true,
+    "intermediate_tolerance_unchanged": true,
+    "scope": "Captured gesture release target and owned pointer dispatch only; version metadata and corresponding regressions",
+    "version": "0.6.6-test4"
+  },
+  "native_payloads": {
+    "lib/arm64-v8a/libandroidx.graphics.path.so": "41e9a793c43a0f4fddb19e33f346bace464f30f888ba7b9eaf96294ea115bfb6",
+    "lib/arm64-v8a/libffmpeg.so": "c48e52c8a367e71203897835a310fd3c678e2e27e5cbdd8cbaa305a83f924648",
+    "lib/arm64-v8a/libffmpeg.zip.so": "3e4dd8424f2ab3ca741ac37e121fac2efb4c3426948e16ace1ef9a1ffb482930",
+    "lib/arm64-v8a/libffprobe.so": "26f7d8765a2dfdea5104b3d6d689f2efdb3bc087f789f56d521c54921c2e75f5",
+    "lib/arm64-v8a/libpython.so": "4f8d78ede7fc26e96e99342dd83ce42d32c9b4d0806bc9a99ff7151396269b25",
+    "lib/arm64-v8a/libpython.zip.so": "0a1dcd0f69744a93536c96d15f26c646f66ae8634cf28d1c24a373ee94b0710f",
+    "lib/arm64-v8a/libqjs.so": "a0fe160a8cd76eec34132f945664856e96687d701e3b1ff28dff44ea1fad13bc"
+  },
+  "held_motion": {
+    "inputSamples": 60,
+    "extraCompositions": 0,
+    "extraSourceRecords": 0,
+    "extraReadbacks": 0,
+    "hostSoftwareOnly": true
+  },
+  "physical_device_or_emulator_execution": false,
+  "gpu_fps_claim": false
+}

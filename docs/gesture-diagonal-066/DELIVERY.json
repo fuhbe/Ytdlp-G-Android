@@ -1,0 +1,47 @@
+{
+  "source_commit": "ecf036bfcb2a1c5fa9c57197783cd9fe5e9d8d32",
+  "run": 40024024762,
+  "artifacts": [
+    {
+      "name": "Slider-Diagonal-0.6.6-Test4-device-tests",
+      "id": 12532696139,
+      "sha256": "6aa789fdcff7e0ca37a078e7cddb9329377d5783491189ea60b764a9bb65293d"
+    },
+    {
+      "name": "Slider-Diagonal-0.6.6-Test4-verification",
+      "id": 12532596478,
+      "sha256": "be807a2bd3bddb6248647aca11cd1498d0a3ea7adabb7a48ce84a8d440990df4"
+    },
+    {
+      "name": "Ytdlp-G-0.6.6-Test4-Diagonal-Fix",
+      "id": 12532028276,
+      "sha256": "04bf495e0376421be88ce9b23dd5ef5e9a78c539b7ab648ba8ec0385647f9be2"
+    }
+  ],
+  "apk_sha256": "ee4714f57438782310f6179710d296345bc84439680222a4dbd4ab93b5abe43b",
+  "apk_bytes": 59626096,
+  "certificate_sha256": "385e111ca244f67d4c283c22c344f1f34e7d56cfea0bbb1a1967b1766674a657",
+  "same_key_as_test3": false,
+  "tests": 186,
+  "passed": 184,
+  "skipped": 2,
+  "baseline_cases_preserved": 174,
+  "new_diagonal_cases": 12,
+  "native_libraries_identical_to_test3": 7,
+  "bundled_runtime_and_license_entries_identical": 20,
+  "wallpapers_identical": true,
+  "matching_device_test_package_signature": true,
+  "physical_device_or_emulator_execution": false,
+  "gpu_fps_claim": false,
+  "scope": {
+    "baseline": "0aca45f6b60cde42ed483f10fb57a7ae944a4e88",
+    "protected_files_unchanged": 91,
+    "engine_downloads_workers_storage_services_unchanged": true,
+    "rendering_layout_refraction_reflections_deformation_lighting_cache_unchanged": true,
+    "animation_sources_unchanged": true,
+    "ripple_suppression_and_edge_capture_padding_unchanged": true,
+    "intermediate_tolerance_unchanged": true,
+    "scope": "Captured gesture release target and owned pointer dispatch only; version metadata and corresponding regressions",
+    "version": "0.6.6-test4"
+  }
+}
