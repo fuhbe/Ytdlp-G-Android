@@ -1,0 +1,8 @@
+Backdrop 1.0.3, by Kyant (Kyant0) and contributors.
+https://github.com/Kyant0/AndroidLiquidGlass
+Licensed under the Apache License, Version 2.0. See Backdrop-APACHE-2.0.txt.
+Consumed as the unchanged Maven dependency io.github.kyant0:backdrop:1.0.3.
+Corresponding published source JAR is included in the Ytdlp-G source distribution.
+No Square source, branding or artwork is copied. Square (GPL-3.0) was consulted
+only as a visual/integration reference. Ytdlp-G remains GPL-3.0-only.
+Source JAR SHA256: ec75a0edc6e60e354f48199f441d05aa16f689008a118096eecf1a14bcafef71

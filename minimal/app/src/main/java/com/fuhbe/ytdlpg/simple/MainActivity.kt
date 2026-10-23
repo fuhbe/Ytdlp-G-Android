@@ -20,6 +20,8 @@ import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.interaction.collectIsPressedAsState
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -42,7 +44,9 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalDensity
@@ -85,56 +89,24 @@ class MainActivity : ComponentActivity() {
 private val Blue = Color(0xFF086DE0)
 private val Shape = RoundedCornerShape(23.dp)
 
-@Composable fun GlassTheme(dark: Boolean, content: @Composable () -> Unit) {
-    val scheme = if (dark) darkColorScheme(primary = Color(0xFFA4D0FF), onPrimary = Color(0xFF07325C),
-        background = Color(0xFF0B1C34), surface = Color(0xFF1D3653), onSurface = Color(0xFFF1F7FF), onSurfaceVariant = Color(0xFFBFD2E9))
-    else lightColorScheme(primary = Blue, onPrimary = Color.White, background = Color(0xFFD8E9FB), surface = Color(0xFFEDF5FE),
-        onSurface = Color(0xFF102F54), onSurfaceVariant = Color(0xFF486480))
-    MaterialTheme(colorScheme = scheme) {
-        CompositionLocalProvider(LocalContentColor provides scheme.onSurface) {
-            Box(Modifier.fillMaxSize().background(scheme.background)) {
-                GlassBackdrop(dark)
-                content()
-            }
-        }
-    }
-}
-
-/** Static luminous curves approximate frosted glass without per-frame blur. */
-@Composable private fun GlassBackdrop(dark: Boolean) {
-    Canvas(Modifier.fillMaxSize()) {
-        val pale = if (dark) Color(0xFF3B78A8) else Color.White
-        drawRect(Brush.linearGradient(if (dark) listOf(Color(0xFF193D61), Color(0xFF0B1C34), Color(0xFF254566)) else
-            listOf(Color(0xFFBEDDFB), Color(0xFFE4F1FF), Color(0xFFC2DEFA), Color(0xFFF0F6FE)), end = Offset(size.width, size.height)))
-        drawCircle(Brush.radialGradient(listOf(pale.copy(alpha = .62f), Color.Transparent), center = Offset(size.width * .84f, size.height * .12f), radius = size.width * .9f), size.width * .9f, Offset(size.width * .84f, size.height * .12f))
-        for (i in 0..2) {
-            val path = Path().apply {
-                moveTo(-size.width * .3f, size.height * (.22f + i * .018f))
-                cubicTo(size.width * 1.5f, size.height * -.12f, -size.width * .6f, size.height * .83f, size.width * 1.3f, size.height * (.7f + i * .027f))
-            }
-            drawPath(path, Brush.linearGradient(listOf(Color.Transparent, pale.copy(alpha = .2f), pale.copy(alpha = .5f), Color.Transparent)), style = androidx.compose.ui.graphics.drawscope.Stroke(width = (5 + i * 12).dp.toPx()))
-        }
-    }
-}
+@Composable fun GlassTheme(dark: Boolean, content: @Composable () -> Unit) = LiquidGlassTheme(dark, content)
 
 @Composable fun GlassCard(modifier: Modifier = Modifier, content: @Composable ColumnScope.() -> Unit) {
-    val dark = MaterialTheme.colorScheme.background.luminanceValue() < .3f
-    Column(modifier.shadow(9.dp, Shape, ambientColor = Color(0xFF3773AA).copy(alpha = .12f), spotColor = Color(0xFF3773AA).copy(alpha = .12f))
-        .clip(Shape).background(Brush.linearGradient(if (dark) listOf(Color(0xA63E6185), Color(0xB3213D5B)) else listOf(Color(0xBFFFFFFF), Color(0x70FFFFFF))))
-        .border(1.dp, if (dark) Color(0x556D9DC7) else Color(0xDCFFFFFF), Shape).padding(15.dp).animateContentSize(tween(160)), content = content)
+    Column(modifier.liquidGlass(Shape).padding(12.dp).animateContentSize(tween(160)), content = content)
 }
-private fun Color.luminanceValue() = red * .2126f + green * .7152f + blue * .0722f
 
 @Composable fun AppContent(model: AppModel) {
     val systemDark = isSystemInDarkTheme()
     val dark = when (model.theme) { "dark" -> true; "light" -> false; else -> systemDark }
     val context = LocalContext.current
     val focus = LocalFocusManager.current
+    val density = LocalDensity.current
+    var dockHeight by remember { mutableIntStateOf(0) }
     SideEffect {
         (context as? android.app.Activity)?.let { activity ->
             WindowCompat.getInsetsController(activity.window, activity.window.decorView).apply {
-                isAppearanceLightStatusBars = !dark
-                isAppearanceLightNavigationBars = !dark
+                isAppearanceLightStatusBars = false
+                isAppearanceLightNavigationBars = false
             }
         }
     }
@@ -151,19 +123,19 @@ private fun Color.luminanceValue() = red * .2126f + green * .7152f + blue * .072
         if (model.area != "home") model.area = "home" else model.clear()
     }
     GlassTheme(dark) {
-        Box(Modifier.fillMaxSize(), contentAlignment = Alignment.TopCenter) {
-        Column(Modifier.fillMaxHeight().widthIn(max = 760.dp).fillMaxWidth().safeDrawingPadding().imePadding().padding(horizontal = 16.dp)) {
+        GlassContentLayer { capture, dockBackdrop ->
+        Box(Modifier.fillMaxSize().safeDrawingPadding().imePadding(), contentAlignment = Alignment.TopCenter) {
+        Column(Modifier.fillMaxHeight().widthIn(max = 760.dp).fillMaxWidth().padding(horizontal = 12.dp).padding(bottom = with(density) { dockHeight.toDp() }).then(capture)) {
             Row(Modifier.fillMaxWidth().padding(vertical = 6.dp), verticalAlignment = Alignment.CenterVertically) {
-                if (model.area != "home" || model.inspection?.playlist == true) {
+                if (model.area == "home" && model.inspection?.playlist == true) {
                     IconButton(onClick = { if (model.area != "home") model.area = "home" else model.clear() }) { Icon(Icons.AutoMirrored.Filled.ArrowBack, "Voltar") }
                 } else {
                     Box(Modifier.size(38.dp).clip(RoundedCornerShape(12.dp)).background(Brush.verticalGradient(listOf(Color(0xFF56B7FF), Blue))), contentAlignment = Alignment.Center) { Icon(Icons.Default.Download, null, tint = Color.White, modifier = Modifier.size(25.dp)) }
                     Spacer(Modifier.width(10.dp))
                 }
-                Text("Ytdlp-G", fontSize = 24.sp, fontWeight = FontWeight.Bold, modifier = Modifier.weight(1f))
-                if (model.area != "downloads") IconButton(onClick = { model.area = "downloads" }) { Icon(Icons.Default.DownloadForOffline, "Downloads") }
-                if (model.area != "settings") IconButton(onClick = { model.area = "settings" }) { Icon(Icons.Default.Settings, "Configurações") }
+                Text("Ytdlp-G", fontSize = 21.sp, fontWeight = FontWeight.Bold, modifier = Modifier.weight(1f))
             }
+            Box(Modifier.weight(1f)) {
             if (model.area == "downloads") DownloadsScreen(jobs, model::control)
             else if (model.area == "settings") SettingsScreen(model, chooseFolder)
             else HomeScreen(model, chooseFolder) {
@@ -171,6 +143,13 @@ private fun Color.luminanceValue() = red * .2126f + green * .7152f + blue * .072
                 if (Build.VERSION.SDK_INT >= 33) notifications.launch(Manifest.permission.POST_NOTIFICATIONS)
                 model.enqueue()
             }
+            }
+        }
+        GlassNavigationDock(model.area,
+            onBack = { if (model.area != "home") model.area = "home" else model.clear() },
+            onDownloads = { model.area = "downloads" }, onSettings = { model.area = "settings" },
+            source = dockBackdrop,
+            modifier = Modifier.align(Alignment.BottomCenter).widthIn(max = 520.dp).fillMaxWidth().onSizeChanged { dockHeight = it.height }.padding(horizontal = 12.dp, vertical = 8.dp))
         }
         }
     }
@@ -190,20 +169,22 @@ private fun Color.luminanceValue() = red * .2126f + green * .7152f + blue * .072
     }
 }
 @Composable private fun ActionButton(label: String, icon: ImageVector, enabled: Boolean = true, onClick: () -> Unit) {
-    Surface(onClick = onClick, enabled = enabled, color = Color.Transparent, shape = RoundedCornerShape(22.dp), modifier = Modifier.fillMaxWidth().heightIn(min = 56.dp).shadow(if (enabled) 7.dp else 0.dp, RoundedCornerShape(22.dp), spotColor = Blue.copy(alpha = .4f))) {
-        Row(Modifier.background(Brush.verticalGradient(if (enabled) listOf(Color(0xFF61BCFF), Color(0xFF1683F9), Color(0xFF0767E5)) else listOf(Color(0xFF7D93AA), Color(0xFF6A829B))))
-            .border(1.dp, Color.White.copy(alpha = .6f), RoundedCornerShape(22.dp)).padding(15.dp), horizontalArrangement = Arrangement.Center, verticalAlignment = Alignment.CenterVertically) {
+    val interaction = remember { MutableInteractionSource() }
+    val pressed by interaction.collectIsPressedAsState()
+    val scale by animateFloatAsState(if (pressed) .98f else 1f, tween(120), label = "Button feedback")
+    Surface(onClick = onClick, enabled = enabled, interactionSource = interaction, color = Color.Transparent, shape = RoundedCornerShape(22.dp), modifier = Modifier.fillMaxWidth().heightIn(min = 52.dp).graphicsLayer { scaleX = scale; scaleY = scale }.liquidGlass(RoundedCornerShape(24.dp), prominent = true, selected = enabled)) {
+        Row(Modifier.padding(13.dp), horizontalArrangement = Arrangement.Center, verticalAlignment = Alignment.CenterVertically) {
             Icon(icon, null, tint = Color.White, modifier = Modifier.size(24.dp)); Spacer(Modifier.width(10.dp))
             Text(label, color = Color.White, fontWeight = FontWeight.SemiBold, fontSize = 16.sp)
         }
     }
 }
 @Composable private fun Segments(labels: List<String>, icons: List<ImageVector>, selected: Int, onSelected: (Int) -> Unit) {
-    Row(Modifier.fillMaxWidth().clip(RoundedCornerShape(19.dp)).background(MaterialTheme.colorScheme.surface.copy(alpha = .45f)).border(1.dp, Color.White.copy(alpha = .5f), RoundedCornerShape(19.dp)).padding(3.dp), horizontalArrangement = Arrangement.spacedBy(4.dp)) {
+    Row(Modifier.fillMaxWidth().liquidGlass(RoundedCornerShape(22.dp), prominent = true).padding(3.dp), horizontalArrangement = Arrangement.spacedBy(4.dp)) {
         labels.forEachIndexed { index, label ->
             val active = selected == index
             Surface(onClick = { onSelected(index) }, modifier = Modifier.weight(1f).heightIn(min = 48.dp), shape = RoundedCornerShape(16.dp), color = Color.Transparent) {
-                Row(Modifier.background(if (active) Brush.verticalGradient(listOf(Color(0xFF65BCFF), Color(0xFF0876F1))) else Brush.verticalGradient(listOf(Color.Transparent, Color.Transparent))).padding(horizontal = 10.dp, vertical = 12.dp), horizontalArrangement = Arrangement.Center, verticalAlignment = Alignment.CenterVertically) {
+                Row(Modifier.then(if (active) Modifier.liquidGlass(RoundedCornerShape(19.dp), prominent = true, selected = true) else Modifier).padding(horizontal = 10.dp, vertical = 12.dp), horizontalArrangement = Arrangement.Center, verticalAlignment = Alignment.CenterVertically) {
                     Icon(icons[index], null, modifier = Modifier.size(20.dp), tint = if (active) Color.White else MaterialTheme.colorScheme.onSurface)
                     Spacer(Modifier.width(6.dp))
                     Text(label, fontSize = 14.sp, fontWeight = FontWeight.SemiBold, color = if (active) Color.White else MaterialTheme.colorScheme.onSurface)
@@ -215,7 +196,7 @@ private fun Color.luminanceValue() = red * .2126f + green * .7152f + blue * .072
 
 @Composable private fun Preview(media: Media, subtitle: String = "", large: Boolean = false) {
     Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
-        Box(Modifier.size(if (large) 102.dp else 72.dp).clip(RoundedCornerShape(13.dp)).background(MaterialTheme.colorScheme.surfaceVariant)) {
+        Box(Modifier.size(if (large) 98.dp else 64.dp, if (large) 76.dp else 60.dp).clip(RoundedCornerShape(13.dp)).background(MaterialTheme.colorScheme.surfaceVariant)) {
             Icon(Icons.Default.Landscape, null, Modifier.align(Alignment.Center).size(30.dp), tint = MaterialTheme.colorScheme.onSurfaceVariant)
             AsyncImage(media.thumb, "Miniatura: ${media.title}", Modifier.fillMaxSize(), contentScale = ContentScale.Crop)
             if (media.duration > 0) Text(duration(media.duration), color = Color.White, fontSize = 11.sp,
@@ -236,7 +217,7 @@ private fun Color.luminanceValue() = red * .2126f + green * .7152f + blue * .072
     var showAll by rememberSaveable { mutableStateOf(false) }
     val inspection = model.inspection
     val playlist = inspection?.playlist == true
-    LazyColumn(Modifier.fillMaxWidth().fillMaxHeight(), verticalArrangement = Arrangement.spacedBy(12.dp), contentPadding = PaddingValues(bottom = 24.dp)) {
+    LazyColumn(Modifier.fillMaxWidth().fillMaxHeight(), verticalArrangement = Arrangement.spacedBy(9.dp), contentPadding = PaddingValues(bottom = 24.dp)) {
         if (!playlist) item {
             GlassCard {
                 Heading("Link do vídeo")
@@ -343,7 +324,7 @@ private fun Color.luminanceValue() = red * .2126f + green * .7152f + blue * .072
                 }
                 Icon(Icons.Default.ExpandMore, "Escolher qualidade")
             }
-            DropdownMenu(expanded, { expanded = false }) {
+            DropdownMenu(expanded, { expanded = false }, containerColor = MaterialTheme.colorScheme.surface) {
                 (listOf(0) + inspection.heights).forEach { value -> DropdownMenuItem(text = { Text(if (value == 0) "Melhor qualidade (até 4K)" else "${value}p") }, onClick = { choose(value); expanded = false }) }
             }
         }
@@ -374,7 +355,7 @@ private fun Color.luminanceValue() = red * .2126f + green * .7152f + blue * .072
     GlassCard { Text(text, color = MaterialTheme.colorScheme.error, fontSize = 13.sp) }
 }
 
-@Composable private fun DownloadsScreen(jobs: List<QueueJob>, control: (String, String) -> Unit) {
+@Composable internal fun DownloadsScreen(jobs: List<QueueJob>, control: (String, String) -> Unit) {
     var completedTab by rememberSaveable { mutableStateOf(false) }
     var opened by remember { mutableStateOf<QueueJob?>(null) }
     var failures by remember { mutableStateOf<QueueJob?>(null) }
@@ -398,7 +379,7 @@ private fun Color.luminanceValue() = red * .2126f + green * .7152f + blue * .072
                     val progress by animateFloatAsState(job.progress, label = "Progresso real")
                     Row(Modifier.padding(top = 13.dp), verticalAlignment = Alignment.CenterVertically) {
                         if (job.state == "RUNNING" && job.indeterminate) LinearProgressIndicator(modifier = Modifier.weight(1f).height(6.dp).clip(RoundedCornerShape(4.dp)), color = Blue, trackColor = MaterialTheme.colorScheme.onSurface.copy(alpha = .1f))
-                        else LinearProgressIndicator(progress = { progress }, modifier = Modifier.weight(1f).height(6.dp).clip(RoundedCornerShape(4.dp)), color = if (finished) Color(0xFF129775) else Blue, trackColor = MaterialTheme.colorScheme.onSurface.copy(alpha = .1f))
+                        else LinearProgressIndicator(progress = { progress }, modifier = Modifier.weight(1f).height(6.dp).clip(RoundedCornerShape(4.dp)), color = if (finished) Color(0xFF43E1AC) else Blue, trackColor = MaterialTheme.colorScheme.onSurface.copy(alpha = .1f))
                         Spacer(Modifier.width(10.dp))
                         if (!(job.state == "RUNNING" && job.indeterminate)) Text("${(job.progress * 100).toInt()}%", fontSize = 12.sp, fontWeight = FontWeight.SemiBold)
                     }
@@ -409,7 +390,7 @@ private fun Color.luminanceValue() = red * .2126f + green * .7152f + blue * .072
                     if (job.error.isNotBlank()) Text(job.error, color = MaterialTheme.colorScheme.error, fontSize = 12.sp, modifier = Modifier.padding(top = 7.dp))
                     Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.End, verticalAlignment = Alignment.CenterVertically) {
                         Text(when (job.state) { "DONE" -> "Concluído"; "WARNING" -> "Concluído com avisos"; "PAUSED" -> "Pausado"; "CANCELLED" -> "Cancelado"; "ERROR" -> "Erro"; "QUEUED" -> "Na fila"; else -> "Baixando" },
-                            color = if (finished) Color(0xFF128466) else MaterialTheme.colorScheme.primary, fontSize = 12.sp, modifier = Modifier.weight(1f))
+                            color = if (finished) Color(0xFF82F0C6) else MaterialTheme.colorScheme.primary, fontSize = 12.sp, modifier = Modifier.weight(1f))
                         if (job.state in listOf("RUNNING", "QUEUED")) IconButton(onClick = { control(job.id, "pause") }) { Icon(Icons.Default.Pause, "Pausar ${job.title}") }
                         if (job.state in listOf("PAUSED", "CANCELLED") || (job.state == "ERROR" && (records.any { it.state in setOf("PENDING", "RUNNING") || it.retryable } || job.files.isNotEmpty()))) IconButton(onClick = { control(job.id, "resume") }) { Icon(if (job.state == "PAUSED") Icons.Default.PlayArrow else Icons.Default.Refresh, "Retomar ${job.title}") }
                         if (finished) IconButton(onClick = {
@@ -496,7 +477,7 @@ private fun Color.luminanceValue() = red * .2126f + green * .7152f + blue * .072
     }
     if (licenses) AlertDialog(onDismissRequest = { licenses = false }, title = { Text("Código aberto") }, text = {
         Column(Modifier.verticalScroll(rememberScrollState())) {
-            Text("Ytdlp-G: GPLv3. Núcleo baseado no YTDLnis, © Deniscerri e colaboradores. yt-dlp: Unlicense; EJS: ISC; Python: PSF; QuickJS: MIT; FFmpeg inclui componentes GPL. Os textos das licenças estão incluídos no APK e o código correspondente acompanha a distribuição.", fontSize = 13.sp)
+            Text("Ytdlp-G: GPLv3. Núcleo baseado no YTDLnis, © Deniscerri e colaboradores. yt-dlp: Unlicense; EJS: ISC; Python: PSF; QuickJS: MIT; FFmpeg inclui componentes GPL. Os textos das licenças estão incluídos no APK e o código correspondente acompanha a distribuição. Material visual Backdrop 1.0.3, © 2025 Kyant, sob Apache 2.0.", fontSize = 13.sp)
             TextButton(onClick = { openFile(context, Uri.parse("https://github.com/fuhbe/Ytdlp-G-Android"), null) }) { Text("Código do Ytdlp-G") }
             TextButton(onClick = { openFile(context, Uri.parse("https://github.com/deniscerri/ytdlnis"), null) }) { Text("Projeto YTDLnis") }
         }

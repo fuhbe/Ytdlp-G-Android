@@ -11,8 +11,8 @@ android {
         applicationId = "com.fuhbe.ytdlpg.minimal"
         minSdk = 26
         targetSdk = 35
-        versionCode = 62
-        versionName = "0.6.2"
+        versionCode = 63
+        versionName = "0.6.3"
         ndk { abiFilters += (project.findProperty("abis")?.toString() ?: "arm64-v8a").split(",") }
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -53,6 +53,7 @@ val prepareRuntime by tasks.registering(Exec::class) {
 }
 tasks.named("preBuild").configure { dependsOn(prepareRuntime) }
 dependencies {
+    implementation("io.github.kyant0:backdrop:1.0.3")
     implementation("androidx.activity:activity-compose:1.12.2")
     implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.10.0")
     implementation("androidx.compose.ui:ui:1.10.1")
