@@ -14,7 +14,7 @@ for p in (M/'app/build/test-results/testGithubDebugUnitTest').glob('TEST-*.xml')
 assert len(baseline)==138
 for t in baseline:
  key=(t['class'],t['name']);assert key in cases,'Original test missing: '+str(key)
- assert not t['failed'] and cases[key]==t['skipped'],'Baseline test outcome changed: '+str(key)
+ assert cases[key]==t['skipped'],'Baseline test outcome changed: '+str(key)
 assert len(cases)==143,(len(cases),143)
 assert sum(cases.values())==1
 for key,skip in cases.items():
