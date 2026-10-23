@@ -53,6 +53,8 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.semantics.selected
+import androidx.compose.ui.semantics.role
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
@@ -180,14 +182,14 @@ private val Shape = RoundedCornerShape(23.dp)
     }
 }
 @Composable private fun Segments(labels: List<String>, icons: List<ImageVector>, selected: Int, onSelected: (Int) -> Unit) {
-    GlassSelectionTrack(selected, labels.size) {
+    GlassSelectionTrack(selected, labels.size, onSelected) {
         labels.forEachIndexed { index, label ->
             val active = selected == index
-            Surface(onClick = { onSelected(index) }, modifier = Modifier.weight(1f).heightIn(min = 48.dp), shape = RoundedCornerShape(16.dp), color = Color.Transparent) {
+            Surface(onClick = { onSelected(index) }, modifier = Modifier.weight(1f).heightIn(min = 48.dp).glassSegmentItem(index).semantics { this.selected = active; role = Role.Tab }, shape = RoundedCornerShape(16.dp), color = Color.Transparent) {
                 Row(Modifier.padding(horizontal = 10.dp, vertical = 12.dp), horizontalArrangement = Arrangement.Center, verticalAlignment = Alignment.CenterVertically) {
-                    Icon(icons[index], null, modifier = Modifier.size(20.dp), tint = if (active) Color.White else MaterialTheme.colorScheme.onSurface)
+                    Icon(icons[index], null, modifier = Modifier.size(20.dp), tint = if (active) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurface)
                     Spacer(Modifier.width(6.dp))
-                    Text(label, fontSize = 14.sp, fontWeight = FontWeight.SemiBold, color = if (active) Color.White else MaterialTheme.colorScheme.onSurface)
+                    Text(label, fontSize = 14.sp, fontWeight = FontWeight.SemiBold, color = if (active) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurface)
                 }
             }
         }
@@ -477,7 +479,7 @@ private val Shape = RoundedCornerShape(23.dp)
     }
     if (licenses) AlertDialog(onDismissRequest = { licenses = false }, title = { Text("Código aberto") }, text = {
         Column(Modifier.verticalScroll(rememberScrollState())) {
-            Text("Ytdlp-G: GPLv3. Núcleo baseado no YTDLnis, © Deniscerri e colaboradores. yt-dlp: Unlicense; EJS: ISC; Python: PSF; QuickJS: MIT; FFmpeg inclui componentes GPL. Os textos das licenças estão incluídos no APK e o código correspondente acompanha a distribuição. Material visual Backdrop 1.0.3, © 2025 Kyant, sob Apache 2.0.", fontSize = 13.sp)
+            Text("Ytdlp-G: GPLv3. Núcleo baseado no YTDLnis, © Deniscerri e colaboradores. yt-dlp: Unlicense; EJS: ISC; Python: PSF; QuickJS: MIT; FFmpeg inclui componentes GPL. Os textos das licenças estão incluídos no APK e o código correspondente acompanha a distribuição. Material visual Backdrop 1.0.3, © 2025 Kyant, sob Apache 2.0. Componentes visuais adaptados do Square/Convx (2026, GPLv3) e do catálogo Backdrop (Apache 2.0).", fontSize = 13.sp)
             TextButton(onClick = { openFile(context, Uri.parse("https://github.com/fuhbe/Ytdlp-G-Android"), null) }) { Text("Código do Ytdlp-G") }
             TextButton(onClick = { openFile(context, Uri.parse("https://github.com/deniscerri/ytdlnis"), null) }) { Text("Projeto YTDLnis") }
         }

@@ -1,0 +1,86 @@
+name: Square Liquid Glass isolated visual test
+on:
+  push:
+    branches: [visual/square-liquid-glass-motion]
+    paths: ['minimal/**', 'docs/visual-square-065/**', '.github/workflows/square-glass-test.yml']
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: square-glass-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: '21'
+          cache: gradle
+          cache-dependency-path: |
+            minimal/**/*.gradle.kts
+            minimal/gradle.properties
+      - name: Verify exact 0.6.4 preservation and pinned Square source
+        run: python3 docs/visual-square-065/verify_scope.py
+      - name: Install SDK and unchanged media smoke tools
+        run: |
+          sdk_root="${ANDROID_HOME:-/usr/local/lib/android/sdk}"
+          sdkmanager_bin="$(find "$sdk_root/cmdline-tools" -maxdepth 3 -type f -name sdkmanager | head -n 1)"
+          "$sdkmanager_bin" 'platforms;android-36' 'build-tools;36.0.0'
+          echo "ANDROID_HOME=$sdk_root" >> "$GITHUB_ENV"
+          python3 scripts/prepare_smoke_ffmpeg.py "$PWD/.smoke-bin"
+          echo "$PWD/.smoke-bin" >> "$GITHUB_PATH"
+          python3 -m pip install 'Pillow==11.3.0'
+      - name: Build optimized ARM64 APK and matching device tests; run original and new JVM tests
+        run: bash minimal/gradlew -p minimal :app:assembleGithubRelease :app:testGithubDebugUnitTest :app:assembleGithubReleaseAndroidTest --no-daemon --max-workers=1 --warning-mode=none
+      - name: Execute unchanged real media fixture checks
+        run: |
+          python3 minimal/smoke.py
+          python3 minimal/verify_mp4.py minimal/app/build/generated/runtime/res/raw/ytdlp
+      - name: Collect actual before-after states and gesture frames
+        run: python3 docs/visual-square-065/prepare_evidence.py
+      - name: Package exact APK and corresponding source; verify tests, native bootstrap and evidence
+        run: |
+          python3 minimal/package.py
+          cp docs/visual-square-065/APK_README.md minimal/build/distribution/README.md
+          cp docs/visual-square-065/REPORT.md minimal/build/distribution/SQUARE_GLASS.md
+          cp docs/visual-square-065/BASELINE*.json minimal/build/distribution/
+          cp minimal/build/visual-square-scope.json minimal/build/distribution/
+          mkdir -p minimal/build/distribution/screenshots
+          cp -r docs/visual-square-065/before docs/visual-square-065/after docs/visual-square-065/motion minimal/build/distribution/screenshots/
+          cp docs/visual-square-065/EVIDENCE.json minimal/build/distribution/screenshots/
+          cp docs/visual-square-065/REPORT.md minimal/build/device-tests/SQUARE_GLASS.md
+          python3 minimal/verify.py minimal/build/distribution/Ytdlp-G.apk
+          python3 docs/visual-square-065/verify_delivery.py
+          cp minimal/build/visual-square-delivery.json minimal/build/distribution/
+          python3 minimal/dex_bootstrap.py minimal/build/distribution/Ytdlp-G.apk --report minimal/build/dex-bootstrap.json
+          python3 minimal/regression_zip.py minimal/build/distribution/Ytdlp-G.apk
+      - uses: actions/upload-artifact@v4
+        with:
+          name: Ytdlp-G-0.6.5-Square-Glass-Test
+          path: minimal/build/distribution/
+          if-no-files-found: error
+      - uses: actions/upload-artifact@v4
+        with:
+          name: Square-Glass-0.6.5-device-tests
+          path: minimal/build/device-tests/
+          if-no-files-found: error
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: Square-Glass-0.6.5-verification
+          path: |
+            minimal/app/build/reports/
+            minimal/app/build/test-results/
+            minimal/app/build/outputs/mapping/githubRelease/
+            minimal/build/source-manifest.json
+            minimal/build/host-smoke.json
+            minimal/build/dex-bootstrap.json
+            minimal/build/zip-bootstrap-regression.json
+            minimal/build/visual-square-*.json
+          if-no-files-found: warn

@@ -1,0 +1,17 @@
+Ytdlp-G visual test 0.6.5 adapts Square visual components, not its downloader,
+settings, branding, icons or artwork. Ytdlp-G remains GPL-3.0-only.
+Square / Convx Project (C) 2026 and contributors, GPL-3.0.
+https://github.com/Lelonio/Square/tree/17ed2b87974cf6fec9c531ef3f1438448bb2b729
+See Square-GPL-3.0.txt.
+
+Square's catalog-derived DampedDragAnimation, DragGestureInspector,
+InteractiveHighlight, LiquidBottomTabs and related catalog examples originate
+from Kyant0/AndroidLiquidGlass at b18eb0ff12c616546a68c72e7d0097f1ab286c87.
+Copyright 2025 Kyant. Apache License 2.0, see Square-catalog-APACHE-2.0.txt.
+
+Adaptations: physical measured segment bounds and RTL; horizontal-slop gestures;
+distinct cancellation; cancellable spring channels and monotonic timing;
+bounded expansion; single crisp label layer; Backdrop 1.0.3-compatible optical
+recipe and safe API 26/31/33 fallbacks. No new product controls are added.
+Corresponding source includes exact consulted originals, their provenance
+manifest and modified code under minimal/vendor/square and minimal/app/src.

@@ -1,0 +1,54 @@
+{
+  "repository": "https://github.com/Lelonio/Square",
+  "commit": "17ed2b87974cf6fec9c531ef3f1438448bb2b729",
+  "files": {
+    "DampedDragAnimation.kt": {
+      "upstream_path": "app/src/main/java/dev/lelonio/square/ui/glass/DampedDragAnimation.kt",
+      "sha256": "a19f86a94143a4c43e88b8632ed6996a0125becd12fdbcfcb72ee1c7ee18cada"
+    },
+    "DragGestureInspector.kt": {
+      "upstream_path": "app/src/main/java/dev/lelonio/square/ui/glass/DragGestureInspector.kt",
+      "sha256": "7c8f97983597544ea42ac0b057510ec72fddf75fc05c13dcc8f16ea7557e711a"
+    },
+    "InteractiveHighlight.kt": {
+      "upstream_path": "app/src/main/java/dev/lelonio/square/ui/glass/InteractiveHighlight.kt",
+      "sha256": "011296615a976ac434dd244ad4533f7ef1083c15d990adcc82fde792e1a409f1"
+    },
+    "LiquidBottomTabs.kt": {
+      "upstream_path": "app/src/main/java/dev/lelonio/square/ui/glass/LiquidBottomTabs.kt",
+      "sha256": "8132104e1cb3f3165374342ee13b2058e67ef51bc98d69ea416b81e218e5eaa2"
+    },
+    "LiquidBottomTab.kt": {
+      "upstream_path": "app/src/main/java/dev/lelonio/square/ui/glass/LiquidBottomTab.kt",
+      "sha256": "eae3a4b49c4caf3452bd9906c092d576b9aea79e0254db434a8744cb9b8e7f38"
+    },
+    "LiquidButton.kt": {
+      "upstream_path": "app/src/main/java/dev/lelonio/square/ui/glass/LiquidButton.kt",
+      "sha256": "6507c1721bb7e42a9d5629ea0488c5b2df2749dca390f5c290567d6454f29264"
+    },
+    "LiquidSlider.kt": {
+      "upstream_path": "app/src/main/java/dev/lelonio/square/ui/glass/LiquidSlider.kt",
+      "sha256": "6113f89f07fee82759d2b726cdf1cdc6fe82a377660b9c2e44890da3f3a63b0f"
+    },
+    "LiquidToggle.kt": {
+      "upstream_path": "app/src/main/java/dev/lelonio/square/ui/glass/LiquidToggle.kt",
+      "sha256": "85603c70c1dcee88e1a8cbf5e6510d38e10c0ae5a7b301aba2dfbe23b0bde847"
+    },
+    "Pressable.kt": {
+      "upstream_path": "app/src/main/java/dev/lelonio/square/ui/glass/Pressable.kt",
+      "sha256": "c006eae47c2325c21f3f71ab24634b029f4a2a4fea4a4cdd3daa969ffdd642a4"
+    },
+    "GlassEffect.kt": {
+      "upstream_path": "app/src/main/java/dev/lelonio/square/ui/glass/GlassEffect.kt",
+      "sha256": "6c8be08c2f3f8bfdfff3799af4661cf9220bb122e1e61808662b453c91aa31c1"
+    },
+    "floatingtabbar/FloatingTabBar.kt": {
+      "upstream_path": "app/src/main/java/dev/lelonio/square/ui/glass/floatingtabbar/FloatingTabBar.kt",
+      "sha256": "327d90c572bfec3e33b1c2bcffe93ca466343823586c5377478ee9df64055cd7"
+    },
+    "LICENSE-backdrop.txt": {
+      "upstream_path": "app/src/main/java/dev/lelonio/square/ui/glass/LICENSE-backdrop.txt",
+      "sha256": "4b9f7e7c2821a5a1822a6cf1e4a34e877bba48a99b9bba1f03e5e2eccf6dec56"
+    }
+  }
+}
