@@ -1,0 +1,49 @@
+{
+  "commit": "e2a1c8d6821aed521bdac9babae8738b7ef4e7a1",
+  "run": 39896062660,
+  "artifacts": [
+    {
+      "id": 12477565338,
+      "name": "Liquid-Glass-device-tests",
+      "sha256": "0096bae462b817fcebc5c1b215d9ef3dfb4fb7e1f63fc18547bd64a00ccacab1"
+    },
+    {
+      "id": 12477316659,
+      "name": "Liquid-Glass-verification",
+      "sha256": "822946ccb8a493d68c34621c15417e4524dcbf34d7286697b71e3bd34eef423d"
+    },
+    {
+      "id": 12477281594,
+      "name": "Ytdlp-G-0.6.3-Liquid-Glass-Test",
+      "sha256": "0e15f96a5b152019173dda66e17edd2973ac60e56cd0a6b5fc4418d1449928a9"
+    }
+  ],
+  "scope": {
+    "baseline": "3064edecd8e3c1805ff629f6dcfd181c2b747479",
+    "protected_files_unchanged": 28,
+    "activity_entrypoints_unchanged": true,
+    "file_opening_helpers_unchanged": true,
+    "presenter_contracts_unchanged": 19,
+    "only_added_dependency": "io.github.kyant0:backdrop:1.0.3",
+    "minSdk": 26,
+    "applicationId": "com.fuhbe.ytdlpg.minimal"
+  },
+  "certificate_sha256": "4631c543a394e02adbbb61307358bad8ff4cd13f24db51574d749ee29f28873e",
+  "stable_certificate_sha256": "3e1df7424b2cb4589de10dc26ae20afe68eded24acc82b6a0298de2fdb98798b",
+  "same_key_as_stable": false,
+  "tests": 89,
+  "passed": 88,
+  "skipped": 1,
+  "apk_sha256": "baa061bfff536be8e82590302ded01ddfc585a2e7943b77d4771c58dcea040ef",
+  "apk_bytes": 56247290,
+  "package": "package: name='com.fuhbe.ytdlpg.minimal' versionCode='63' versionName='0.6.3' platformBuildVersionName='16' platformBuildVersionCode='36' compileSdkVersion='36' compileSdkVersionCodename='16'",
+  "screenshots": 25,
+  "instrumentation": "6 compiled; execution separately documented",
+  "emulator_attempt": {
+    "api": 35,
+    "abi": "x86_64",
+    "renderer": "SwiftShader, no KVM",
+    "result": "Unusable boot; installation failed: package service unavailable",
+    "instrumentation_executed": false
+  }
+}
