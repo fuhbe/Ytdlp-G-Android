@@ -28,6 +28,11 @@ import com.fuhbe.ytdlpg.simple.squareglass.InteractiveHighlight
 import com.fuhbe.ytdlpg.simple.squareglass.inspectDragGestures
 import com.kyant.backdrop.Backdrop
 import com.kyant.backdrop.backdrops.rememberLayerBackdrop
+import com.kyant.backdrop.backdrops.layerBackdrop
+import androidx.compose.ui.draw.drawWithContent
+import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.graphics.asAndroidBitmap
+import androidx.compose.ui.graphics.drawscope.clipPath
 import kotlin.math.roundToInt
 
 private class SegmentBounds(val count:Int) {
@@ -70,11 +75,22 @@ internal fun glassSegmentWidth(center:Float,bounds:Collection<Rect>):Float {
     return sorted.last().width
 }
 
+internal class GlassRenderStats {
+    var compositions=0; var sourceRecords=0; var readbacks=0; var meshDraws=0
+    var hardwareMesh=false
+    var lastSnapshot:android.graphics.Bitmap?=null
+}
+internal val LocalGlassRenderStats=staticCompositionLocalOf<GlassRenderStats?> { null }
+// Instrumentation control only: never exposed as a product setting.
+internal val LocalGlassOpticalStrength=staticCompositionLocalOf { 1f }
+
 @Composable internal fun GlassSlidingSegments(
     selected:Int,count:Int,onSelected:(Int)->Unit,modifier:Modifier=Modifier,
     source:Backdrop?=LocalGlassBackdrop.current,puckTag:String="glass-selection-capsule",
-    content:@Composable RowScope.()->Unit
+    sourceKey:Any?=null,content:@Composable RowScope.()->Unit
 ) {
+    val stats=LocalGlassRenderStats.current
+    SideEffect { stats?.let { it.compositions++ } }
     val registry=remember(count) { SegmentBounds(count) }
     val scope=rememberCoroutineScope()
     val motion=remember(scope) { DampedDragAnimation(scope,.5f) }
@@ -82,86 +98,133 @@ internal fun glassSegmentWidth(center:Float,bounds:Collection<Rect>):Float {
     var dragging by remember { mutableStateOf(false) }
     val currentSelected by rememberUpdatedState(selected)
     val currentAction by rememberUpdatedState(onSelected)
-    val sampled=LocalGlassRendering.current!=GlassRendering.TINT
+    val rendering=LocalGlassRendering.current
+    val sampled=rendering!=GlassRendering.TINT && source!=null
+    val meshMode=sampled && android.os.Build.VERSION.SDK_INT in 31..32
     val trackBackdrop=rememberLayerBackdrop()
-    // Square combines the external backdrop and the pre-label track surface.
-    // No replica of content, and no capture of this puck into its own source.
-    val pressedBackdrop=remember(source,trackBackdrop,motion) { source?.let { outside ->
-        object:Backdrop {
-            override val isCoordinatesDependent=true
-            private val paint=Paint()
-            override fun DrawScope.drawBackdrop(density:Density,coordinates:LayoutCoordinates?,layerBlock:(GraphicsLayerScope.()->Unit)?) {
-                with(outside) { drawBackdrop(density,coordinates,layerBlock) }
-                val p=motion.pressProgress.coerceIn(0f,1f)
-                if(p>0f) {
-                    paint.alpha=p
-                    drawContext.canvas.saveLayer(Rect(Offset.Zero,size),paint)
-                    with(trackBackdrop) { drawBackdrop(density,coordinates,layerBlock) }
-                    drawContext.canvas.restore()
-                }
+    val requests=remember { kotlinx.coroutines.channels.Channel<Unit>(kotlinx.coroutines.channels.Channel.CONFLATED) }
+    var bitmap by remember { mutableStateOf<android.graphics.Bitmap?>(null) }
+    var sourceReady by remember { mutableStateOf(false) }
+    var captureRejected by remember { mutableStateOf(false) }
+    val lens=remember { GlassMeshLens() }
+    val contentLayer=androidx.compose.ui.graphics.rememberGraphicsLayer()
+    val contentBackdrop=remember(contentLayer) { GlassContentBackdrop(contentLayer) }
+    var releaseRevision by remember { mutableIntStateOf(0) }
+    LaunchedEffect(contentLayer,meshMode,sampled) {
+        for(event in requests) {
+            androidx.compose.runtime.withFrameNanos { }
+            if(motion.isTouching) continue // freeze bitmap source while held
+            if(!sampled) continue
+            sourceReady=true
+            if(meshMode && !captureRejected && registry.size.width>0) {
+                if(registry.size.width.toLong()*registry.size.height>2_000_000L) continue
+                try {
+                    val image=contentLayer.toImageBitmap()
+                    val copy=kotlinx.coroutines.withContext(kotlinx.coroutines.Dispatchers.Default) {
+                        image.asAndroidBitmap().copy(android.graphics.Bitmap.Config.ARGB_8888,false)
+                    }
+                    if(copy!=null) { bitmap=copy;stats?.let { it.readbacks++;it.lastSnapshot=copy } }
+                } catch (_:kotlinx.coroutines.CancellationException) { throw kotlinx.coroutines.CancellationException() }
+                catch (_:RuntimeException) { captureRejected=true;android.util.Log.w("YtdlpG-Glass","Mesh capture unavailable; preserving compatible glass") }
+                catch (_:LinkageError) { captureRejected=true;android.util.Log.w("YtdlpG-Glass","Mesh capture unsupported; preserving compatible glass") }
             }
         }
-    } }
+    }
     val currentRect=registry.rects[selected]
     val width=registry.size.width.toFloat()
     LaunchedEffect(currentRect,registry.size,selected,dragging) {
         if(!dragging && currentRect!=null && width>0) motion.animateToValue(currentRect.center.x/width)
     }
-    // Count/size/layout-direction changes invalidate a gesture rather than
-    // allowing a stale release to select a different destination.
     val rectSnapshot=registry.rects.toMap()
+    val physicalRects=remember(rectSnapshot) { rectSnapshot.values.sortedBy { it.center.x } }
+    fun pane():Rect {
+        val r=currentRect ?: return Rect.Zero
+        val center=motion.value.coerceIn(0f,1f)*width
+        var w=physicalRects.lastOrNull()?.width ?: r.width
+        if(physicalRects.isNotEmpty() && center<=physicalRects.first().center.x) w=physicalRects.first().width
+        else for(i in 0 until physicalRects.size-1) {
+            val a=physicalRects[i];val b=physicalRects[i+1]
+            if(center<=b.center.x) { val t=((center-a.center.x)/(b.center.x-a.center.x).coerceAtLeast(1f)).coerceIn(0f,1f);w=a.width+(b.width-a.width)*t;break }
+        }
+        val v=motion.velocity/10f
+        val sx=(motion.scaleX/(1f-(v*.75f).coerceIn(-.12f,.12f))).coerceIn(.9f,1.15f)
+        val sy=(motion.scaleY*(1f-(v*.25f).coerceIn(-.12f,.12f))).coerceIn(.9f,1.12f)
+        val h=r.height*sy;w*=sx
+        return Rect(center-w/2f,r.center.y-h/2f,center+w/2f,r.center.y+h/2f)
+    }
+    val opticalStrength=LocalGlassOpticalStrength.current.coerceIn(0f,1f)
+    val canRefract=sampled && (if(meshMode) bitmap!=null && !captureRejected else sourceReady)
+    val mask=remember { androidx.compose.ui.graphics.Path() }
+    val density=LocalDensity.current
+    val dark=LocalGlassDark.current
+    val revision=remember(selected,sourceKey,dark,density,rectSnapshot,releaseRevision,sampled) { Any() }
     Box(modifier.liquidGlass(RoundedCornerShape(30.dp),prominent=true,source=source,
-        exportedBackdrop=if(sampled) trackBackdrop else null,
-        interaction={motion.pressProgress},lightPosition={motion.value}).padding(4.dp)) {
+        exportedBackdrop=if(sampled) trackBackdrop else null).padding(4.dp)) {
         Box(Modifier.fillMaxWidth().pointerInput(registry,registry.size,rectSnapshot) {
-            var startX=0f
-            var startCenter=0f
+            var startX=0f;var startCenter=0f
+            fun endLight() { motion.release();highlight.end();releaseRevision++;requests.trySend(Unit) }
             fun restore() {
                 dragging=false;highlight.end()
                 val target=registry.rects[currentSelected]
                 if(target!=null && registry.size.width>0) motion.animateToValue(target.center.x/registry.size.width)
                 else motion.release()
+                releaseRevision++;requests.trySend(Unit)
             }
             inspectDragGestures(onPress={down -> motion.press();highlight.begin(down.position) },
-                onPressEnd={motion.release();highlight.end()},onDragStart={down ->
-                startX=down.position.x;startCenter=motion.value*registry.size.width
-                dragging=true
+                onPressEnd={endLight()},onDragStart={down ->
+                startX=down.position.x;startCenter=motion.value*registry.size.width;dragging=true
             },onDragEnd={change ->
                 val target=glassSegmentTarget(change.position,registry.size,registry.rects)
                 restore()
                 if(target!=null && target!=currentSelected) currentAction(target)
             },onDragCancel={restore()}) { change,_ ->
-                if(registry.size.width>0) motion.updateValue((startCenter+change.position.x-startX)/registry.size.width)
+                if(registry.size.width>0) motion.updateValue((startCenter+change.position.x-startX)/registry.size.width,change.uptimeMillis)
                 highlight.move(change.position)
             }
         }) {
-            if(currentRect!=null && width>0f) {
-                val density=LocalDensity.current
-                val center=motion.value.coerceIn(0f,1f)*width
-                val targetWidth=glassSegmentWidth(center,registry.rects.values)
-                val animatedWidth by animateFloatAsState(targetWidth,spring(1f,1000f),label="Square measured width")
-                // Square remeasures the growing pane so the native lens samples
-                // its real expanded bounds instead of stretching a cached bitmap.
-                Box(Modifier.offset { IntOffset((center-animatedWidth/2f).roundToInt(),currentRect.top.roundToInt()) }
-                    .width(with(density) { animatedWidth.coerceAtLeast(1f).toDp() })
-                    .height(with(density) { currentRect.height.toDp() })
-                    .testTag(puckTag)
-                    .layout { measurable,constraints ->
-                        val velocity=motion.velocity/10f
-                        val scaleX=(motion.scaleX/(1f-(velocity*.75f).coerceIn(-.12f,.12f))).coerceIn(.9f,1.15f)
-                        val scaleY=(motion.scaleY*(1f-(velocity*.25f).coerceIn(-.12f,.12f))).coerceIn(.9f,1.12f)
-                        val w=constraints.maxWidth;val h=constraints.maxHeight
-                        val expandedW=(w*scaleX).roundToInt().coerceAtLeast(1)
-                        val expandedH=(h*scaleY).roundToInt().coerceAtLeast(1)
-                        val child=measurable.measure(Constraints.fixed(expandedW,expandedH))
-                        layout(w,h) { child.place((w-expandedW)/2,(h-expandedH)/2) }
-                    }
-                    .squareGlassPuck(if(sampled) pressedBackdrop else source,{motion.pressProgress},
-                        { if(highlight.pressProgress>.01f && width>0) highlight.position.x/width else motion.value })
-                    .then(highlight.modifier { Offset(highlight.position.x-center+animatedWidth/2f,highlight.position.y-currentRect.top) }))
-            }
             CompositionLocalProvider(LocalSegmentBounds provides registry) {
-                Row(Modifier.fillMaxWidth().onGloballyPositioned { registry.row=it;registry.refresh() },content=content)
+                Row(Modifier.fillMaxWidth().onGloballyPositioned { registry.row=it;contentBackdrop.coordinates=it;registry.refresh() }
+                    .drawWithContent {
+                        if(canRefract && currentRect!=null) {
+                            val r=pane();mask.reset();mask.addRoundRect(androidx.compose.ui.geometry.RoundRect(r,r.height/2f,r.height/2f))
+                            clipPath(mask,androidx.compose.ui.graphics.ClipOp.Difference) { this@drawWithContent.drawContent() }
+                        } else drawContent()
+                    }
+                    .graphicsLayer() // source capture invalidates on real content changes, not finger movement
+                    .drawWithContent {
+                        drawContent()
+                        if(sampled && contentBackdrop.recordedRevision!==revision && (!motion.isTouching || contentBackdrop.recordedRevision==null)) {
+                            contentLayer.record {
+                                with(trackBackdrop) { drawBackdrop(this@drawWithContent,registry.row,null) }
+                                this@drawWithContent.drawContent()
+                            }
+                            contentBackdrop.recordedRevision=revision
+                            stats?.let { it.sourceRecords++ }
+                            requests.trySend(Unit)
+                        }
+                    },content=content)
+            }
+            if(currentRect!=null && width>0f) {
+                Box(Modifier.matchParentSize()) {
+                    Box(Modifier.layout { measurable,constraints ->
+                        val r=pane()
+                        val child=measurable.measure(Constraints.fixed(r.width.roundToInt().coerceAtLeast(1),r.height.roundToInt().coerceAtLeast(1)))
+                        layout(constraints.maxWidth,constraints.maxHeight) { child.place(r.left.roundToInt(),r.top.roundToInt()) }
+                    }.testTag(puckTag)
+                        .squareGlassPuck(if(canRefract && !meshMode) contentBackdrop else null,{motion.pressProgress},
+                            { if(highlight.pressProgress>.01f && width>0) highlight.position.x/width else motion.value })
+                        .drawWithContent {
+                            drawContent()
+                            val image=bitmap
+                            if(canRefract && meshMode && image!=null) {
+                                try {
+                                    lens.draw(this,image,pane(),motion.pressProgress,opticalStrength)
+                                    stats?.let { it.meshDraws++;it.hardwareMesh=lens.hardwareCanvasObserved }
+                                } catch (_:RuntimeException) { captureRejected=true;android.util.Log.w("YtdlpG-Glass","Mesh drawing unavailable; compatible glass retained") }
+                            }
+                        }
+                        .then(highlight.modifier { val r=pane();Offset(highlight.position.x-r.left,highlight.position.y-r.top) }))
+                }
             }
         }
     }

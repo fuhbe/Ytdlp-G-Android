@@ -9,6 +9,7 @@ import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.VectorConverter
 import androidx.compose.animation.core.VisibilityThreshold
 import androidx.compose.animation.core.spring
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawWithContent
 import androidx.compose.ui.geometry.Offset
@@ -28,7 +29,8 @@ internal class InteractiveHighlight(private val animationScope: CoroutineScope) 
     private var pressJob: Job? = null
     private var positionJob: Job? = null
     val pressProgress get() = pressProgressAnimation.value
-    val position get() = positionAnimation.value
+    private var displayedPosition by mutableStateOf(Offset.Zero)
+    val position get() = displayedPosition
     fun begin(position: Offset) {
         startPosition = position
         pressJob?.cancel()
@@ -37,12 +39,12 @@ internal class InteractiveHighlight(private val animationScope: CoroutineScope) 
     }
     fun move(position: Offset) {
         positionJob?.cancel()
-        positionJob = animationScope.launch { positionAnimation.snapTo(position) }
+        displayedPosition=position
     }
     fun end() {
         pressJob?.cancel(); positionJob?.cancel()
         pressJob = animationScope.launch { pressProgressAnimation.animateTo(0f, pressProgressAnimationSpec) }
-        positionJob = animationScope.launch { positionAnimation.animateTo(startPosition, positionAnimationSpec) }
+        positionJob = animationScope.launch { positionAnimation.snapTo(displayedPosition); positionAnimation.animateTo(startPosition, positionAnimationSpec) { displayedPosition=value } }
     }
     fun modifier(localPosition: () -> Offset): Modifier = Modifier.drawWithContent {
         val progress = pressProgress.coerceIn(0f, 1f)

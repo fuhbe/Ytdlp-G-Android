@@ -182,7 +182,7 @@ private val Shape = RoundedCornerShape(23.dp)
     }
 }
 @Composable private fun Segments(labels: List<String>, icons: List<ImageVector>, selected: Int, onSelected: (Int) -> Unit) {
-    GlassSelectionTrack(selected, labels.size, onSelected) {
+    GlassSelectionTrack(selected, labels.size, onSelected, sourceKey = labels) {
         labels.forEachIndexed { index, label ->
             val active = selected == index
             Surface(onClick = { onSelected(index) }, modifier = Modifier.weight(1f).heightIn(min = 48.dp).glassSegmentItem(index).semantics { this.selected = active; role = Role.Tab }, shape = RoundedCornerShape(16.dp), color = Color.Transparent) {

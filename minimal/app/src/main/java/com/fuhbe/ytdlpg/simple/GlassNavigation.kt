@@ -59,6 +59,6 @@ internal fun glassDockTarget(position: Offset, size: IntSize): Int? =
 }
 
 /** The same component serves MP3/MP4, Normal/ZIP and Downloads/Completed. */
-@Composable internal fun GlassSelectionTrack(selected:Int,count:Int,onSelected:(Int)->Unit,content:@Composable RowScope.()->Unit) {
-    GlassSlidingSegments(selected,count,onSelected,modifier=Modifier.testTag("glass-segment-track"),content=content)
+@Composable internal fun GlassSelectionTrack(selected:Int,count:Int,onSelected:(Int)->Unit,sourceKey:Any?=null,content:@Composable RowScope.()->Unit) {
+    GlassSlidingSegments(selected,count,onSelected,modifier=Modifier.testTag("glass-segment-track"),sourceKey=sourceKey,content=content)
 }

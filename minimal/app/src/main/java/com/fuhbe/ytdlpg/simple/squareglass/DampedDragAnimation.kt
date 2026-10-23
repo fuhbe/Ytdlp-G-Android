@@ -10,6 +10,7 @@ package com.fuhbe.ytdlpg.simple.squareglass
 import android.os.SystemClock
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.spring
+import androidx.compose.runtime.*
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.input.pointer.util.VelocityTracker
 import kotlinx.coroutines.CoroutineScope
@@ -32,14 +33,20 @@ internal class DampedDragAnimation(private val animationScope: CoroutineScope, i
     private var positionJob: Job? = null
     private var velocityJob: Job? = null
     private var pressureJob: Job? = null
-    val value get() = valueAnimation.value
-    val velocity get() = velocityAnimation.value
+    private var displayed by mutableFloatStateOf(initialValue)
+    private var dragVelocity by mutableFloatStateOf(0f)
+    var isTouching = false; private set
+    val value get() = displayed
+    val velocity get() = if(isTouching) dragVelocity else velocityAnimation.value
     val pressProgress get() = pressProgressAnimation.value
     val scaleX get() = scaleXAnimation.value
     val scaleY get() = scaleYAnimation.value
 
     fun press() {
+        isTouching=true
+        positionJob?.cancel()
         velocityTracker.resetTracking()
+        dragVelocity=0f
         pressureJob?.cancel()
         pressureJob = animationScope.launch {
             launch { pressProgressAnimation.animateTo(1f, pressProgressAnimationSpec) }
@@ -49,6 +56,7 @@ internal class DampedDragAnimation(private val animationScope: CoroutineScope, i
         }
     }
     fun release() {
+        isTouching=false
         pressureJob?.cancel()
         velocityJob?.cancel()
         pressureJob = animationScope.launch {
@@ -58,20 +66,21 @@ internal class DampedDragAnimation(private val animationScope: CoroutineScope, i
             launch { velocityAnimation.animateTo(0f, velocityAnimationSpec) }
         }
     }
-    fun updateValue(value: Float) {
+    /** Input is authoritative while held: no coroutine or spring per sample. */
+    fun updateValue(value: Float, uptimeMillis: Long = SystemClock.uptimeMillis()) {
         if (!value.isFinite()) return
-        positionJob?.cancel()
-        positionJob = animationScope.launch {
-            valueAnimation.animateTo(value.coerceIn(0f, 1f), valueAnimationSpec) {
-                velocityTracker.addPosition(SystemClock.uptimeMillis(), Offset(this.value, 0f))
-                val targetVelocity = velocityTracker.calculateVelocity().x.coerceIn(-12f, 12f)
-                velocityJob?.cancel()
-                velocityJob = animationScope.launch { velocityAnimation.animateTo(targetVelocity, velocityAnimationSpec) }
-            }
-        }
+        displayed=value.coerceIn(0f,1f)
+        velocityTracker.addPosition(uptimeMillis,Offset(displayed,0f))
+        dragVelocity=velocityTracker.calculateVelocity().x.coerceIn(-3f,3f)
     }
     fun animateToValue(value: Float) {
-        updateValue(value)
+        if(!value.isFinite()) return
+        val start=displayed
+        positionJob?.cancel()
         release()
+        positionJob=animationScope.launch {
+            valueAnimation.snapTo(start)
+            valueAnimation.animateTo(value.coerceIn(0f,1f),valueAnimationSpec) { displayed=this.value }
+        }
     }
 }

@@ -38,11 +38,12 @@ private class SafeSquareHighlight(private val angle: Float, private val reject: 
         catch (_: LinkageError) { reject(); null }
 }
 
-/** Genuine backdrop lens, not an image of glass. Only a decorative sibling is
- * captured; labels are drawn once above this layer, never magnified or blurred. */
+/** Genuine backdrop lens, not an image of glass. The cached real control
+ * layer includes glyphs; the original is masked under the lens to avoid doubles. */
 @Composable internal fun Modifier.squareGlassPuck(
     source: Backdrop?, pressure: () -> Float, light: () -> Float
 ): Modifier {
+    val opticalStrength=LocalGlassOpticalStrength.current.coerceIn(0f,1f)
     val dark=LocalGlassDark.current
     val rendering=LocalGlassRendering.current
     var rejected by remember { mutableStateOf(false) }
@@ -60,11 +61,12 @@ private class SafeSquareHighlight(private val angle: Float, private val reject: 
             val p=pressure().coerceIn(0f,1f)
             // LiquidBottomTabs clears the lens as it is pressed. Keep a little
             // frosting at rest, bounded refraction reach as in GlassEffect.
-            blur((5f*(1f-p)+.5f).dp.toPx())
+            // The source now includes real glyphs. Keep the optical center crisp.
+            // The static shell provides frosting without reblurring text per frame.
             if(rendering==GlassRendering.LENS && !rejected && size.minDimension>24f) {
                 val reach=size.minDimension*.45f
-                try { lens((7f+3f*p).dp.toPx().coerceAtMost(reach),
-                    (9f+5f*p).dp.toPx().coerceAtMost(reach),depthEffect=true,chromaticAberration=false) }
+                try { lens((7f+3f*p).dp.toPx().coerceAtMost(reach)*opticalStrength,
+                    (9f+5f*p).dp.toPx().coerceAtMost(reach)*opticalStrength,depthEffect=true,chromaticAberration=false) }
                 catch (_:RuntimeException) { reject() }
                 catch (_:LinkageError) { reject() }
             }
