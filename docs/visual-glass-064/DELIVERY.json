@@ -1,0 +1,46 @@
+{
+  "commit": "30a347f48cbf04ccf0973b3c5a2f6e869ecb81ed",
+  "run": 39905174030,
+  "artifacts": [
+    {
+      "id": 12481096555,
+      "name": "Ytdlp-G-0.6.4-Liquid-Glass-Test",
+      "sha256": "3794daf9dbcc96785a84ca0f0987e8f98e38f248fec2d44e20831648018bbc9d"
+    },
+    {
+      "id": 12480902203,
+      "name": "Liquid-Glass-0.6.4-verification",
+      "sha256": "31092147cca3b24794d8b15416728bdfb1de7cd27c43b908200fd6a9450b8fba"
+    },
+    {
+      "id": 12480563621,
+      "name": "Liquid-Glass-0.6.4-device-tests",
+      "sha256": "c1aaba52f5964c5bea93e692f4f3af2f6748aeb01631e4fa57da4f480eb227b4"
+    }
+  ],
+  "scope": {
+    "baseline": "acd71d2cfaddd8b5b626d6cfa8559e58937bb5d6",
+    "protected_files_unchanged": 82,
+    "all_original_test_sources_unchanged": true,
+    "main_activity_exact_material_substitutions_only": true,
+    "download_dependencies_unchanged": true,
+    "visual_dependency": "io.github.kyant0:backdrop:1.0.3",
+    "minSdk": 26,
+    "abi": "arm64-v8a",
+    "applicationId": "com.fuhbe.ytdlpg.minimal"
+  },
+  "certificate_sha256": "35d6e13608735ab96e1b1c376900d106beeaffe00c12bc9e43d60b8372c1e5d4",
+  "stable_certificate_sha256": "3e1df7424b2cb4589de10dc26ae20afe68eded24acc82b6a0298de2fdb98798b",
+  "same_key_as_stable": false,
+  "visual_063_certificate_sha256": "4631c543a394e02adbbb61307358bad8ff4cd13f24db51574d749ee29f28873e",
+  "same_key_as_visual_063": false,
+  "exact_supplied_wallpapers_in_apk": true,
+  "tests": 119,
+  "passed": 118,
+  "skipped": 1,
+  "apk_sha256": "dae229cff276bea3f9e0d51f7fa94275bf40d12be650987a6c36fb623ae9d334",
+  "apk_bytes": 59580302,
+  "package": "package: name='com.fuhbe.ytdlpg.minimal' versionCode='64' versionName='0.6.4' platformBuildVersionName='16' platformBuildVersionCode='36' compileSdkVersion='36' compileSdkVersionCodename='16'",
+  "screenshots": 33,
+  "instrumentation": "7 compiled; not executed"
+}
