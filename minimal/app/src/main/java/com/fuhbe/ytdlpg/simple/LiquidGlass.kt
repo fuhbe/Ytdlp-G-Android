@@ -160,6 +160,6 @@ internal val LocalGlassDark = staticCompositionLocalOf { false }
 /** Reuse the static sampled wallpaper; never capture animated download progress.
  * The dock has its own reserved space, so it cannot cover an actionable control. */
 @Composable internal fun GlassContentLayer(content: @Composable (Modifier, Backdrop?) -> Unit) {
-    content(Modifier, LocalGlassBackdrop.current)
+    GlassOverlayCapture(content)
 }
 

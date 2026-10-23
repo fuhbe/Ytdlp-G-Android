@@ -173,8 +173,8 @@ private val Shape = RoundedCornerShape(23.dp)
 @Composable private fun ActionButton(label: String, icon: ImageVector, enabled: Boolean = true, onClick: () -> Unit) {
     val interaction = remember { MutableInteractionSource() }
     val pressed by interaction.collectIsPressedAsState()
-    val scale by animateFloatAsState(if (pressed) .98f else 1f, tween(120), label = "Button feedback")
-    Surface(onClick = onClick, enabled = enabled, interactionSource = interaction, color = Color.Transparent, shape = RoundedCornerShape(22.dp), modifier = Modifier.fillMaxWidth().heightIn(min = 52.dp).graphicsLayer { scaleX = scale; scaleY = scale }.liquidGlass(RoundedCornerShape(24.dp), prominent = true, selected = enabled, interaction = { ((1f-scale)/.02f).coerceIn(0f,1f) })) {
+    val scale by animateFloatAsState(if (pressed) .98f else 1f, androidx.compose.animation.core.spring(.65f, 500f), label = "Button feedback")
+    Surface(onClick = onClick, enabled = enabled, interactionSource = interaction, color = Color.Transparent, shape = RoundedCornerShape(22.dp), modifier = Modifier.fillMaxWidth().heightIn(min = 52.dp).graphicsLayer { scaleX = scale; scaleY = 2f-scale }.liquidGlass(RoundedCornerShape(24.dp), prominent = true, selected = enabled, interaction = { ((1f-scale)/.02f).coerceIn(0f,1f) })) {
         Row(Modifier.padding(13.dp), horizontalArrangement = Arrangement.Center, verticalAlignment = Alignment.CenterVertically) {
             Icon(icon, null, tint = if (enabled) Color.White else MaterialTheme.colorScheme.onSurface, modifier = Modifier.size(24.dp)); Spacer(Modifier.width(10.dp))
             Text(label, color = if (enabled) Color.White else MaterialTheme.colorScheme.onSurface, fontWeight = FontWeight.SemiBold, fontSize = 16.sp)
@@ -187,9 +187,9 @@ private val Shape = RoundedCornerShape(23.dp)
             val active = selected == index
             Surface(onClick = { onSelected(index) }, modifier = Modifier.weight(1f).heightIn(min = 48.dp).glassSegmentItem(index).semantics { this.selected = active; role = Role.Tab }, shape = RoundedCornerShape(16.dp), color = Color.Transparent) {
                 Row(Modifier.padding(horizontal = 10.dp, vertical = 12.dp), horizontalArrangement = Arrangement.Center, verticalAlignment = Alignment.CenterVertically) {
-                    Icon(icons[index], null, modifier = Modifier.size(20.dp), tint = if (active) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurface)
+                    Icon(icons[index], null, modifier = Modifier.size(20.dp), tint = MaterialTheme.colorScheme.onSurface)
                     Spacer(Modifier.width(6.dp))
-                    Text(label, fontSize = 14.sp, fontWeight = FontWeight.SemiBold, color = if (active) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurface)
+                    Text(label, fontSize = 14.sp, fontWeight = FontWeight.SemiBold, color = MaterialTheme.colorScheme.onSurface)
                 }
             }
         }
@@ -314,22 +314,9 @@ private val Shape = RoundedCornerShape(23.dp)
 }
 
 @Composable private fun QualityCard(inspection: Inspection, selected: Int, choose: (Int) -> Unit) {
-    var expanded by remember { mutableStateOf(false) }
     GlassCard {
         Heading("Qualidade de vídeo")
-        Box {
-            OutlinedButton(onClick = { expanded = true }, modifier = Modifier.fillMaxWidth().heightIn(min = 54.dp), shape = RoundedCornerShape(16.dp)) {
-                Icon(Icons.Default.HighQuality, null, Modifier.size(23.dp)); Spacer(Modifier.width(12.dp))
-                Column(Modifier.weight(1f)) {
-                    Text(if (selected == 0) "Melhor qualidade" else "${selected}p", fontWeight = FontWeight.SemiBold)
-                    Text(if (selected == 0) "Até 4K, quando disponível" else "Até a resolução selecionada", fontSize = 12.sp, color = MaterialTheme.colorScheme.onSurfaceVariant)
-                }
-                Icon(Icons.Default.ExpandMore, "Escolher qualidade")
-            }
-            DropdownMenu(expanded, { expanded = false }, containerColor = MaterialTheme.colorScheme.surface) {
-                (listOf(0) + inspection.heights).forEach { value -> DropdownMenuItem(text = { Text(if (value == 0) "Melhor qualidade (até 4K)" else "${value}p") }, onClick = { choose(value); expanded = false }) }
-            }
-        }
+        GlassQualityPicker(listOf(0) + inspection.heights, selected, choose)
         Text(if (inspection.playlist) "Resoluções encontradas no vídeo de referência. Se um item não oferecer a escolhida, usa a melhor disponível abaixo dela, sem aumentar a resolução."
             else "Somente resoluções encontradas. Vídeo e áudio são combinados; codecs incompatíveis são convertidos para MP4.", fontSize = 12.sp, color = MaterialTheme.colorScheme.onSurfaceVariant, modifier = Modifier.padding(top = 7.dp))
     }

@@ -32,6 +32,7 @@ import com.kyant.backdrop.backdrops.layerBackdrop
 import androidx.compose.ui.draw.drawWithContent
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.graphics.asAndroidBitmap
+import androidx.compose.ui.graphics.layer.drawLayer
 import androidx.compose.ui.graphics.drawscope.clipPath
 import kotlin.math.roundToInt
 
@@ -79,6 +80,7 @@ internal class GlassRenderStats {
     var compositions=0; var sourceRecords=0; var readbacks=0; var meshDraws=0
     var hardwareMesh=false
     var lastSnapshot:android.graphics.Bitmap?=null
+    var lastGlyphSnapshot:android.graphics.Bitmap?=null
 }
 internal val LocalGlassRenderStats=staticCompositionLocalOf<GlassRenderStats?> { null }
 // Instrumentation control only: never exposed as a product setting.
@@ -104,10 +106,12 @@ internal val LocalGlassOpticalStrength=staticCompositionLocalOf { 1f }
     val trackBackdrop=rememberLayerBackdrop()
     val requests=remember { kotlinx.coroutines.channels.Channel<Unit>(kotlinx.coroutines.channels.Channel.CONFLATED) }
     var bitmap by remember { mutableStateOf<android.graphics.Bitmap?>(null) }
+    var glyphBitmap by remember { mutableStateOf<android.graphics.Bitmap?>(null) }
     var sourceReady by remember { mutableStateOf(false) }
     var captureRejected by remember { mutableStateOf(false) }
     val lens=remember { GlassMeshLens() }
     val contentLayer=androidx.compose.ui.graphics.rememberGraphicsLayer()
+    val glyphLayer=androidx.compose.ui.graphics.rememberGraphicsLayer()
     val contentBackdrop=remember(contentLayer) { GlassContentBackdrop(contentLayer) }
     var releaseRevision by remember { mutableIntStateOf(0) }
     LaunchedEffect(contentLayer,meshMode,sampled) {
@@ -120,10 +124,15 @@ internal val LocalGlassOpticalStrength=staticCompositionLocalOf { 1f }
                 if(registry.size.width.toLong()*registry.size.height>2_000_000L) continue
                 try {
                     val image=contentLayer.toImageBitmap()
+                    val glyphs=glyphLayer.toImageBitmap()
                     val copy=kotlinx.coroutines.withContext(kotlinx.coroutines.Dispatchers.Default) {
-                        image.asAndroidBitmap().copy(android.graphics.Bitmap.Config.ARGB_8888,false)
+                        image.asAndroidBitmap().copy(android.graphics.Bitmap.Config.ARGB_8888,false) to
+                            glyphs.asAndroidBitmap().copy(android.graphics.Bitmap.Config.ARGB_8888,false)
                     }
-                    if(copy!=null) { bitmap=copy;stats?.let { it.readbacks++;it.lastSnapshot=copy } }
+                    if(copy.first!=null && copy.second!=null) {
+                        bitmap=copy.first;glyphBitmap=copy.second
+                        stats?.let { it.readbacks+=2;it.lastSnapshot=copy.first;it.lastGlyphSnapshot=copy.second }
+                    }
                 } catch (_:kotlinx.coroutines.CancellationException) { throw kotlinx.coroutines.CancellationException() }
                 catch (_:RuntimeException) { captureRejected=true;android.util.Log.w("YtdlpG-Glass","Mesh capture unavailable; preserving compatible glass") }
                 catch (_:LinkageError) { captureRejected=true;android.util.Log.w("YtdlpG-Glass","Mesh capture unsupported; preserving compatible glass") }
@@ -137,9 +146,19 @@ internal val LocalGlassOpticalStrength=staticCompositionLocalOf { 1f }
     }
     val rectSnapshot=registry.rects.toMap()
     val physicalRects=remember(rectSnapshot) { rectSnapshot.values.sortedBy { it.center.x } }
+    val ordered=remember(rectSnapshot) { rectSnapshot.entries.sortedBy { it.value.center.x }.map { it.key to it.value } }
+    val inactive=androidx.compose.material3.MaterialTheme.colorScheme.onSurface
+    val active=androidx.compose.material3.MaterialTheme.colorScheme.primary
+    val ink=remember(inactive,active) { GlassSegmentInk(inactive,active) }
+    fun center():Float {
+        val first=physicalRects.firstOrNull() ?: return 0f
+        return glassRubberCenter(motion.value*width,first.center.x,physicalRects.last().center.x,first.width)
+    }
+    contentBackdrop.foreground=glyphLayer
+    contentBackdrop.drawForeground={ ink.draw(this,center(),ordered) { drawLayer(glyphLayer) } }
     fun pane():Rect {
         val r=currentRect ?: return Rect.Zero
-        val center=motion.value.coerceIn(0f,1f)*width
+        val center=center()
         var w=physicalRects.lastOrNull()?.width ?: r.width
         if(physicalRects.isNotEmpty() && center<=physicalRects.first().center.x) w=physicalRects.first().width
         else for(i in 0 until physicalRects.size-1) {
@@ -147,13 +166,14 @@ internal val LocalGlassOpticalStrength=staticCompositionLocalOf { 1f }
             if(center<=b.center.x) { val t=((center-a.center.x)/(b.center.x-a.center.x).coerceAtLeast(1f)).coerceIn(0f,1f);w=a.width+(b.width-a.width)*t;break }
         }
         val v=motion.velocity/10f
-        val sx=(motion.scaleX/(1f-(v*.75f).coerceIn(-.12f,.12f))).coerceIn(.9f,1.15f)
-        val sy=(motion.scaleY*(1f-(v*.25f).coerceIn(-.12f,.12f))).coerceIn(.9f,1.12f)
+        val edge=(kotlin.math.abs(motion.value*width-center)/(r.width*.5f).coerceAtLeast(1f)).coerceIn(0f,1f)
+        val sx=(motion.scaleX/(1f-(v*.75f).coerceIn(-.12f,.12f))+edge*.12f).coerceIn(.9f,1.22f)
+        val sy=(motion.scaleY*(1f-(v*.25f).coerceIn(-.12f,.12f))-edge*.045f).coerceIn(.9f,1.12f)
         val h=r.height*sy;w*=sx
         return Rect(center-w/2f,r.center.y-h/2f,center+w/2f,r.center.y+h/2f)
     }
     val opticalStrength=LocalGlassOpticalStrength.current.coerceIn(0f,1f)
-    val canRefract=sampled && (if(meshMode) bitmap!=null && !captureRejected else sourceReady)
+    val canRefract=sampled && (if(meshMode) bitmap!=null && glyphBitmap!=null && !captureRejected else sourceReady)
     val mask=remember { androidx.compose.ui.graphics.Path() }
     val density=LocalDensity.current
     val dark=LocalGlassDark.current
@@ -172,9 +192,17 @@ internal val LocalGlassOpticalStrength=staticCompositionLocalOf { 1f }
             }
             inspectDragGestures(onPress={down -> motion.press();highlight.begin(down.position) },
                 onPressEnd={endLight()},onDragStart={down ->
-                startX=down.position.x;startCenter=motion.value*registry.size.width;dragging=true
+                startX=down.position.x
+                // A grab near either edge of the selected pane keeps a small
+                // grip offset. Starting anywhere else on the track acquires
+                // the finger immediately instead of dragging a distant pane.
+                val selectedPane=registry.rects[currentSelected]
+                val oldCenter=motion.value*registry.size.width
+                val grip=if(selectedPane?.contains(down.position)==true)
+                    (down.position.x-oldCenter).coerceIn(-selectedPane.width*.18f,selectedPane.width*.18f) else 0f
+                startCenter=down.position.x-grip;dragging=true
             },onDragEnd={change ->
-                val target=glassSegmentTarget(change.position,registry.size,registry.rects)
+                val target=glassDragTarget(change.position,registry.size,ordered,startX)
                 restore()
                 if(target!=null && target!=currentSelected) currentAction(target)
             },onDragCancel={restore()}) { change,_ ->
@@ -184,24 +212,22 @@ internal val LocalGlassOpticalStrength=staticCompositionLocalOf { 1f }
         }) {
             CompositionLocalProvider(LocalSegmentBounds provides registry) {
                 Row(Modifier.fillMaxWidth().onGloballyPositioned { registry.row=it;contentBackdrop.coordinates=it;registry.refresh() }
-                    .drawWithContent {
-                        if(canRefract && currentRect!=null) {
-                            val r=pane();mask.reset();mask.addRoundRect(androidx.compose.ui.geometry.RoundRect(r,r.height/2f,r.height/2f))
-                            clipPath(mask,androidx.compose.ui.graphics.ClipOp.Difference) { this@drawWithContent.drawContent() }
-                        } else drawContent()
-                    }
                     .graphicsLayer() // source capture invalidates on real content changes, not finger movement
                     .drawWithContent {
-                        drawContent()
                         if(sampled && contentBackdrop.recordedRevision!==revision && (!motion.isTouching || contentBackdrop.recordedRevision==null)) {
                             contentLayer.record {
                                 with(trackBackdrop) { drawBackdrop(this@drawWithContent,registry.row,null) }
-                                this@drawWithContent.drawContent()
                             }
+                            glyphLayer.record { this@drawWithContent.drawContent() }
                             contentBackdrop.recordedRevision=revision
                             stats?.let { it.sourceRecords++ }
                             requests.trySend(Unit)
                         }
+                        fun paintLabels() { ink.draw(this,center(),ordered) { this@drawWithContent.drawContent() } }
+                        if(canRefract && currentRect!=null) {
+                            val r=pane();mask.reset();mask.addRoundRect(androidx.compose.ui.geometry.RoundRect(r,r.height/2f,r.height/2f))
+                            clipPath(mask,androidx.compose.ui.graphics.ClipOp.Difference) { paintLabels() }
+                        } else paintLabels()
                     },content=content)
             }
             if(currentRect!=null && width>0f) {
@@ -219,6 +245,7 @@ internal val LocalGlassOpticalStrength=staticCompositionLocalOf { 1f }
                             if(canRefract && meshMode && image!=null) {
                                 try {
                                     lens.draw(this,image,pane(),motion.pressProgress,opticalStrength)
+                                    glyphBitmap?.let { lens.drawGlyphs(this,it,pane(),motion.pressProgress,opticalStrength,ordered,center(),ink) }
                                     val r=pane()
                                     highlight.drawOverlay(this,Offset(highlight.position.x-r.left,highlight.position.y-r.top))
                                     stats?.let { it.meshDraws++;it.hardwareMesh=lens.hardwareCanvasObserved }

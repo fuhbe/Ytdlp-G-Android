@@ -49,4 +49,22 @@ internal class GlassMeshLens {
             canvas.drawBitmapMesh(bitmap,columns,rows,vertices,0,null,0,paint)
         } finally { canvas.restore() }
     }
+    fun drawGlyphs(scope:DrawScope,bitmap:Bitmap,pane:Rect,pressure:Float,strength:Float,
+        bounds:List<Pair<Int,Rect>>,center:Float,ink:GlassSegmentInk) {
+        update(bitmap.width,bitmap.height,pane,pressure,strength)
+        val canvas=scope.drawContext.canvas.nativeCanvas
+        canvas.save()
+        try {
+            canvas.translate(-pane.left,-pane.top)
+            for((index,r) in bounds) {
+                if(r.right<pane.left || r.left>pane.right) continue
+                canvas.save()
+                try {
+                    canvas.clipRect(r.left,r.top,r.right,r.bottom)
+                    paint.colorFilter=ink.nativeFilter(glassIllumination(center,index,bounds))
+                    canvas.drawBitmapMesh(bitmap,columns,rows,vertices,0,null,0,paint)
+                } finally { canvas.restore() }
+            }
+        } finally { paint.colorFilter=null;canvas.restore() }
+    }
 }

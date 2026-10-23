@@ -3,6 +3,7 @@
 package com.fuhbe.ytdlpg.simple
 
 import androidx.compose.ui.graphics.GraphicsLayerScope
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.graphics.drawscope.withTransform
 import androidx.compose.ui.graphics.layer.GraphicsLayer
@@ -18,11 +19,22 @@ internal class GlassContentBackdrop(val layer:GraphicsLayer):Backdrop {
     override val isCoordinatesDependent=true
     var coordinates:LayoutCoordinates?=null
     var recordedRevision:Any?=null
+    var foreground:GraphicsLayer?=null
+    var drawForeground:(DrawScope.()->Unit)?=null
     override fun DrawScope.drawBackdrop(density:Density,coordinates:LayoutCoordinates?,layerBlock:(GraphicsLayerScope.()->Unit)?) {
         val origin=this@GlassContentBackdrop.coordinates ?: return
         val target=coordinates ?: return
-        val offset=try { origin.localPositionOf(target) } catch (_:IllegalStateException) { target.positionInWindow()-origin.positionInWindow() }
+        // A focusable quality Popup is another window/Compose owner. Its
+        // window-local (0,0) differs from the activity's. Screen coordinates
+        // are the common space; localPositionOf alone can throw across owners.
+        val offset=try { origin.localPositionOf(target) }
+            catch (_:IllegalStateException) { target.localToScreen(Offset.Zero)-origin.localToScreen(Offset.Zero) }
+            catch (_:IllegalArgumentException) { target.localToScreen(Offset.Zero)-origin.localToScreen(Offset.Zero) }
+        if(!offset.x.isFinite() || !offset.y.isFinite()) return
         // These controls use physical pane bounds, with no layerBlock transform.
-        withTransform({ translate(-offset.x,-offset.y) }) { drawLayer(layer) }
+        withTransform({ translate(-offset.x,-offset.y) }) {
+            drawLayer(layer)
+            drawForeground?.invoke(this)
+        }
     }
 }

@@ -19,7 +19,7 @@ import kotlinx.coroutines.launch
 
 internal class DampedDragAnimation(private val animationScope: CoroutineScope, initialValue: Float) {
     // The five independent spring channels are Square's DampedDragAnimation.
-    private val valueAnimationSpec = spring(1f, 1000f, .001f)
+    private val valueAnimationSpec = spring(.78f, 700f, .001f)
     private val velocityAnimationSpec = spring(.5f, 300f, .01f)
     private val pressProgressAnimationSpec = spring(1f, 1000f, .001f)
     private val scaleXAnimationSpec = spring(.6f, 250f, .001f)
