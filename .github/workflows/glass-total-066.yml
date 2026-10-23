@@ -55,6 +55,7 @@ jobs:
           cp -r docs/visual-glass-total-066/before docs/visual-glass-total-066/after docs/visual-glass-total-066/motion minimal/build/distribution/screenshots/
           cp docs/visual-glass-total-066/EVIDENCE.json minimal/build/distribution/screenshots/
           cp -r docs/visual-glass-total-066/optics docs/visual-glass-total-066/quality minimal/build/distribution/screenshots/
+          cp -r docs/visual-glass-total-066/host-metrics minimal/build/distribution/screenshots/
           cp docs/visual-glass-total-066/DEVICE_CHECK.md minimal/build/distribution/
           cp docs/visual-glass-total-066/DEVICE_CHECK.md minimal/build/device-tests/
           cp docs/visual-glass-total-066/REPORT.md minimal/build/device-tests/VISUAL_REPORT.md

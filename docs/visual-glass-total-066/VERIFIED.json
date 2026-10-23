@@ -1,0 +1,55 @@
+{
+  "version": "0.6.6-test2",
+  "apk_sha256": "e773fb37608c55d8bd48e254373b23a77d7f799716ade52f47778ed18c4b70a2",
+  "apk_bytes": 59625448,
+  "certificate_sha256": "d0c8ea17f4d4a2ee41743fc29c4b7e050aab869e833afef82e34b75f4d421195",
+  "same_key_as_published_064": false,
+  "tests": 158,
+  "passed": 157,
+  "skipped": 1,
+  "all_143_baseline_cases_preserved": true,
+  "native_instrumentation": "10 compiled, not executed",
+  "hardware_refraction_acceptance": "Pending API31/32 mesh and API33+ native lens on real hardware; no GPU/FPS/thermal/live-network claim",
+  "comparative_ui_states": 8,
+  "app_motion_frames": 48,
+  "app_motion_sequences": 8,
+  "scope": {
+    "baseline": "28bdde369593f06445a78f61dfb1a7e5357f1b78",
+    "protected_files_unchanged": 153,
+    "all_previous_test_sources_unchanged": true,
+    "dependencies_unchanged": true,
+    "engine_models_workers_services_storage_wallpapers_unchanged": true,
+    "quality_options_and_callback_unchanged": true,
+    "navigation_callbacks_unchanged": true,
+    "version": "0.6.6-test2"
+  },
+  "host_invalidation": {
+    "inputSamples": 60,
+    "extraCompositions": 0,
+    "extraSourceRecords": 0,
+    "extraReadbacks": 0,
+    "hostSoftwareOnly": true
+  },
+  "host_progressive_ink": {
+    "renderer": "Native Skia software, not device GPU",
+    "leftBlueEnergy": [
+      130560,
+      50679,
+      0
+    ],
+    "sourceUnchanged": true
+  },
+  "host_optical_pixels": {
+    "renderer": "Robolectric native Skia software Canvas",
+    "changedInteriorPixels": 5389,
+    "changedExteriorPixels": 0,
+    "hardwareVerified": false
+  },
+  "host_old_new_input": {
+    "clock": "deterministic Compose test clock, not measured device latency",
+    "target": 0.8,
+    "advancedMs": 32,
+    "oldValue": 0.5276055,
+    "fixedValue": 0.8
+  }
+}

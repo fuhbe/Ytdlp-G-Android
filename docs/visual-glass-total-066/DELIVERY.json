@@ -1,0 +1,112 @@
+{
+  "commit": "ee4288719c4baebfc971900c0631f0997e1fb948",
+  "run": 40012530091,
+  "artifacts": [
+    {
+      "id": 12526973644,
+      "name": "Liquid-Glass-0.6.6-Test2-verification",
+      "sha256": "efd6a849b2b1af6a8b76a27e5093616d67904975996ee443158deaf2ae4260b6"
+    },
+    {
+      "id": 12526549508,
+      "name": "Liquid-Glass-0.6.6-Test2-device-tests",
+      "sha256": "31d7f31ef21b37f560a3b11e5e4686f68c0390862e343e8f9b3f04ad919f4bd2"
+    },
+    {
+      "id": 12526504791,
+      "name": "Ytdlp-G-0.6.6-Test2-Liquid-Glass",
+      "sha256": "311d8c8798dd9a58c2acf8c6721e3863d7b98772d4db6f13372a590c9436a44a"
+    }
+  ],
+  "scope": {
+    "baseline": "28bdde369593f06445a78f61dfb1a7e5357f1b78",
+    "protected_files_unchanged": 153,
+    "all_previous_test_sources_unchanged": true,
+    "dependencies_unchanged": true,
+    "engine_models_workers_services_storage_wallpapers_unchanged": true,
+    "quality_options_and_callback_unchanged": true,
+    "navigation_callbacks_unchanged": true,
+    "version": "0.6.6-test2"
+  },
+  "certificate_sha256": "d0c8ea17f4d4a2ee41743fc29c4b7e050aab869e833afef82e34b75f4d421195",
+  "stable_certificate_sha256": "3e1df7424b2cb4589de10dc26ae20afe68eded24acc82b6a0298de2fdb98798b",
+  "same_key_as_stable": false,
+  "visual_063_certificate_sha256": "4631c543a394e02adbbb61307358bad8ff4cd13f24db51574d749ee29f28873e",
+  "published_064_certificate_sha256": "35d6e13608735ab96e1b1c376900d106beeaffe00c12bc9e43d60b8372c1e5d4",
+  "same_key_as_published_064": false,
+  "same_key_as_visual_063": false,
+  "exact_supplied_wallpapers_in_apk": true,
+  "native_payload_byte_identical_to_066": {
+    "lib/arm64-v8a/libandroidx.graphics.path.so": {
+      "sha256": "41e9a793c43a0f4fddb19e33f346bace464f30f888ba7b9eaf96294ea115bfb6",
+      "same_as_previous": true
+    },
+    "lib/arm64-v8a/libffmpeg.so": {
+      "sha256": "c48e52c8a367e71203897835a310fd3c678e2e27e5cbdd8cbaa305a83f924648",
+      "same_as_previous": true
+    },
+    "lib/arm64-v8a/libffmpeg.zip.so": {
+      "sha256": "3e4dd8424f2ab3ca741ac37e121fac2efb4c3426948e16ace1ef9a1ffb482930",
+      "same_as_previous": true
+    },
+    "lib/arm64-v8a/libffprobe.so": {
+      "sha256": "26f7d8765a2dfdea5104b3d6d689f2efdb3bc087f789f56d521c54921c2e75f5",
+      "same_as_previous": true
+    },
+    "lib/arm64-v8a/libpython.so": {
+      "sha256": "4f8d78ede7fc26e96e99342dd83ce42d32c9b4d0806bc9a99ff7151396269b25",
+      "same_as_previous": true
+    },
+    "lib/arm64-v8a/libpython.zip.so": {
+      "sha256": "0a1dcd0f69744a93536c96d15f26c646f66ae8634cf28d1c24a373ee94b0710f",
+      "same_as_previous": true
+    },
+    "lib/arm64-v8a/libqjs.so": {
+      "sha256": "a0fe160a8cd76eec34132f945664856e96687d701e3b1ff28dff44ea1fad13bc",
+      "same_as_previous": true
+    }
+  },
+  "host_invalidation": {
+    "inputSamples": 60,
+    "extraCompositions": 0,
+    "extraSourceRecords": 0,
+    "extraReadbacks": 0,
+    "hostSoftwareOnly": true
+  },
+  "host_optical_pixels": {
+    "renderer": "Robolectric native Skia software Canvas",
+    "changedInteriorPixels": 5389,
+    "changedExteriorPixels": 0,
+    "hardwareVerified": false
+  },
+  "host_old_new_input": {
+    "clock": "deterministic Compose test clock, not measured device latency",
+    "target": 0.8,
+    "advancedMs": 32,
+    "oldValue": 0.5276055,
+    "fixedValue": 0.8
+  },
+  "host_progressive_ink": {
+    "renderer": "Native Skia software, not device GPU",
+    "leftBlueEnergy": [
+      130560,
+      50679,
+      0
+    ],
+    "sourceUnchanged": true
+  },
+  "tests": 158,
+  "passed": 157,
+  "skipped": 1,
+  "apk_sha256": "e773fb37608c55d8bd48e254373b23a77d7f799716ade52f47778ed18c4b70a2",
+  "apk_bytes": 59625448,
+  "package": "package: name='com.fuhbe.ytdlpg.minimal' versionCode='67' versionName='0.6.6-test2' platformBuildVersionName='16' platformBuildVersionCode='36' compileSdkVersion='36' compileSdkVersionCodename='16'",
+  "screenshots": 86,
+  "instrumentation": "10 compiled; not executed",
+  "main_ref_unchanged": "3064edecd8e3c1805ff629f6dcfd181c2b747479",
+  "stable_064_tag_unchanged": "30a347f48cbf04ccf0973b3c5a2f6e869ecb81ed",
+  "stable_064_apk_unchanged": "dae229cff276bea3f9e0d51f7fa94275bf40d12be650987a6c36fb623ae9d334",
+  "previous_066_certificate_sha256": "027cabed1749e811e49ee3f328eaa5d2537891bfe4630145c1720e921cdef888",
+  "same_key_as_previous_066": false,
+  "device_testing": "No emulator or physical-device tests executed. No measured GPU/jank/FPS claim."
+}
