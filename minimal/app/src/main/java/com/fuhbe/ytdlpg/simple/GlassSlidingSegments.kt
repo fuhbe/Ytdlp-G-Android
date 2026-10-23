@@ -9,6 +9,8 @@ import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.spring
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.LocalRippleConfiguration
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
@@ -86,6 +88,7 @@ internal val LocalGlassRenderStats=staticCompositionLocalOf<GlassRenderStats?> {
 // Instrumentation control only: never exposed as a product setting.
 internal val LocalGlassOpticalStrength=staticCompositionLocalOf { 1f }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable internal fun GlassSlidingSegments(
     selected:Int,count:Int,onSelected:(Int)->Unit,modifier:Modifier=Modifier,
     source:Backdrop?=LocalGlassBackdrop.current,puckTag:String="glass-selection-capsule",
@@ -178,39 +181,48 @@ internal val LocalGlassOpticalStrength=staticCompositionLocalOf { 1f }
     val density=LocalDensity.current
     val dark=LocalGlassDark.current
     val revision=remember(selected,sourceKey,dark,density,rectSnapshot,releaseRevision,sampled) { Any() }
-    Box(modifier.liquidGlass(RoundedCornerShape(30.dp),prominent=true,source=source,
-        exportedBackdrop=if(sampled) trackBackdrop else null).padding(4.dp)) {
-        Box(Modifier.fillMaxWidth().pointerInput(registry,registry.size,rectSnapshot) {
+    val edgePadding=with(density) { 4.dp.toPx() }
+    val gestures=Modifier.pointerInput(registry,registry.size,rectSnapshot,edgePadding) {
             var startX=0f;var startCenter=0f
+            fun rowPoint(change:androidx.compose.ui.input.pointer.PointerInputChange)=change.position-Offset(edgePadding,edgePadding)
             fun endLight() { motion.release();highlight.end();releaseRevision++;requests.trySend(Unit) }
-            fun restore() {
+            fun restore(destination:Int=currentSelected) {
                 dragging=false;highlight.end()
-                val target=registry.rects[currentSelected]
+                val target=registry.rects[destination]
                 if(target!=null && registry.size.width>0) motion.animateToValue(target.center.x/registry.size.width)
                 else motion.release()
                 releaseRevision++;requests.trySend(Unit)
             }
-            inspectDragGestures(onPress={down -> motion.press();highlight.begin(down.position) },
+            inspectDragGestures(onPress={down -> motion.press();highlight.begin(rowPoint(down)) },
                 onPressEnd={endLight()},onDragStart={down ->
-                startX=down.position.x
+                val position=rowPoint(down)
+                startX=position.x
                 // A grab near either edge of the selected pane keeps a small
                 // grip offset. Starting anywhere else on the track acquires
                 // the finger immediately instead of dragging a distant pane.
                 val selectedPane=registry.rects[currentSelected]
                 val oldCenter=motion.value*registry.size.width
-                val grip=if(selectedPane?.contains(down.position)==true)
-                    (down.position.x-oldCenter).coerceIn(-selectedPane.width*.18f,selectedPane.width*.18f) else 0f
-                startCenter=down.position.x-grip;dragging=true
+                val grip=if(selectedPane?.contains(position)==true)
+                    (position.x-oldCenter).coerceIn(-selectedPane.width*.18f,selectedPane.width*.18f) else 0f
+                startCenter=position.x-grip;dragging=true
             },onDragEnd={change ->
-                val target=glassDragTarget(change.position,registry.size,ordered,startX)
-                restore()
+                val target=glassDragTarget(rowPoint(change),registry.size,ordered,startX,edgePadding)
                 if(target!=null && target!=currentSelected) currentAction(target)
+                // Relax to the confirmed destination, never start a spring to
+                // the old selection while awaiting the parent recomposition.
+                restore(target ?: currentSelected)
             },onDragCancel={restore()}) { change,_ ->
-                if(registry.size.width>0) motion.updateValue((startCenter+change.position.x-startX)/registry.size.width,change.uptimeMillis)
-                highlight.move(change.position)
+                val position=rowPoint(change)
+                if(registry.size.width>0) motion.updateValue((startCenter+position.x-startX)/registry.size.width,change.uptimeMillis)
+                highlight.move(position)
             }
-        }) {
-            CompositionLocalProvider(LocalSegmentBounds provides registry) {
+    }
+    Box(modifier.liquidGlass(RoundedCornerShape(30.dp),prominent=true,source=source,
+        exportedBackdrop=if(sampled) trackBackdrop else null).then(gestures).padding(4.dp)) {
+        Box(Modifier.fillMaxWidth()) {
+            // Suppress only Material's click indication in these selectors.
+            // Interaction events and the shared glass highlight stay intact.
+            CompositionLocalProvider(LocalSegmentBounds provides registry,LocalRippleConfiguration provides null) {
                 Row(Modifier.fillMaxWidth().onGloballyPositioned { registry.row=it;contentBackdrop.coordinates=it;registry.refresh() }
                     .graphicsLayer() // source capture invalidates on real content changes, not finger movement
                     .drawWithContent {

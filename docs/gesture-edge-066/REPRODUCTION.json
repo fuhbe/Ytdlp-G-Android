@@ -1,0 +1,7 @@
+{
+  "baseline": "79e54fb5ff6da7e5019da9c2e79624cd1223a2d4",
+  "test": "shellRightBoundaryReproducesTheReportedReturn",
+  "class": "com.fuhbe.ytdlpg.simple.GlassEdgeGestureTest",
+  "failure": "java.lang.AssertionError: Releasing at the real shell's right boundary must select MP4 expected:<1> but was:<0>",
+  "renderer": "Robolectric native Skia software; no phone GPU claim"
+}

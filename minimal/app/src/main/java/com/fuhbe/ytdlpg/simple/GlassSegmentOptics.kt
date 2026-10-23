@@ -28,12 +28,16 @@ internal fun glassIllumination(center:Float,index:Int,bounds:List<Pair<Int,Rect>
     return if(index==bounds.last().first) 1f else 0f
 }
 
-/** Directional 38% boundary (rather than requiring the destination center).
- * Cancelling outside the vertical track remains cancellation, never a click. */
+/** Captured horizontal drags include both boundaries, padding and overshoot.
+ * Use the actual finger position, independent of the elastic pane's center.
+ * Keep the directional 38% rule between physical centers unchanged. */
 internal fun glassDragTarget(point:Offset,size:androidx.compose.ui.unit.IntSize,
-    bounds:List<Pair<Int,Rect>>,origin:Float):Int? {
-    if(!point.x.isFinite() || !point.y.isFinite() || point.y<0f || point.y>=size.height ||
-        point.x<0f || point.x>=size.width || bounds.isEmpty()) return null
+    bounds:List<Pair<Int,Rect>>,origin:Float,verticalMargin:Float=0f):Int? {
+    if(!point.x.isFinite() || !point.y.isFinite() || !origin.isFinite() ||
+        !verticalMargin.isFinite() || verticalMargin<0f || size.width<=0 || size.height<=0 ||
+        point.y < -verticalMargin || point.y > size.height+verticalMargin || bounds.isEmpty()) return null
+    if(point.x<=bounds.first().second.center.x) return bounds.first().first
+    if(point.x>=bounds.last().second.center.x) return bounds.last().first
     val direction=sign(point.x-origin)
     var probe=point.x
     for(i in 0 until bounds.lastIndex) {

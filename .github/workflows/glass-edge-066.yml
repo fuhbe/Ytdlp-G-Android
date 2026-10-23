@@ -1,0 +1,89 @@
+name: Slider edge recognition and local ripple fix 0.6.6 test3
+on:
+  push:
+    branches: [fix/glass-edge-selection-066]
+    paths: ['minimal/**', 'docs/gesture-edge-066/**', '.github/workflows/glass-edge-066.yml']
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: glass-edge-066-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: '21'
+          cache: gradle
+          cache-dependency-path: |
+            minimal/**/*.gradle.kts
+            minimal/gradle.properties
+      - name: Verify exact test2 preservation outside gesture recognition and slider indication
+        run: python3 docs/gesture-edge-066/verify_scope.py
+      - name: Install SDK and unchanged media smoke tools
+        run: |
+          sdk_root="${ANDROID_HOME:-/usr/local/lib/android/sdk}"
+          sdkmanager_bin="$(find "$sdk_root/cmdline-tools" -maxdepth 3 -type f -name sdkmanager | head -n 1)"
+          "$sdkmanager_bin" 'platforms;android-36' 'build-tools;36.0.0'
+          echo "ANDROID_HOME=$sdk_root" >> "$GITHUB_ENV"
+          python3 scripts/prepare_smoke_ffmpeg.py "$PWD/.smoke-bin"
+          echo "$PWD/.smoke-bin" >> "$GITHUB_PATH"
+          python3 -m pip install 'Pillow==11.3.0'
+      - name: Build optimized ARM64 APK and matching device tests; run original and new JVM tests
+        run: bash minimal/gradlew -p minimal :app:assembleGithubRelease :app:testGithubDebugUnitTest :app:assembleGithubReleaseAndroidTest --no-daemon --max-workers=1 --warning-mode=none
+      - name: Execute unchanged real media fixture checks
+        run: |
+          python3 minimal/smoke.py
+          python3 minimal/verify_mp4.py minimal/app/build/generated/runtime/res/raw/ytdlp
+      - name: Package exact APK and corresponding source; verify tests, native bootstrap and gesture regression evidence
+        run: |
+          python3 docs/gesture-edge-066/verify_scope.py
+          python3 minimal/package.py
+          cp docs/gesture-edge-066/APK_README.md minimal/build/distribution/README.md
+          cp docs/gesture-edge-066/REPORT.md minimal/build/distribution/VISUAL_REPORT.md
+          cp docs/gesture-edge-066/BASELINE*.json minimal/build/distribution/
+          cp minimal/build/glass-edge-scope.json minimal/build/distribution/
+          cp docs/gesture-edge-066/REPRODUCTION.json minimal/build/distribution/
+          mkdir -p minimal/build/distribution/host-ripple-probe
+          cp -r docs/gesture-edge-066/ripple/. minimal/build/distribution/host-ripple-probe/
+          cp docs/gesture-edge-066/DEVICE_CHECK.md minimal/build/distribution/
+          cp docs/gesture-edge-066/DEVICE_CHECK.md minimal/build/device-tests/
+          cp docs/gesture-edge-066/REPORT.md minimal/build/device-tests/VISUAL_REPORT.md
+          python3 minimal/verify.py minimal/build/distribution/Ytdlp-G.apk
+          python3 docs/gesture-edge-066/verify_delivery.py
+          cp minimal/build/glass-edge-delivery.json minimal/build/distribution/VERIFIED.json
+          python3 minimal/dex_bootstrap.py minimal/build/distribution/Ytdlp-G.apk --report minimal/build/dex-bootstrap.json
+          python3 minimal/regression_zip.py minimal/build/distribution/Ytdlp-G.apk
+      - uses: actions/upload-artifact@v4
+        with:
+          name: Ytdlp-G-0.6.6-Test3-Edge-Fix
+          path: minimal/build/distribution/
+          if-no-files-found: error
+      - uses: actions/upload-artifact@v4
+        with:
+          name: Slider-Edge-0.6.6-Test3-device-tests
+          path: minimal/build/device-tests/
+          if-no-files-found: error
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: Slider-Edge-0.6.6-Test3-verification
+          path: |
+            minimal/app/build/reports/
+            minimal/app/build/test-results/
+            minimal/app/build/outputs/mapping/githubRelease/
+            minimal/build/source-manifest.json
+            minimal/build/host-smoke.json
+            minimal/build/dex-bootstrap.json
+            minimal/build/zip-bootstrap-regression.json
+            minimal/build/glass-edge-*.json
+            docs/gesture-edge-066/VERIFIED.json
+            docs/gesture-edge-066/ripple/positive-control.json
+          if-no-files-found: warn
