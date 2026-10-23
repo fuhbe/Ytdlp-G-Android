@@ -1,1 +1,51 @@
-cat: .github/workflows/publish-minimal-release.yml: No such file or directory
+name: Publish verified Android 0.6.2
+on:
+  push:
+    branches: [feature/minimal-liquid-glass]
+    paths: ['.github/workflows/publish-minimal-release.yml']
+  workflow_dispatch:
+permissions:
+  actions: read
+  contents: write
+concurrency:
+  group: publish-android-v0.6.2
+  cancel-in-progress: false
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      GH_TOKEN: ${{ github.token }}
+      SOURCE_RUN: '39878394553'
+    steps:
+      - uses: actions/checkout@v4
+      - name: Fetch the existing verified APK and reports without rebuilding
+        run: |
+          mkdir -p release-input
+          gh api "repos/$GITHUB_REPOSITORY/actions/runs/$SOURCE_RUN" > release-input/run.json
+          gh api "repos/$GITHUB_REPOSITORY/actions/artifacts/12469622631" > release-input/main.json
+          gh api "repos/$GITHUB_REPOSITORY/actions/artifacts/12469223108" > release-input/reports.json
+          gh api "repos/$GITHUB_REPOSITORY/actions/artifacts/12469622631/zip" > release-input/main.zip
+          gh api "repos/$GITHUB_REPOSITORY/actions/artifacts/12469223108/zip" > release-input/reports.zip
+      - name: Validate provenance, checksums and test results
+        run: python3 docs/tools/publish_verified_release.py prepare release-input release-output
+      - name: Verify the unchanged APK signature and Android metadata
+        run: |
+          sdk_root="${ANDROID_HOME:-/usr/local/lib/android/sdk}"
+          tools_dir="$(find "$sdk_root/build-tools" -mindepth 1 -maxdepth 1 -type d | sort -V | tail -n 1)"
+          "$tools_dir/apksigner" verify --print-certs release-output/Ytdlp-G.apk > release-output/apk-signature.txt
+          "$tools_dir/aapt2" dump badging release-output/Ytdlp-G.apk > release-output/apk-package.txt
+          python3 docs/tools/publish_verified_release.py check-apk release-input release-output
+      - name: Create the version tag and publish the verified assets
+        run: python3 docs/tools/publish_verified_release.py publish release-input release-output
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: Release-publication-verification
+          path: |
+            release-output/publication.json
+            release-output/release-info.json
+            release-output/apk-signature.txt
+            release-output/apk-package.txt
+            release-output/SHA256SUMS.txt
+          if-no-files-found: warn
