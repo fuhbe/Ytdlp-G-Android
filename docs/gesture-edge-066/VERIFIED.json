@@ -1,0 +1,50 @@
+{
+  "version": "0.6.6-test3",
+  "apk_sha256": "c4d7efd33a5b60eece2721508ee91679bd61d5daa73b0c2911f18b47905bea4a",
+  "apk_bytes": 59626044,
+  "certificate_sha256": "209656bb1c44b9a0858087b0b775f081c7b2494bb8c8e20566c4eed6e815c8ef",
+  "same_key_as_published_064": false,
+  "tests": 174,
+  "passed": 172,
+  "skipped": 2,
+  "baseline_tests": 158,
+  "baseline_case_identities_unchanged": 157,
+  "obsolete_horizontal_escape_expectation_updated": true,
+  "new_edge_cases": 14,
+  "new_ripple_cases": 2,
+  "native_instrumentation": "10 compiled, not executed",
+  "reproduction": {
+    "baseline": "79e54fb5ff6da7e5019da9c2e79624cd1223a2d4",
+    "test": "shellRightBoundaryReproducesTheReportedReturn",
+    "class": "com.fuhbe.ytdlpg.simple.GlassEdgeGestureTest",
+    "failure": "java.lang.AssertionError: Releasing at the real shell's right boundary must select MP4 expected:<1> but was:<0>",
+    "renderer": "Robolectric native Skia software; no phone GPU claim"
+  },
+  "scope": {
+    "baseline": "79e54fb5ff6da7e5019da9c2e79624cd1223a2d4",
+    "protected_files_unchanged": 162,
+    "previous_tests_preserved_except_one_obsolete_horizontal_escape_expectation": true,
+    "drawing_layout_optics_illumination_deformation_unchanged": true,
+    "animation_sources_unchanged": true,
+    "intermediate_tolerance_unchanged": true,
+    "engine_and_download_system_unchanged": true,
+    "dependencies_permissions_wallpapers_unchanged": true,
+    "ripple_suppression_scope": "Only Material indication inside shared slider content; existing glass highlight unchanged",
+    "version": "0.6.6-test3"
+  },
+  "held_motion": {
+    "inputSamples": 60,
+    "extraCompositions": 0,
+    "extraSourceRecords": 0,
+    "extraReadbacks": 0,
+    "hostSoftwareOnly": true
+  },
+  "ripple_positive_control": {
+    "renderer": "Robolectric native Skia software",
+    "materialReferencePixelDelta": 0,
+    "glassResponseChangedPixels": 7488,
+    "hardwareVerified": false
+  },
+  "physical_device_or_emulator_execution": false,
+  "gpu_fps_or_phone_ripple_pixel_claim": false
+}

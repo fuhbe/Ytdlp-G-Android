@@ -1,0 +1,70 @@
+{
+  "commit": "eca84b671056349075db83ab2eab6a9590dcdeb3",
+  "run": 40018985216,
+  "artifacts": [
+    {
+      "id": 12530915403,
+      "name": "Slider-Edge-0.6.6-Test3-device-tests",
+      "sha256": "cfab5a28fd55bc92ebb3ea0a793577ab2afefca7787de26da876e8b3f6c8465a"
+    },
+    {
+      "id": 12530596238,
+      "name": "Ytdlp-G-0.6.6-Test3-Edge-Fix",
+      "sha256": "93f71cc3043c3608974a58d5460e5ec599e0e84c30cf6c1fd0dd77c65cb41c43"
+    },
+    {
+      "id": 12529319020,
+      "name": "Slider-Edge-0.6.6-Test3-verification",
+      "sha256": "e25af224d01d835ef2a24850c3977526cf850c8da23be0ca5c7e7e70c98ad680"
+    }
+  ],
+  "apk_sha256": "c4d7efd33a5b60eece2721508ee91679bd61d5daa73b0c2911f18b47905bea4a",
+  "apk_bytes": 59626044,
+  "certificate_sha256": "209656bb1c44b9a0858087b0b775f081c7b2494bb8c8e20566c4eed6e815c8ef",
+  "same_key_as_test2": false,
+  "same_key_as_stable_064": false,
+  "tests": 174,
+  "passed": 172,
+  "skipped": 2,
+  "baseline_case_identities_unchanged": 157,
+  "obsolete_horizontal_escape_test_migrated": true,
+  "scope": {
+    "baseline": "79e54fb5ff6da7e5019da9c2e79624cd1223a2d4",
+    "protected_files_unchanged": 162,
+    "previous_tests_preserved_except_one_obsolete_horizontal_escape_expectation": true,
+    "drawing_layout_optics_illumination_deformation_unchanged": true,
+    "animation_sources_unchanged": true,
+    "intermediate_tolerance_unchanged": true,
+    "engine_and_download_system_unchanged": true,
+    "dependencies_permissions_wallpapers_unchanged": true,
+    "ripple_suppression_scope": "Only Material indication inside shared slider content; existing glass highlight unchanged",
+    "version": "0.6.6-test3"
+  },
+  "native_payload_byte_identical_to_test2": {
+    "lib/arm64-v8a/libandroidx.graphics.path.so": "41e9a793c43a0f4fddb19e33f346bace464f30f888ba7b9eaf96294ea115bfb6",
+    "lib/arm64-v8a/libffmpeg.so": "c48e52c8a367e71203897835a310fd3c678e2e27e5cbdd8cbaa305a83f924648",
+    "lib/arm64-v8a/libffmpeg.zip.so": "3e4dd8424f2ab3ca741ac37e121fac2efb4c3426948e16ace1ef9a1ffb482930",
+    "lib/arm64-v8a/libffprobe.so": "26f7d8765a2dfdea5104b3d6d689f2efdb3bc087f789f56d521c54921c2e75f5",
+    "lib/arm64-v8a/libpython.so": "4f8d78ede7fc26e96e99342dd83ce42d32c9b4d0806bc9a99ff7151396269b25",
+    "lib/arm64-v8a/libpython.zip.so": "0a1dcd0f69744a93536c96d15f26c646f66ae8634cf28d1c24a373ee94b0710f",
+    "lib/arm64-v8a/libqjs.so": "a0fe160a8cd76eec34132f945664856e96687d701e3b1ff28dff44ea1fad13bc"
+  },
+  "wallpapers_byte_identical": true,
+  "held_motion": {
+    "inputSamples": 60,
+    "extraCompositions": 0,
+    "extraSourceRecords": 0,
+    "extraReadbacks": 0,
+    "hostSoftwareOnly": true
+  },
+  "ripple_positive_control": {
+    "renderer": "Robolectric native Skia software",
+    "materialReferencePixelDelta": 0,
+    "glassResponseChangedPixels": 7488,
+    "hardwareVerified": false
+  },
+  "native_test_methods": "10 compiled, not executed",
+  "physical_device_or_emulator_execution": false,
+  "main_ref_unchanged": "3064edecd8e3c1805ff629f6dcfd181c2b747479",
+  "stable_064_tag_unchanged": "30a347f48cbf04ccf0973b3c5a2f6e869ecb81ed"
+}
