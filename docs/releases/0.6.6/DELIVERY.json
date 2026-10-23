@@ -1,0 +1,51 @@
+{
+  "source_commit": "649c12cc1e9bb42b9995bc22811d39248e7026ce",
+  "run": 40029350684,
+  "apk_sha256": "d9020bc5bbf7aa415349f05df3d04912b25b2eaf904588cd1326fd0b4c6ae888",
+  "apk_bytes": 59625880,
+  "source_zip_sha256": "03d366114252733c35716f45f81a33742f6ce0c13d7daa0ffbdceeb44b6c7184",
+  "certificate_sha256": "27c34fcf7e5660c549071df3536a9033e7cd643e415ad530785e1bfc38487c91",
+  "signing_mode": "ci-default",
+  "owner_release_signing_configured": false,
+  "same_key_as_test4": false,
+  "tests": 204,
+  "passed": 202,
+  "skipped": 2,
+  "approved_cases_preserved": 186,
+  "capture_cases": 18,
+  "native_libraries_identical": 7,
+  "compared_runtime_license_entries_identical": 20,
+  "wallpapers_identical": true,
+  "matching_device_test_signature": true,
+  "physical_device_or_emulator_execution_in_this_environment": false,
+  "scope": {
+    "approved_commit": "1595d0344e2e773052e51ba4bcc3b174aad49d08",
+    "approved_build_commit": "ecf036bfcb2a1c5fa9c57197783cd9fe5e9d8d32",
+    "version": "0.6.6",
+    "version_code": 70,
+    "protected_files_unchanged": 90,
+    "translated_ui_sources": 3,
+    "existing_test_files_with_only_translated_literals": 17,
+    "download_engine_workers_queue_storage_models_services_unchanged": true,
+    "dependencies_native_licenses_wallpapers_unchanged": true,
+    "liquid_glass_gesture_optics_rendering_layout_animation_logic_unchanged": true,
+    "scope": "Version/signing metadata, English UI literals and selector literals, capture tests and documentation"
+  },
+  "artifact_checksums": {
+    "main": {
+      "id": 12534278534,
+      "name": "Ytdlp-G-0.6.6-Stable",
+      "sha256": "5ddf4b63f499c02c8acbd2db151a3e53ac68a7bb464bd88dbeb54ccf501e35ec"
+    },
+    "reports": {
+      "id": 12533879857,
+      "name": "Ytdlp-G-0.6.6-verification",
+      "sha256": "2bf9593593224b487842318d78414adf13e8ae486dd9d791307d78a89debd135"
+    },
+    "device": {
+      "id": 12533834860,
+      "name": "Ytdlp-G-0.6.6-device-tests",
+      "sha256": "12979525fda6dc999693684c68c8cbd757d21761af62c0f4866289ebdd33ef81"
+    }
+  }
+}

@@ -1,0 +1,58 @@
+name: Publish official Ytdlp-G v0.6.6
+on:
+  push:
+    branches: [release/publish-stable-066]
+    paths: ['.github/workflows/publish-stable-066.yml']
+  workflow_dispatch:
+permissions:
+  actions: read
+  contents: write
+concurrency:
+  group: publish-official-stable-066
+  cancel-in-progress: false
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Retrieve the verified final build and the owner-approved baseline
+        run: |
+          mkdir -p release-input
+          python3 - <<'PY'
+          import json,os,subprocess
+          from pathlib import Path
+          cfg=json.loads(Path('docs/releases/0.6.6/PUBLICATION_INPUT.json').read_text());repo=os.environ['GITHUB_REPOSITORY']
+          for name,path in [('run',f'actions/runs/{cfg["run"]}'),('approved','actions/artifacts/12532028276')]+[(k,f'actions/artifacts/{a["id"]}') for k,a in cfg['artifacts'].items()]:
+              with open(f'release-input/{name}.json','wb') as output:subprocess.run(['gh','api',f'repos/{repo}/{path}'],stdout=output,check=True)
+              if name!='run':
+                  with open(f'release-input/{name}.zip','wb') as output:subprocess.run(['gh','api',f'repos/{repo}/{path}/zip'],stdout=output,check=True)
+          PY
+      - name: Verify actual tests, signatures, source, captures and unchanged native payloads
+        run: |
+          python3 docs/tools/publish_stable_066.py prepare release-input release-output
+          sdk_root="${ANDROID_HOME:-/usr/local/lib/android/sdk}"
+          tools_dir="$(find "$sdk_root/build-tools" -mindepth 1 -maxdepth 1 -type d | sort -V | tail -n 1)"
+          "$tools_dir/apksigner" verify --print-certs release-output/Ytdlp-G.apk > release-output/apk-signature.txt
+          "$tools_dir/aapt2" dump badging release-output/Ytdlp-G.apk > release-output/apk-package.txt
+          python3 docs/tools/publish_stable_066.py check-apk release-input release-output
+      - name: Create v0.6.6 and publish the latest official stable release
+        run: python3 docs/tools/publish_stable_066.py publish release-input release-output
+      - name: Update the English repository About description when administration access is available
+        env:
+          GH_TOKEN: ${{ secrets.REPO_ADMIN_TOKEN || github.token }}
+        run: python3 docs/tools/publish_stable_066.py about release-input release-output
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: Official-v0.6.6-publication-verification
+          path: |
+            release-output/publication.json
+            release-output/repository-about.json
+            release-output/release-info.json
+            release-output/apk-signature.txt
+            release-output/apk-package.txt
+            release-output/SHA256SUMS.txt
+          if-no-files-found: warn

@@ -1,0 +1,21 @@
+{
+  "source_commit": "649c12cc1e9bb42b9995bc22811d39248e7026ce",
+  "run": 40029350684,
+  "artifacts": {
+    "main": {
+      "id": 12534278534,
+      "name": "Ytdlp-G-0.6.6-Stable",
+      "sha256": "5ddf4b63f499c02c8acbd2db151a3e53ac68a7bb464bd88dbeb54ccf501e35ec"
+    },
+    "reports": {
+      "id": 12533879857,
+      "name": "Ytdlp-G-0.6.6-verification",
+      "sha256": "2bf9593593224b487842318d78414adf13e8ae486dd9d791307d78a89debd135"
+    },
+    "device": {
+      "id": 12533834860,
+      "name": "Ytdlp-G-0.6.6-device-tests",
+      "sha256": "12979525fda6dc999693684c68c8cbd757d21761af62c0f4866289ebdd33ef81"
+    }
+  }
+}

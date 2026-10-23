@@ -1,0 +1,81 @@
+{
+  "version": "0.6.6",
+  "source_commit": "649c12cc1e9bb42b9995bc22811d39248e7026ce",
+  "renderer": "Actual Compose windows, including measured Popup window, Robolectric native Skia software; sample metadata and bundled-wallpaper thumbnails",
+  "language": "English",
+  "physical_device_capture": false,
+  "images": {
+    "about-dark.png": {
+      "sha256": "0ca0bca071a4ddb9a27bc27e452b28165ec8a8500fd1496f8ead0a3a52bc0b8e",
+      "bytes": 460251
+    },
+    "about-light.png": {
+      "sha256": "c0c497e7c81b14a2cc2cac7ea5c6ce474060006cd7ce1bd784522823931be351",
+      "bytes": 519309
+    },
+    "completed-dark.png": {
+      "sha256": "70505c1fec584f88cb4817e6a68d5f4bacb41942165fb6e48a5eb7e564a7b00f",
+      "bytes": 365473
+    },
+    "completed-light.png": {
+      "sha256": "cd68f77c0ee69a8e9999fe02c83c2bb85048c122010d55dacaac081876f8f7bd",
+      "bytes": 517316
+    },
+    "downloads-dark.png": {
+      "sha256": "c3339bfe18481f409e53faa042fa31dba760c66872fe7f0b5bd935f536f50bf6",
+      "bytes": 439060
+    },
+    "downloads-light.png": {
+      "sha256": "394283570ee00c39498586da957db95cf9f4e8a008c1a9f09df32586d0a11ac8",
+      "bytes": 512777
+    },
+    "home-dark.png": {
+      "sha256": "9c6e5b320a9f2d3dffe8d80ed3e46316a8c78d43735fa46f02bc72c073f63ea8",
+      "bytes": 353287
+    },
+    "home-light.png": {
+      "sha256": "1c4364723f71303a2caa6138b8d81b2bcf59d83646a2a042f278775c18dbc094",
+      "bytes": 519551
+    },
+    "mp3-dark.png": {
+      "sha256": "581a3350eef5747a1177d05dde1934c13f1c08d786f1557103fd44fef278af41",
+      "bytes": 405250
+    },
+    "mp3-light.png": {
+      "sha256": "518682c66b49c4126c27a86d37e6dd6cb2022af7ba9d61906e2417b4cdecb2e4",
+      "bytes": 496486
+    },
+    "mp4-dark.png": {
+      "sha256": "a7b3f30167a75ed95326aef1ce5db68e299f9b70ac44edbfb7803c86bce7ae2a",
+      "bytes": 420245
+    },
+    "mp4-light.png": {
+      "sha256": "a00679b12b26ee5d58cf67b5a53b2019415234aaebc7c37872895fac0fc403f6",
+      "bytes": 497548
+    },
+    "playlist-dark.png": {
+      "sha256": "1a9d6d551b3c06d162bb67c6e0dd697f37c01d148fba215b7b393746184fbe6c",
+      "bytes": 464225
+    },
+    "playlist-light.png": {
+      "sha256": "3b4dec03b848a3cf9027de9bcc756ed1ff6d1f024a700851b08c8b10ab7839b8",
+      "bytes": 521022
+    },
+    "quality-dark.png": {
+      "sha256": "48164e7fef02a1f870ded68855d67d73d52e4e798f159cd06fdb807a960ae7f4",
+      "bytes": 423881
+    },
+    "quality-light.png": {
+      "sha256": "facb8c3816884425eeaaab4e790efbb5021ea307bbb781da282445e8effff5b0",
+      "bytes": 485862
+    },
+    "settings-dark.png": {
+      "sha256": "2b21e32096f18d5b1ae2595fea4b22ee607e962468a3b1396bcf629e677836ed",
+      "bytes": 458270
+    },
+    "settings-light.png": {
+      "sha256": "b4db13a312052924759dc180d5f5ca9b1b6d9fda1a16a3e44eba6f7228bf9e16",
+      "bytes": 519925
+    }
+  }
+}

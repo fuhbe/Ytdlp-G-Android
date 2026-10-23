@@ -1,0 +1,130 @@
+{
+  "version": "0.6.6",
+  "version_code": 70,
+  "source_commit": "649c12cc1e9bb42b9995bc22811d39248e7026ce",
+  "source_run": "40029350684",
+  "apk_sha256": "d9020bc5bbf7aa415349f05df3d04912b25b2eaf904588cd1326fd0b4c6ae888",
+  "apk_bytes": 59625880,
+  "source_zip_sha256": "03d366114252733c35716f45f81a33742f6ce0c13d7daa0ffbdceeb44b6c7184",
+  "certificate_sha256": "27c34fcf7e5660c549071df3536a9033e7cd643e415ad530785e1bfc38487c91",
+  "owner_release_signing_configured": false,
+  "signing_mode": "ci-default",
+  "tests": 204,
+  "passed": 202,
+  "skipped": 2,
+  "approved_cases_preserved": 186,
+  "final_capture_cases": 18,
+  "scope": {
+    "approved_commit": "1595d0344e2e773052e51ba4bcc3b174aad49d08",
+    "approved_build_commit": "ecf036bfcb2a1c5fa9c57197783cd9fe5e9d8d32",
+    "version": "0.6.6",
+    "version_code": 70,
+    "protected_files_unchanged": 90,
+    "translated_ui_sources": 3,
+    "existing_test_files_with_only_translated_literals": 17,
+    "download_engine_workers_queue_storage_models_services_unchanged": true,
+    "dependencies_native_licenses_wallpapers_unchanged": true,
+    "liquid_glass_gesture_optics_rendering_layout_animation_logic_unchanged": true,
+    "scope": "Version/signing metadata, English UI literals and selector literals, capture tests and documentation"
+  },
+  "native_payloads": {
+    "lib/arm64-v8a/libandroidx.graphics.path.so": "41e9a793c43a0f4fddb19e33f346bace464f30f888ba7b9eaf96294ea115bfb6",
+    "lib/arm64-v8a/libffmpeg.so": "c48e52c8a367e71203897835a310fd3c678e2e27e5cbdd8cbaa305a83f924648",
+    "lib/arm64-v8a/libffmpeg.zip.so": "3e4dd8424f2ab3ca741ac37e121fac2efb4c3426948e16ace1ef9a1ffb482930",
+    "lib/arm64-v8a/libffprobe.so": "26f7d8765a2dfdea5104b3d6d689f2efdb3bc087f789f56d521c54921c2e75f5",
+    "lib/arm64-v8a/libpython.so": "4f8d78ede7fc26e96e99342dd83ce42d32c9b4d0806bc9a99ff7151396269b25",
+    "lib/arm64-v8a/libpython.zip.so": "0a1dcd0f69744a93536c96d15f26c646f66ae8634cf28d1c24a373ee94b0710f",
+    "lib/arm64-v8a/libqjs.so": "a0fe160a8cd76eec34132f945664856e96687d701e3b1ff28dff44ea1fad13bc"
+  },
+  "screenshots": {
+    "version": "0.6.6",
+    "source_commit": "649c12cc1e9bb42b9995bc22811d39248e7026ce",
+    "renderer": "Actual Compose windows, including measured Popup window, Robolectric native Skia software; sample metadata and bundled-wallpaper thumbnails",
+    "language": "English",
+    "physical_device_capture": false,
+    "images": {
+      "about-dark.png": {
+        "sha256": "0ca0bca071a4ddb9a27bc27e452b28165ec8a8500fd1496f8ead0a3a52bc0b8e",
+        "bytes": 460251
+      },
+      "about-light.png": {
+        "sha256": "c0c497e7c81b14a2cc2cac7ea5c6ce474060006cd7ce1bd784522823931be351",
+        "bytes": 519309
+      },
+      "completed-dark.png": {
+        "sha256": "70505c1fec584f88cb4817e6a68d5f4bacb41942165fb6e48a5eb7e564a7b00f",
+        "bytes": 365473
+      },
+      "completed-light.png": {
+        "sha256": "cd68f77c0ee69a8e9999fe02c83c2bb85048c122010d55dacaac081876f8f7bd",
+        "bytes": 517316
+      },
+      "downloads-dark.png": {
+        "sha256": "c3339bfe18481f409e53faa042fa31dba760c66872fe7f0b5bd935f536f50bf6",
+        "bytes": 439060
+      },
+      "downloads-light.png": {
+        "sha256": "394283570ee00c39498586da957db95cf9f4e8a008c1a9f09df32586d0a11ac8",
+        "bytes": 512777
+      },
+      "home-dark.png": {
+        "sha256": "9c6e5b320a9f2d3dffe8d80ed3e46316a8c78d43735fa46f02bc72c073f63ea8",
+        "bytes": 353287
+      },
+      "home-light.png": {
+        "sha256": "1c4364723f71303a2caa6138b8d81b2bcf59d83646a2a042f278775c18dbc094",
+        "bytes": 519551
+      },
+      "mp3-dark.png": {
+        "sha256": "581a3350eef5747a1177d05dde1934c13f1c08d786f1557103fd44fef278af41",
+        "bytes": 405250
+      },
+      "mp3-light.png": {
+        "sha256": "518682c66b49c4126c27a86d37e6dd6cb2022af7ba9d61906e2417b4cdecb2e4",
+        "bytes": 496486
+      },
+      "mp4-dark.png": {
+        "sha256": "a7b3f30167a75ed95326aef1ce5db68e299f9b70ac44edbfb7803c86bce7ae2a",
+        "bytes": 420245
+      },
+      "mp4-light.png": {
+        "sha256": "a00679b12b26ee5d58cf67b5a53b2019415234aaebc7c37872895fac0fc403f6",
+        "bytes": 497548
+      },
+      "playlist-dark.png": {
+        "sha256": "1a9d6d551b3c06d162bb67c6e0dd697f37c01d148fba215b7b393746184fbe6c",
+        "bytes": 464225
+      },
+      "playlist-light.png": {
+        "sha256": "3b4dec03b848a3cf9027de9bcc756ed1ff6d1f024a700851b08c8b10ab7839b8",
+        "bytes": 521022
+      },
+      "quality-dark.png": {
+        "sha256": "48164e7fef02a1f870ded68855d67d73d52e4e798f159cd06fdb807a960ae7f4",
+        "bytes": 423881
+      },
+      "quality-light.png": {
+        "sha256": "facb8c3816884425eeaaab4e790efbb5021ea307bbb781da282445e8effff5b0",
+        "bytes": 485862
+      },
+      "settings-dark.png": {
+        "sha256": "2b21e32096f18d5b1ae2595fea4b22ee607e962468a3b1396bcf629e677836ed",
+        "bytes": 458270
+      },
+      "settings-light.png": {
+        "sha256": "b4db13a312052924759dc180d5f5ca9b1b6d9fda1a16a3e44eba6f7228bf9e16",
+        "bytes": 519925
+      }
+    }
+  },
+  "user_device_acceptance": "Owner reported successful test4 behavior on Android 12; final changes preserve implementation logic and translate UI literals.",
+  "physical_device_or_emulator_execution_in_this_workflow": false,
+  "gpu_fps_claim": false,
+  "held_motion": {
+    "inputSamples": 60,
+    "extraCompositions": 0,
+    "extraSourceRecords": 0,
+    "extraReadbacks": 0,
+    "hostSoftwareOnly": true
+  }
+}
