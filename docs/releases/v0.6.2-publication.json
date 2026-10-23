@@ -1,0 +1,58 @@
+{
+  "version": "0.6.2",
+  "tag": "v0.6.2",
+  "release_url": "https://github.com/fuhbe/Ytdlp-G-Android/releases/tag/v0.6.2",
+  "release_id": 421377534,
+  "tag_commit": "956bcb36365d46f79e1d9c70e308803468a212d2",
+  "verified_apk_source_commit": "4893e319b620436d8089ef43dde05c3ada52c9df",
+  "verified_build_run": 39878394553,
+  "publication_run": 39887329226,
+  "apk_rebuilt": false,
+  "apk_resigned": false,
+  "presentation_language": "English",
+  "screenshots": "Actual Compose UI renders with sample metadata, not live downloads",
+  "assets": [
+    {
+      "name": "LICENSE.txt",
+      "bytes": 35149,
+      "digest": "sha256:3972dc9744f6499f0f9b2dbf76696f2ae7ad8af9b23dde66d6af86c9dfb36986",
+      "url": "https://github.com/fuhbe/Ytdlp-G-Android/releases/download/v0.6.2/LICENSE.txt"
+    },
+    {
+      "name": "release-info.json",
+      "bytes": 906,
+      "digest": "sha256:289f7d661834064efbeaf952c0b9313ffe1af606713e2bd5af4aeec3cf07fb26",
+      "url": "https://github.com/fuhbe/Ytdlp-G-Android/releases/download/v0.6.2/release-info.json"
+    },
+    {
+      "name": "SHA256SUMS.txt",
+      "bytes": 163,
+      "digest": "sha256:0f4fbba3c99a2de6106a8688c65cf72450e660a09d1a38f6cc90257f3105de89",
+      "url": "https://github.com/fuhbe/Ytdlp-G-Android/releases/download/v0.6.2/SHA256SUMS.txt"
+    },
+    {
+      "name": "Ytdlp-G-icon.png",
+      "bytes": 5549,
+      "digest": "sha256:417bff36479686e640372bd41c0529a6ccaf2717531c8357d948ffbf0624c09d",
+      "url": "https://github.com/fuhbe/Ytdlp-G-Android/releases/download/v0.6.2/Ytdlp-G-icon.png"
+    },
+    {
+      "name": "Ytdlp-G-screenshots.zip",
+      "bytes": 1098107,
+      "digest": "sha256:6d7b2f8283a4e99ad988852462952a23774bb60d75cb7a8f9aa480c25fe98de5",
+      "url": "https://github.com/fuhbe/Ytdlp-G-Android/releases/download/v0.6.2/Ytdlp-G-screenshots.zip"
+    },
+    {
+      "name": "Ytdlp-G-source.zip",
+      "bytes": 15433293,
+      "digest": "sha256:509a42d4719034e7d1836bbf7e4e1fb9653eada225ffd9b05c60424c4395fe48",
+      "url": "https://github.com/fuhbe/Ytdlp-G-Android/releases/download/v0.6.2/Ytdlp-G-source.zip"
+    },
+    {
+      "name": "Ytdlp-G.apk",
+      "bytes": 56230904,
+      "digest": "sha256:735b4ac44a0aad52816df1f2ebcf3a637fb901ad690ee5b395ffe468a0349387",
+      "url": "https://github.com/fuhbe/Ytdlp-G-Android/releases/download/v0.6.2/Ytdlp-G.apk"
+    }
+  ]
+}
