@@ -97,7 +97,7 @@ operational visibility follow 0.6.3; illustrative-only controls were not introdu
 ## Verification and limits
 
 The full workflow executes all previous JVM cases unchanged, 19 new dock scenarios,
-two bitmap/theme/cache scenarios and eight actual UI captures. The original API
+two bitmap/theme/cache scenarios, a disabled-action contrast scenario and eight actual UI captures. The original API
 matrix provides 21 layouts across 26/28/31/33/35, including small-screen large text.
 New dock drags also execute across those five APIs. Assertions cover actual pointer
 input, cancellation/outside/system regions, correct callback identity/count,
@@ -109,8 +109,11 @@ in the new host tests. The keyboard case now explicitly enters keyboard input
 mode and provides window focus. The animation case waits for the first clock frame
 and observes the capsule's actual moving semantic bounds. Final results come
 from the exact successful build and downloaded artifact, not those failed attempts.
+Review also found that disabled actions needed a dark foreground on the new light
+glass. Their foreground now follows the existing theme, and a real Text-layout
+assertion checks readability in both themes while keeping the action disabled.
 
-The expected complete suite is **118 cases, 117 passes, zero failures/errors and
+The expected complete suite is **119 cases, 118 passes, zero failures/errors and
 one existing host-Skia shader skip**. The delivery guard checks original case
 identities/results, not just a matching count. Actual media fixture tests and the
 unchanged HTTP/HLS/DASH/MP3/MP4/ZIP/R8 bootstrap smoke checks are also rerun.
@@ -156,14 +159,14 @@ other work, following the unchanged minimal/DEVICE_TESTS.md.
 ## Changed files and licenses
 
 - MainActivity.kt: four exact presentation substitutions only: system-bar color,
-  button illumination, segmented-track decoration and removal of the old duplicate
+  button illumination/disabled foreground, segmented-track decoration and removal of the old duplicate
   selected-cell background. All callbacks/flow/strings remain identical.
 - LiquidGlass.kt: supplied wallpaper renderer, theme colors, dynamic specular
   material and optional exported sampled layer; same capability/fallback policy.
 - New GlassNavigation.kt and GlassWallpaper.kt: visual/input mechanics and bounded
   background decode/cache only.
 - build.gradle.kts: versionCode 64 / versionName 0.6.4 only; no dependency/signing changes.
-- Two original wallpaper PNG resources; three new JVM test classes, one Android
+- Two original wallpaper PNG resources; four new JVM test classes, one Android
   visual test class; this report/guards/baseline/comparisons and dedicated workflow.
 
 Ytdlp-G remains GPL-3.0-only. Backdrop's Apache-2.0 notices, original copyright and

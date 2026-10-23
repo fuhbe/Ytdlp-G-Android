@@ -15,9 +15,9 @@ for p in (M/'app/build/test-results/testGithubDebugUnitTest').glob('TEST-*.xml')
 for t in base['tests']:
  key=(t['class'],t['name']);assert key in cases,'Original case missing: '+str(key)
  assert cases[key]==t['skipped'],'Original result changed: '+str(key)
-assert len(cases)==118,(len(cases),118)
+assert len(cases)==119,(len(cases),119)
 assert sum(cases.values())==1
-for name,n in [('GlassDockGestureTest',19),('GlassWallpaperTest',2),('GlassEvolutionPreviewTest',8)]:
+for name,n in [('GlassDockGestureTest',19),('GlassWallpaperTest',2),('GlassContrastTest',1),('GlassEvolutionPreviewTest',8)]:
  assert sum(c.endswith('.'+name) for c,_ in cases)==n
  assert not any(skip for (c,_),skip in cases.items() if c.endswith('.'+name))
 apk=M/'build/distribution/Ytdlp-G.apk'

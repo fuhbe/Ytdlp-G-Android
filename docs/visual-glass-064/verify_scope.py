@@ -14,6 +14,7 @@ allowed={
  'minimal/app/src/main/res/drawable-nodpi/glass_wallpaper_dark.png',
  'minimal/app/src/test/java/com/fuhbe/ytdlpg/simple/GlassDockGestureTest.kt',
  'minimal/app/src/test/java/com/fuhbe/ytdlpg/simple/GlassWallpaperTest.kt',
+ 'minimal/app/src/test/java/com/fuhbe/ytdlpg/simple/GlassContrastTest.kt',
  'minimal/app/src/test/java/com/fuhbe/ytdlpg/simple/GlassEvolutionPreviewTest.kt',
  'minimal/app/src/androidTest/java/com/fuhbe/ytdlpg/simple/GlassDockDeviceTest.kt',
  '.github/workflows/visual-glass-evolution.yml',
@@ -29,6 +30,7 @@ assert (ROOT/name).read_text().replace('versionCode = 64','versionCode = 63').re
 name='minimal/app/src/main/java/com/fuhbe/ytdlpg/simple/MainActivity.kt'
 current=(ROOT/name).read_text()
 current=current.replace('isAppearanceLightStatusBars = !dark','isAppearanceLightStatusBars = false').replace('isAppearanceLightNavigationBars = !dark','isAppearanceLightNavigationBars = false')
+current=current.replace('if (enabled) Color.White else MaterialTheme.colorScheme.onSurface','Color.White')
 current=current.replace(', interaction = { ((1f-scale)/.02f).coerceIn(0f,1f) }','')
 current=current.replace('GlassSelectionTrack(selected, labels.size) {','Row(Modifier.fillMaxWidth().liquidGlass(RoundedCornerShape(22.dp), prominent = true).padding(3.dp), horizontalArrangement = Arrangement.spacedBy(4.dp)) {')
 current=current.replace('Row(Modifier.padding(horizontal = 10.dp, vertical = 12.dp),','Row(Modifier.then(if (active) Modifier.liquidGlass(RoundedCornerShape(19.dp), prominent = true, selected = true) else Modifier).padding(horizontal = 10.dp, vertical = 12.dp),')

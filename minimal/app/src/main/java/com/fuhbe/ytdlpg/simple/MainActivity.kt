@@ -174,8 +174,8 @@ private val Shape = RoundedCornerShape(23.dp)
     val scale by animateFloatAsState(if (pressed) .98f else 1f, tween(120), label = "Button feedback")
     Surface(onClick = onClick, enabled = enabled, interactionSource = interaction, color = Color.Transparent, shape = RoundedCornerShape(22.dp), modifier = Modifier.fillMaxWidth().heightIn(min = 52.dp).graphicsLayer { scaleX = scale; scaleY = scale }.liquidGlass(RoundedCornerShape(24.dp), prominent = true, selected = enabled, interaction = { ((1f-scale)/.02f).coerceIn(0f,1f) })) {
         Row(Modifier.padding(13.dp), horizontalArrangement = Arrangement.Center, verticalAlignment = Alignment.CenterVertically) {
-            Icon(icon, null, tint = Color.White, modifier = Modifier.size(24.dp)); Spacer(Modifier.width(10.dp))
-            Text(label, color = Color.White, fontWeight = FontWeight.SemiBold, fontSize = 16.sp)
+            Icon(icon, null, tint = if (enabled) Color.White else MaterialTheme.colorScheme.onSurface, modifier = Modifier.size(24.dp)); Spacer(Modifier.width(10.dp))
+            Text(label, color = if (enabled) Color.White else MaterialTheme.colorScheme.onSurface, fontWeight = FontWeight.SemiBold, fontSize = 16.sp)
         }
     }
 }
