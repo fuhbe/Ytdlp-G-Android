@@ -91,7 +91,7 @@ def prepare(inputs, output):
 def check_apk(inputs, output):
  require(digest(output/'Ytdlp-G.apk')==APK_SHA,'APK changed')
  certs=(output/'apk-signature.txt').read_text()
- found=set(re.findall(r'^Signer #\d+ certificate SHA-256 digest:\s*([a-f0-9]{64})$',certs,re.M))
+ found=set(re.findall(r'^(?:Signer #\d+|V[234] Signer):? certificate SHA-256 digest:\s*([a-f0-9]{64})\s*$',certs,re.M))
  require(found=={CERT},'Signing certificate mismatch')
  package=(output/'apk-package.txt').read_text()
  for s in ["name='com.fuhbe.ytdlpg.minimal'","versionCode='68'","versionName='0.6.6-test3'","application-label:'Ytdlp-G'","native-code: 'arm64-v8a'"]:

@@ -1,4 +1,5 @@
 name: Publish approved Liquid Glass 0.6.6-test3
+# Accept both legacy and modern apksigner certificate output formats.
 on:
   push:
     branches: [release/liquid-glass-066-test3]
