@@ -58,3 +58,12 @@ Share these reports and cropped lens screenshots. Remove URLs, account names,
 file paths and unrelated screen content before sharing. A screen recording can
 help compare the finger and capsule, but video sampling alone does not measure
 end-to-end latency. Repeat with battery saver to verify the explicit fallback.
+
+The existing `material=BLUR` capability log on API31/32 describes the base blur
+capability, not the new mesh backend. Use `hardwareMeshCanvas`, `meshDraws` and
+the zero/nonzero-strength images to establish which optical path actually ran.
+If a probe assertion stops early, collect the saved images/pixel JSON and Logcat;
+missing metrics must not be interpreted as zero GPU time or successful optics.
+After the isolated warm-up check, repeat manual gestures during a normal known
+download/conversion and note thermal conditions; those workloads can affect frame
+budgets even with unchanged download logic.

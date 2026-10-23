@@ -1,5 +1,7 @@
 # Ytdlp-G 0.6.6-test — gesture and optical validation
 
+[Download the verified final APK and read installation notes](DELIVERY.md).
+
 The stable 0.6.4 release is preserved. This isolated test fixes the pointer/spring
 conflict and captures the real control content for optics. See the
 [root-cause report](REPORT.md), [preservation manifest](BASELINE.json) and

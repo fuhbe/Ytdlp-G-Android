@@ -1,0 +1,79 @@
+{
+  "commit": "985ac36845028cc2202e8c5f52a63e66b43a3dc7",
+  "run": 39974539418,
+  "artifacts": [
+    {
+      "id": 12511825027,
+      "name": "Glass-Optics-0.6.6-device-tests",
+      "sha256": "d50c3fc15f9bc76ba7916a65a14fa1861a2ea17df6f8bd6dc4f35bf1291378e5"
+    },
+    {
+      "id": 12511515876,
+      "name": "Ytdlp-G-0.6.6-Glass-Optics-Test",
+      "sha256": "e2831517d9b9c4a584ec9909886fdba4c60beb5a018f4c624b3dc0ac0a75df03"
+    },
+    {
+      "id": 12511082161,
+      "name": "Glass-Optics-0.6.6-verification",
+      "sha256": "9d9a49c0b966135437e9f60b48444ba95518d61a10adf8c190f8575db7d21b80"
+    }
+  ],
+  "scope": {
+    "baseline": "44e4184201c4cb75a8a5286d3cde70aa492be07a",
+    "protected_files_unchanged": 114,
+    "original_tests_byte_identical": true,
+    "main_only_cache_key": true,
+    "navigation_callbacks_and_layout_identical": true,
+    "dependencies_unchanged": true,
+    "runtime_models_workers_services_storage_plugins_wallpapers_unchanged": true,
+    "minSdk": 26,
+    "abi": "arm64-v8a"
+  },
+  "certificate_sha256": "027cabed1749e811e49ee3f328eaa5d2537891bfe4630145c1720e921cdef888",
+  "stable_certificate_sha256": "3e1df7424b2cb4589de10dc26ae20afe68eded24acc82b6a0298de2fdb98798b",
+  "same_key_as_stable": false,
+  "visual_063_certificate_sha256": "4631c543a394e02adbbb61307358bad8ff4cd13f24db51574d749ee29f28873e",
+  "published_064_certificate_sha256": "35d6e13608735ab96e1b1c376900d106beeaffe00c12bc9e43d60b8372c1e5d4",
+  "same_key_as_published_064": false,
+  "same_key_as_visual_063": false,
+  "exact_supplied_wallpapers_in_apk": true,
+  "host_invalidation": {
+    "inputSamples": 60,
+    "extraCompositions": 0,
+    "extraSourceRecords": 0,
+    "extraReadbacks": 0,
+    "hostSoftwareOnly": true
+  },
+  "host_optical_pixels": {
+    "renderer": "Robolectric native Skia software Canvas",
+    "changedInteriorPixels": 5389,
+    "changedExteriorPixels": 0,
+    "hardwareVerified": false
+  },
+  "host_old_new_input": {
+    "clock": "deterministic Compose test clock, not measured device latency",
+    "target": 0.8,
+    "advancedMs": 32,
+    "oldValue": 0.5276055,
+    "fixedValue": 0.8
+  },
+  "tests": 143,
+  "passed": 142,
+  "skipped": 1,
+  "apk_sha256": "857ed51fe620ca3c11b6f74b088f812f9a9736725c40223eb45bacc8f1435c16",
+  "apk_bytes": 59616524,
+  "package": "package: name='com.fuhbe.ytdlpg.minimal' versionCode='66' versionName='0.6.6-test' platformBuildVersionName='16' platformBuildVersionCode='36' compileSdkVersion='36' compileSdkVersionCodename='16'",
+  "screenshots": 74,
+  "instrumentation": "9 compiled; not executed",
+  "workflow_conclusion": "success",
+  "physical_device_tests_executed": false,
+  "emulator_tests_executed": false,
+  "published_065_certificate_sha256": "a45e0cfccbb5d492fd38c6ebac10cfbe395679e1b2b63ef2df698552093ec2af",
+  "same_key_as_published_065": false,
+  "source_sha256": "c002918ac39cd61acaa0161ad8f4ca55cb34528ac5597735e520fe7bae9872b7",
+  "device_tests_sha256": "7edf38132b042f850a17bb73c0de1501e03e2d978f33db00b3ce433d089a9885",
+  "preserved_stable_064_apk_sha256": "dae229cff276bea3f9e0d51f7fa94275bf40d12be650987a6c36fb623ae9d334",
+  "preserved_default_branch": "3064edecd8e3c1805ff629f6dcfd181c2b747479",
+  "initial_ci_packaging_error": "Baseline manifest lacked optional failed field; verifier corrected and complete packaging reverified before delivery",
+  "sustained_fps_and_gpu_optical_acceptance": "Pending actual Redmi 10 Prime Android 12 run; no physical frame-time/FPS/refraction claim"
+}
