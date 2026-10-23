@@ -62,6 +62,9 @@ dependencies {
     implementation("androidx.compose.material:material-icons-extended:1.7.8")
     implementation("io.coil-kt:coil-compose:2.7.0")
     implementation("androidx.work:work-runtime-ktx:2.11.0")
+    // Align the app and release instrumentation classpaths: Test Core uses the
+    // suspend adapter absent from WorkManager's older transitive 1.1.0 version.
+    implementation("androidx.concurrent:concurrent-futures-ktx:1.3.0")
     implementation("androidx.documentfile:documentfile:1.1.0")
     implementation("androidx.preference:preference-ktx:1.2.1")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.10.2")
