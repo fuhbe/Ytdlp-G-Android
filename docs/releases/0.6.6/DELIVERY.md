@@ -45,3 +45,9 @@ Android rejects an in-place update from a differently signed installation. Finis
 The release is titled **Ytdlp-G v0.6.6**, tagged **v0.6.6**, published as stable and marked latest. It includes the APK, complete SHA-256 sums, corresponding source/license information, original verification reports and genuine screenshots. The publisher validates these flags and asset digests before recording success. Earlier releases, tags and their asset identities are checked before and after publication and remain intact.
 
 All public release descriptions and screenshot captions are English. Screenshots clearly label sample metadata. Repository source and documentation are promoted to the verified release tree after the public files have been checked.
+
+## Public download verification and repository metadata
+
+All eleven published assets were downloaded from their public release URLs and checked against their GitHub SHA-256 digests. The checksum file, archive CRCs, screenshot digests, APK signature and compiled-source/tag identities were verified again. [Public receipt](PUBLICATION.json).
+
+The separate repository About description update was blocked by GitHub HTTP 403. The English README is updated; an owner/admin can paste the [prepared About description](REPOSITORY_ABOUT.md). This metadata limitation does not affect the stable release, installer or application behavior.

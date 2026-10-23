@@ -1,0 +1,24 @@
+{
+  "release_url": "https://github.com/fuhbe/Ytdlp-G-Android/releases/tag/v0.6.6",
+  "release_id": 422348087,
+  "tag": "v0.6.6",
+  "tag_commit": "df74cb9fde1cf31d42870a3d905b4a99c72fa407",
+  "source_commit": "649c12cc1e9bb42b9995bc22811d39248e7026ce",
+  "apk_sha256": "d9020bc5bbf7aa415349f05df3d04912b25b2eaf904588cd1326fd0b4c6ae888",
+  "tests": {
+    "total": 204,
+    "passed": 202,
+    "skipped": 2
+  },
+  "public_asset_count": 11,
+  "all_public_downloads_checksums_and_zip_crcs_verified": true,
+  "public_apk_signature_verified": true,
+  "signing_mode": "ci-default",
+  "repository_about": {
+    "updated": false,
+    "http_status": 403,
+    "description": "Download YouTube videos, music and playlists as MP3, MP4 or ZIP. Android app with an interactive Liquid Glass interface.",
+    "reason": "Current publishing credentials cannot edit repository administration metadata; owner access is required."
+  },
+  "previous_releases_and_tags_preserved": true
+}
