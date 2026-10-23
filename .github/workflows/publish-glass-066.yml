@@ -1,0 +1,52 @@
+name: Publish approved Liquid Glass 0.6.6-test3
+on:
+  push:
+    branches: [release/liquid-glass-066-test3]
+    paths: ['.github/workflows/publish-glass-066.yml']
+  workflow_dispatch:
+permissions:
+  actions: read
+  contents: write
+concurrency:
+  group: publish-approved-066-test3
+  cancel-in-progress: false
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Download the approved artifacts without rebuilding
+        run: |
+          mkdir -p release-input
+          gh api "repos/$GITHUB_REPOSITORY/actions/runs/40018985216" > release-input/run.json
+          for row in main:12530596238 reports:12529319020 device:12530915403; do
+            kind="${row%%:*}"
+            artifact_id="${row##*:}"
+            gh api "repos/$GITHUB_REPOSITORY/actions/artifacts/$artifact_id" > "release-input/$kind.json"
+            gh api "repos/$GITHUB_REPOSITORY/actions/artifacts/$artifact_id/zip" > "release-input/$kind.zip"
+          done
+      - name: Verify provenance, test reports, source and screenshots
+        run: python3 docs/tools/publish_glass_066.py prepare release-input release-output
+      - name: Check the unchanged APK signature and package
+        run: |
+          sdk_root="${ANDROID_HOME:-/usr/local/lib/android/sdk}"
+          tools_dir="$(find "$sdk_root/build-tools" -mindepth 1 -maxdepth 1 -type d | sort -V | tail -n 1)"
+          "$tools_dir/apksigner" verify --print-certs release-output/Ytdlp-G.apk > release-output/apk-signature.txt
+          "$tools_dir/aapt2" dump badging release-output/Ytdlp-G.apk > release-output/apk-package.txt
+          python3 docs/tools/publish_glass_066.py check-apk release-input release-output
+      - name: Create tag and publish all verified release assets
+        run: python3 docs/tools/publish_glass_066.py publish release-input release-output
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: Published-0.6.6-test3-integrity
+          path: |
+            release-output/publication.json
+            release-output/release-info.json
+            release-output/SHA256SUMS.txt
+            release-output/apk-signature.txt
+            release-output/apk-package.txt
+          if-no-files-found: warn
