@@ -79,14 +79,14 @@ class GlassDockGestureTest {
         assertTrue(calls.isEmpty())
         compose.onNodeWithContentDescription("Voltar").assertIsSelected()
     }
-    @Test fun releaseOutsideTheDockDoesNotNavigate() {
+    @Test fun capturedDragReleasedOutsideTheDockKeepsItsHorizontalDestination() {
         show()
         dock().performTouchInput {
             down(Offset(width/6f,centerY));moveTo(Offset(width*5/6f,centerY),200)
             moveTo(Offset(width*5/6f,-20f),100);up()
         }
-        assertTrue(calls.isEmpty())
-        compose.onNodeWithContentDescription("Voltar").assertIsSelected()
+        assertEquals(listOf("settings"),calls)
+        compose.onNodeWithContentDescription("Configurações").assertIsSelected()
     }
     @Test fun releaseBeyondRightEdgeSelectsTheExtremeDestination() {
         show()

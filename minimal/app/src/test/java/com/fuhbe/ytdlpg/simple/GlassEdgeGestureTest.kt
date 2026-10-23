@@ -82,16 +82,16 @@ class GlassEdgeGestureTest {
     @Test fun targetCalculationIncludesTheRealMarginsAndKeepsIntermediateTolerance() {
         val bounds=listOf(2 to Rect(8f,0f,88f,56f),1 to Rect(100f,0f,200f,56f),0 to Rect(212f,0f,312f,56f))
         val size=IntSize(320,56)
-        for(x in listOf(-80f,-4f,0f,4f,8f)) assertEquals(2,glassDragTarget(Offset(x,28f),size,bounds,150f,4f))
-        for(x in listOf(312f,319f,320f,324f,400f)) assertEquals(0,glassDragTarget(Offset(x,28f),size,bounds,150f,4f))
-        assertEquals(2,glassDragTarget(Offset(0f,-4f),size,bounds,150f,4f))
-        assertEquals(0,glassDragTarget(Offset(320f,60f),size,bounds,150f,4f))
-        assertEquals(1,glassDragTarget(Offset(90f,28f),size,bounds,48f,4f))
-        assertNull(glassDragTarget(Offset(320f,61f),size,bounds,150f,4f))
-        assertNull(glassDragTarget(Offset(0f,-5f),size,bounds,150f,4f))
-        assertNull(glassDragTarget(Offset(Float.NaN,28f),size,bounds,150f,4f))
-        assertNull(glassDragTarget(Offset(Float.POSITIVE_INFINITY,28f),size,bounds,150f,4f))
-        assertNull(glassDragTarget(Offset(0f,28f),IntSize.Zero,bounds,150f,4f))
+        for(x in listOf(-80f,-4f,0f,4f,8f)) assertEquals(2,glassDragTarget(Offset(x,28f),size,bounds,150f))
+        for(x in listOf(312f,319f,320f,324f,400f)) assertEquals(0,glassDragTarget(Offset(x,28f),size,bounds,150f))
+        assertEquals(2,glassDragTarget(Offset(0f,-4f),size,bounds,150f))
+        assertEquals(0,glassDragTarget(Offset(320f,60f),size,bounds,150f))
+        assertEquals(1,glassDragTarget(Offset(90f,28f),size,bounds,48f))
+        assertEquals(0,glassDragTarget(Offset(320f,61f),size,bounds,150f))
+        assertEquals(2,glassDragTarget(Offset(0f,-5f),size,bounds,150f))
+        assertNull(glassDragTarget(Offset(Float.NaN,28f),size,bounds,150f))
+        assertNull(glassDragTarget(Offset(Float.POSITIVE_INFINITY,28f),size,bounds,150f))
+        assertNull(glassDragTarget(Offset(0f,28f),IntSize.Zero,bounds,150f))
     }
     @Test fun rtlAndUnequalWidthsUsePhysicalExtremeOptions() {
         show(rtl=true,unequal=true)
@@ -132,12 +132,12 @@ class GlassEdgeGestureTest {
             compose.mainClock.autoAdvance=true
         }
     }
-    @Test fun cancelledAndVerticallyEscapedEdgeDragsNeverCommit() {
+    @Test fun cancelledDragsNeverCommitButVerticalEscapeKeepsHorizontalSelection() {
         show();reset(1)
         track().performTouchInput { down(center);moveTo(Offset(width.toFloat(),centerY),200);cancel() }
         assertEquals(1,selected.intValue);assertTrue(calls.isEmpty())
         track().performTouchInput { down(center);moveTo(Offset(0f,centerY),200);moveTo(Offset(0f,-30f),100);up() }
-        assertEquals(1,selected.intValue);assertTrue(calls.isEmpty())
+        assertEquals(0,selected.intValue);assertEquals(listOf(0),calls)
     }
     private fun actualWindowEdges() {
         val screen=RuntimeEnvironment.getApplication().resources.configuration.screenWidthDp

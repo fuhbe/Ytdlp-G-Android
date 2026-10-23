@@ -206,7 +206,7 @@ internal val LocalGlassOpticalStrength=staticCompositionLocalOf { 1f }
                     (position.x-oldCenter).coerceIn(-selectedPane.width*.18f,selectedPane.width*.18f) else 0f
                 startCenter=position.x-grip;dragging=true
             },onDragEnd={change ->
-                val target=glassDragTarget(rowPoint(change),registry.size,ordered,startX,edgePadding)
+                val target=glassDragTarget(rowPoint(change),registry.size,ordered,startX)
                 if(target!=null && target!=currentSelected) currentAction(target)
                 // Relax to the confirmed destination, never start a spring to
                 // the old selection while awaiting the parent recomposition.

@@ -82,9 +82,10 @@ class SquareGlassGestureTest {
         }
         assertTrue(calls.isEmpty())
     }
-    @Test fun outsideReleaseAndVerticalGestureNeverCommit() {
+    @Test fun outsideReleaseCommitsButUnclaimedVerticalGestureDoesNot() {
         show()
         track().performTouchInput { down(Offset(width*.25f,centerY));moveTo(Offset(width*.75f,centerY),200);moveTo(Offset(width*.75f,-30f),100);up() }
+        assertEquals(listOf(1),calls);calls.clear()
         track().performTouchInput { swipe(Offset(width*.25f,centerY),Offset(width*.25f,-100f),200) }
         assertTrue(calls.isEmpty())
     }

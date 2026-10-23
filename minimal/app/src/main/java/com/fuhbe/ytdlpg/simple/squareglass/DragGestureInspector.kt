@@ -8,6 +8,7 @@ import androidx.compose.foundation.gestures.awaitEachGesture
 import androidx.compose.foundation.gestures.awaitFirstDown
 import androidx.compose.foundation.gestures.awaitHorizontalTouchSlopOrCancellation
 import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.input.pointer.PointerEventPass
 import androidx.compose.ui.input.pointer.PointerInputChange
 import androidx.compose.ui.input.pointer.PointerInputScope
 import androidx.compose.ui.input.pointer.changedToUpIgnoreConsumed
@@ -36,7 +37,10 @@ internal suspend fun PointerInputScope.inspectDragGestures(
                 onDragStart(down)
                 onDrag(start, start.position - down.position)
                 while (true) {
-                    val event = awaitPointerEvent()
+                    // The horizontal recognizer already owns this pointer. Consume
+                    // at Initial before scroll/click handlers run at Main, even
+                    // when the same finger travels outside the visual bounds.
+                    val event = awaitPointerEvent(PointerEventPass.Initial)
                     val change = event.changes.firstOrNull { it.id == down.id } ?: break
                     if (event.changes.any { it.id != down.id && it.pressed }) {
                         // This recognizer already owns a horizontal drag. Do

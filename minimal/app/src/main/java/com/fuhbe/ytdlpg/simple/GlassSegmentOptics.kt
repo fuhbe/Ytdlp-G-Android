@@ -30,12 +30,12 @@ internal fun glassIllumination(center:Float,index:Int,bounds:List<Pair<Int,Rect>
 
 /** Captured horizontal drags include both boundaries, padding and overshoot.
  * Use the actual finger position, independent of the elastic pane's center.
+ * Once horizontal intent owns the pointer, vertical escape is not cancellation.
  * Keep the directional 38% rule between physical centers unchanged. */
 internal fun glassDragTarget(point:Offset,size:androidx.compose.ui.unit.IntSize,
-    bounds:List<Pair<Int,Rect>>,origin:Float,verticalMargin:Float=0f):Int? {
+    bounds:List<Pair<Int,Rect>>,origin:Float):Int? {
     if(!point.x.isFinite() || !point.y.isFinite() || !origin.isFinite() ||
-        !verticalMargin.isFinite() || verticalMargin<0f || size.width<=0 || size.height<=0 ||
-        point.y < -verticalMargin || point.y > size.height+verticalMargin || bounds.isEmpty()) return null
+        size.width<=0 || size.height<=0 || bounds.isEmpty()) return null
     if(point.x<=bounds.first().second.center.x) return bounds.first().first
     if(point.x>=bounds.last().second.center.x) return bounds.last().first
     val direction=sign(point.x-origin)

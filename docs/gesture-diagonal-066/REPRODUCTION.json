@@ -1,0 +1,7 @@
+{
+  "baseline": "0aca45f6b60cde42ed483f10fb57a7ae944a4e88",
+  "class": "com.fuhbe.ytdlpg.simple.GlassDiagonalGestureTest",
+  "test": "diagonalReleaseAboveTheTrackReproducesTheReportedReturn",
+  "failure": "java.lang.AssertionError: A captured horizontal drag must select MP4 when released above the slider expected:<1> but was:<0>",
+  "renderer": "Robolectric native Skia software; actual production component and pointer stream"
+}
