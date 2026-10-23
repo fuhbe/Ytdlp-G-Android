@@ -43,6 +43,9 @@ relative share of each cause on the Redmi remain unmeasured here.
 - API33+ uses the existing native Backdrop AGSL lens against the **real cached
   content**, including text/icons, with a crisp optical center and cached shader.
   Specular lighting follows the touch; deformation and release elasticity remain.
+- On the mesh path, the moving specular is painted **after** the optical texture.
+  An opaque-source drawing regression checks that the texture cannot cover the
+  highlight. The same test exercises populated capture and real draw calls.
 
 The mesh is a geometric lens approximation that magnifies interior details and
 compresses its edge region. It genuinely displaces texture samples; it is not a

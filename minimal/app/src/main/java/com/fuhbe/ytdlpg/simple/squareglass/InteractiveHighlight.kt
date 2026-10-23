@@ -16,6 +16,7 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.BlendMode
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.drawscope.DrawScope
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
@@ -46,15 +47,17 @@ internal class InteractiveHighlight(private val animationScope: CoroutineScope) 
         pressJob = animationScope.launch { pressProgressAnimation.animateTo(0f, pressProgressAnimationSpec) }
         positionJob = animationScope.launch { positionAnimation.snapTo(displayedPosition); positionAnimation.animateTo(startPosition, positionAnimationSpec) { displayedPosition=value } }
     }
-    fun modifier(localPosition: () -> Offset): Modifier = Modifier.drawWithContent {
-        val progress = pressProgress.coerceIn(0f, 1f)
-        if (progress > .001f) {
-            // Square's white gains are reduced for this app's bright wallpaper
-            // so additive light does not saturate the entire pane to white.
-            drawRect(Color.White.copy(alpha=.035f * progress), blendMode=BlendMode.Plus)
-            drawRect(Brush.radialGradient(listOf(Color.White.copy(alpha=.07f * progress), Color.Transparent),
-                center=localPosition(),radius=size.minDimension * 1.5f),blendMode=BlendMode.Plus)
+    /** Must be painted after the opaque optical texture, not underneath it. */
+    fun drawOverlay(scope:DrawScope,localPosition:Offset) = with(scope) {
+        val progress=pressProgress.coerceIn(0f,1f)
+        if(progress>.001f) {
+            drawRect(Color.White.copy(alpha=.035f*progress),blendMode=BlendMode.Plus)
+            drawRect(Brush.radialGradient(listOf(Color.White.copy(alpha=.07f*progress),Color.Transparent),
+                center=localPosition,radius=size.minDimension*1.5f),blendMode=BlendMode.Plus)
         }
+    }
+    fun modifier(localPosition: () -> Offset): Modifier = Modifier.drawWithContent {
+        drawOverlay(this,localPosition())
         drawContent()
     }
 }

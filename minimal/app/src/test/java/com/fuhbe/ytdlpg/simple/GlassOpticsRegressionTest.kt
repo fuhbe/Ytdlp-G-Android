@@ -3,6 +3,9 @@ package com.fuhbe.ytdlpg.simple
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.Paint
+import androidx.compose.foundation.Canvas as ComposeCanvas
+import com.kyant.backdrop.backdrops.rememberLayerBackdrop
+import com.kyant.backdrop.backdrops.layerBackdrop
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
@@ -70,9 +73,13 @@ class GlassOpticsRegressionTest {
         compose.setContent {
             var selected by remember { mutableIntStateOf(0) }
             GlassTheme(false) {
-                CompositionLocalProvider(LocalGlassRenderStats provides stats,LocalGlassRendering provides GlassRendering.BLUR) {
-                    GlassSlidingSegments(selected,2,{selected=it},Modifier.fillMaxWidth().testTag("motion-track")) {
-                        repeat(2) { index -> Surface(onClick={selected=index},color=androidx.compose.ui.graphics.Color.Transparent,modifier=Modifier.weight(1f).height(56.dp).glassSegmentItem(index)) { Text(if(index==0) "MP3" else "MP4") } }
+                val backing=rememberLayerBackdrop()
+                Box(Modifier.fillMaxSize()) {
+                    ComposeCanvas(Modifier.fillMaxSize().layerBackdrop(backing)) { drawRect(androidx.compose.ui.graphics.Color(0xFF123366)) }
+                    CompositionLocalProvider(LocalGlassRenderStats provides stats,LocalGlassRendering provides GlassRendering.BLUR,LocalGlassBackdrop provides backing) {
+                        GlassSlidingSegments(selected,2,{selected=it},Modifier.fillMaxWidth().testTag("motion-track")) {
+                            repeat(2) { index -> Surface(onClick={selected=index},color=androidx.compose.ui.graphics.Color.Transparent,modifier=Modifier.weight(1f).height(56.dp).glassSegmentItem(index)) { Text(if(index==0) "MP3" else "MP4") } }
+                        }
                     }
                 }
             }
@@ -111,6 +118,9 @@ class GlassOpticsRegressionTest {
             val view=compose.activity.window.decorView
             val output=Bitmap.createBitmap(view.width,view.height,Bitmap.Config.ARGB_8888)
             view.draw(Canvas(output))
+            val sourceRed=android.graphics.Color.red(snapshot.getPixel(260,28))
+            val litRed=android.graphics.Color.red(output.getPixel(264,32))
+            assertTrue("Specular light must remain visible above an opaque mesh: $sourceRed -> $litRed",litRed-sourceRed>10)
             File(optical,"actual-control-held.png").outputStream().use { output.compress(Bitmap.CompressFormat.PNG,100,it) }
         }
         track.performTouchInput { cancel() }

@@ -21,6 +21,9 @@ conflict and captures the real control content for optics. See the
 [Actual control source snapshot](optical-probe/actual-control-source.png) ·
 [Held control in the software test window](optical-probe/actual-control-held.png)
 
+The isolated optical fixture has an opaque blue backing to verify that captured
+pixels do not hide the moving specular. It does not replace the app's wallpapers.
+
 These are real test renders, not an iOS mockup, a photo or a verified GPU result.
 Android 12's proposed HWUI mesh path still needs execution on the Redmi. Android
 13+ now feeds real labels/icons to the native lens. No stable 60 FPS or identical

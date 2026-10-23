@@ -219,11 +219,13 @@ internal val LocalGlassOpticalStrength=staticCompositionLocalOf { 1f }
                             if(canRefract && meshMode && image!=null) {
                                 try {
                                     lens.draw(this,image,pane(),motion.pressProgress,opticalStrength)
+                                    val r=pane()
+                                    highlight.drawOverlay(this,Offset(highlight.position.x-r.left,highlight.position.y-r.top))
                                     stats?.let { it.meshDraws++;it.hardwareMesh=lens.hardwareCanvasObserved }
                                 } catch (_:RuntimeException) { captureRejected=true;android.util.Log.w("YtdlpG-Glass","Mesh drawing unavailable; compatible glass retained") }
                             }
                         }
-                        .then(highlight.modifier { val r=pane();Offset(highlight.position.x-r.left,highlight.position.y-r.top) }))
+                        .then(if(canRefract && meshMode) Modifier else highlight.modifier { val r=pane();Offset(highlight.position.x-r.left,highlight.position.y-r.top) }))
                 }
             }
         }
