@@ -6,6 +6,8 @@ provided three-screen reference. The installed name and final APK filename are
 The desktop application, previous Android app and complete YTDLnis edition are
 preserved. This edition does not migrate their private databases.
 
+Version **0.6.2** adds independent playlist recovery, supervised media processing and conservative automatic transfer tuning. See [TURBO_REPORT.md](TURBO_REPORT.md), [DEVICE_TESTS.md](DEVICE_TESTS.md) and the exact-run verification artifacts.
+
 ## Interface and behavior
 
 - Home: paste one or multiple HTTPS YouTube links, analyze, preview, choose MP3
@@ -25,7 +27,7 @@ preserved. This edition does not migrate their private databases.
   and CRC. Original temporary files are retained. Cancellation deletes only an
   incomplete archive/export, not the originals.
 - SQLite queue, WorkManager foreground execution, per-job pause/resume/cancel,
-  retries, saved URIs, background notifications and open-file actions.
+  retries, saved URIs, background notifications and open-file actions. Failed and unavailable items have independent reasons; recoverable failures can be retried without repeating completed items. Partial success creates a warning and can still produce a nonempty ZIP.
 - Pausing kills the complete registered yt-dlp/FFmpeg process tree and preserves
   `.part` files. Resume uses `--continue`; unsupported server resume can restart
   a stream. Packaging restarts from completed original files.
@@ -51,9 +53,12 @@ Gradle 8.13. From this repository:
 
 ```sh
 python3 minimal/prepare.py
-bash minimal/gradlew -p minimal :app:assembleGithubRelease :app:testGithubDebugUnitTest --max-workers=1
+bash minimal/gradlew -p minimal :app:assembleGithubRelease :app:testGithubDebugUnitTest :app:assembleGithubReleaseAndroidTest --max-workers=1
 python3 minimal/smoke.py
 python3 minimal/verify_mp4.py minimal/app/build/generated/runtime/res/raw/ytdlp
+python3 minimal/benchmark.py --mode baseline --repetitions 3
+python3 minimal/benchmark.py --mode optimized --repetitions 3
+python3 minimal/compare_benchmarks.py
 python3 minimal/package.py
 ANDROID_HOME=/path/to/android-sdk python3 minimal/verify.py minimal/build/distribution/Ytdlp-G.apk
 python3 minimal/dex_bootstrap.py minimal/build/distribution/Ytdlp-G.apk --report minimal/build/dex-bootstrap.json

@@ -71,11 +71,13 @@ class AppModel(app: Application, private val backend: MediaBackend) : AndroidVie
     fun enqueue() {
         if (queuing) return
         val inspected = inspection ?: return
-        val items = inspected.items.filter { it.id in selected && it.available }
-        if (items.isEmpty()) { error = "Selecione pelo menos um vídeo."; return }
+        val available = inspected.items.filter { it.id in selected && it.available }
+        val allAvailableSelected = inspected.playlist && available.size == inspected.items.count { it.available }
+        val items = inspected.items.filter { it.id in selected || (allAvailableSelected && !it.available) }
+        if (available.isEmpty()) { error = "Selecione pelo menos um vídeo."; return }
         val app = getApplication<Application>()
         val job = QueueJob(title = if (items.size == 1) items.first().title else inspected.title, items = items,
-            choice = Policy.choice(choice, items.size), folder = folder)
+            choice = Policy.choice(choice, available.size), folder = folder, foundTotal = inspected.items.size)
         queuing = true
         viewModelScope.launch(Dispatchers.IO) {
             try {

@@ -34,10 +34,23 @@ with zipfile.ZipFile(source, "w", zipfile.ZIP_DEFLATED) as z:
             z.write(path, str(path.relative_to(ROOT)))
     z.write(HERE / "build/upstream.tar.gz", "minimal/build/upstream.tar.gz")
     z.write(HERE / "build/source-manifest.json", "minimal/source-manifest.json")
-for name in ["README.md", "VERIFICATION.md", "CRASH_FIX.md", "LOGCAT.md"]:
+for name in ["README.md", "VERIFICATION.md", "CRASH_FIX.md", "LOGCAT.md", "TURBO_REPORT.md", "DEVICE_TESTS.md", "DELIVERY_REPORT.md"]:
     shutil.copy2(HERE / name, output / name)
 shutil.copy2(HERE / "app/build/generated/upstream/assets/licenses/YTDLnis-GPL-3.0.txt", output / "LICENSE.txt")
 if (HERE / "build/host-smoke.json").exists():
     shutil.copy2(HERE / "build/host-smoke.json", output / "host-smoke.json")
 (output / "SHA256SUMS.txt").write_text("".join(f"{hashlib.sha256(p.read_bytes()).hexdigest()}  {p.name}\n" for p in [apk, source]))
 print(apk)
+
+for name in ["benchmark-baseline.json", "benchmark-optimized.json", "benchmark-comparison.json", "performance-report.md"]:
+    path = HERE / "build" / name
+    if path.is_file():
+        shutil.copy2(path, output / name)
+# The device test package targets this exact optimized APK; building is not running.
+tests = list((HERE / "app/build/outputs/apk/androidTest/github/release").glob("*.apk"))
+assert len(tests) == 1, "Build assembleGithubReleaseAndroidTest before packaging"
+device = HERE / "build/device-tests"
+device.mkdir(parents=True, exist_ok=True)
+shutil.copy2(tests[0], device / "Ytdlp-G-tests.apk")
+shutil.copy2(HERE / "DEVICE_TESTS.md", device / "DEVICE_TESTS.md")
+(device / "SHA256SUMS.txt").write_text(hashlib.sha256((device / "Ytdlp-G-tests.apk").read_bytes()).hexdigest() + "  Ytdlp-G-tests.apk\n")

@@ -9,3 +9,5 @@
 # ExtraFieldUtils.<clinit> then throws before Python/FFmpeg can initialize.
 -keep class org.apache.commons.compress.archivers.zip.** { *; }
 -keepattributes SourceFile,LineNumberTable
+
+-keep class com.fuhbe.ytdlpg.simple.ItemRecord { *; }

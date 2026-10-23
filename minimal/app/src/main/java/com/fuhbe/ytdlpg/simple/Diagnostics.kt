@@ -13,7 +13,7 @@ import java.util.UUID
 /** Logs structural failure data only: never URLs, titles, arguments or messages. */
 object Diagnostics {
     const val TAG = "YtdlpG"
-    enum class Stage { APP, ANALYZE, RUNTIME_INIT, PROCESS, UPDATE, UNCAUGHT }
+    enum class Stage { APP, ANALYZE, RUNTIME_INIT, PROCESS, UPDATE, BATCH, VALIDATE, EXPORT, UNCAUGHT }
     private val session = UUID.randomUUID().toString().take(8)
     private var destination: File? = null
     @Synchronized fun install(context: Context) {
@@ -52,7 +52,8 @@ object Diagnostics {
     }
     fun snapshot(context: Context): String {
         val file = File(context.filesDir, "diagnostic.txt")
-        return "Ytdlp-G ${BuildConfig.VERSION_NAME} • Android ${Build.VERSION.SDK_INT}\n" +
+        val processes = try { Store.list().sumOf { Engine.activeProcesses(it.id) } } catch (_: Exception) { -1 }
+        return "Ytdlp-G ${BuildConfig.VERSION_NAME} • Android ${Build.VERSION.SDK_INT} • active_native=$processes\n" +
             if (file.exists()) file.readText().takeLast(24_000) else "Nenhum diagnóstico registrado."
     }
 }

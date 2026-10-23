@@ -11,8 +11,8 @@ android {
         applicationId = "com.fuhbe.ytdlpg.minimal"
         minSdk = 26
         targetSdk = 35
-        versionCode = 61
-        versionName = "0.6.1"
+        versionCode = 62
+        versionName = "0.6.2"
         ndk { abiFilters += (project.findProperty("abis")?.toString() ?: "arm64-v8a").split(",") }
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -36,6 +36,7 @@ android {
     sourceSets["main"].res.srcDir("build/generated/runtime/res")
     sourceSets["main"].assets.srcDir("build/generated/upstream/assets")
     testOptions.unitTests.isIncludeAndroidResources = true
+    testBuildType = "release"
 }
 kotlin { compilerOptions { jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_17) } }
 val prepareRuntime by tasks.registering(Exec::class) {
@@ -43,6 +44,8 @@ val prepareRuntime by tasks.registering(Exec::class) {
     commandLine("python3", "prepare.py")
     inputs.file(rootProject.file("upstream.json"))
     inputs.file(rootProject.file("prepare.py"))
+    inputs.file(rootProject.file("runtime_patch.py"))
+    inputs.dir(rootProject.file("runtime"))
     inputs.file(rootProject.file("../scripts/prepare_runtime.py"))
     inputs.dir(rootProject.file("plugins"))
     outputs.dir(layout.buildDirectory.dir("generated/upstream"))
@@ -69,6 +72,11 @@ dependencies {
     implementation("org.apache.commons:commons-compress:1.12")
     implementation("io.github.deniscerri:ytdlnis_packages.python:3.14.6")
     implementation("io.github.junkfood02.youtubedl-android:ffmpeg:0.17.2")
+    androidTestImplementation("androidx.test.ext:junit:1.3.0")
+    androidTestImplementation("androidx.test:runner:1.7.0")
+    androidTestImplementation("androidx.test:core:1.7.0")
+    androidTestImplementation("androidx.concurrent:concurrent-futures-ktx:1.3.0")
+    androidTestImplementation("androidx.test.uiautomator:uiautomator:2.3.0")
     testImplementation("junit:junit:4.13.2")
     testImplementation("org.robolectric:robolectric:4.16")
     testImplementation("androidx.compose.ui:ui-test-junit4:1.10.1")
@@ -89,6 +97,7 @@ android.sourceSets["main"].jniLibs.srcDir(quickJsOutput)
 tasks.named("preBuild").configure { dependsOn(prepareQuickJs) }
 tasks.withType<Test>().configureEach {
     maxHeapSize = "2g"
+    systemProperty("ytdlpg.root", rootProject.projectDir.absolutePath)
     systemProperty("robolectric.dependency.repo.url", "https://repo.maven.apache.org/maven2")
     listOf("http.proxyHost", "http.proxyPort", "https.proxyHost", "https.proxyPort", "javax.net.ssl.trustStore").forEach {
         System.getProperty(it)?.let { value -> systemProperty(it, value) }

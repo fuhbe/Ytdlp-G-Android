@@ -30,31 +30,63 @@ object Engine : MediaBackend {
         .addOption("--socket-timeout", 12).addOption("--retries", 2)
         .addOption("--fragment-retries", 3).addOption("--no-color").addOption("--newline")
 
-    suspend fun execute(request: YTDLRequest, id: String, callback: ((Float, Long, String) -> Unit)? = null): com.deniscerri.ytdl.core.models.ExecuteResponse {
+    private val processes = java.util.concurrent.ConcurrentHashMap<String, String>()
+    fun stopJob(owner: String) { processes.entries.filter { it.value == owner }.forEach { stopProcess(it.key) } }
+    fun stopProcess(id: String) {
+        try { synchronized(RuntimeManager.idProcessMap) { RuntimeManager.destroyProcessById(id) } }
+        catch (e: Exception) { Diagnostics.failure(Diagnostics.Stage.PROCESS, e) }
+    }
+    fun cpuTicks(id: String) = RuntimeManager.processCpuTicks(id)
+    fun activeProcesses(owner: String) = processes.values.count { it == owner }
+
+    private suspend fun bridge(id: String, owner: String, callback: ((Float, Long, String) -> Unit)?,
+                              action: (((Float, Long, String) -> Unit)) -> com.deniscerri.ytdl.core.models.ExecuteResponse): com.deniscerri.ytdl.core.models.ExecuteResponse {
         val parent = currentCoroutineContext()[Job]!!
-        val lastError = java.util.concurrent.atomic.AtomicReference("")
-        // Do not interrupt the wait thread first: upstream would unregister the
-        // parent before its FFmpeg children can be terminated. Kill the complete
-        // process tree from a watchdog while the registration still exists.
+        val output = ProcessOutput(callback) { stopProcess(id) }
+        processes[id] = owner
         val watchdog = CoroutineScope(Dispatchers.IO).launch {
             while (isActive) {
-                if (!parent.isActive) RuntimeManager.destroyProcessById(id)
+                if (!parent.isActive || output.failure.get() != null) stopProcess(id)
                 delay(100)
             }
         }
         return try {
             RuntimeSafety.run(Diagnostics.Stage.PROCESS) {
                 try {
-                    RuntimeManager.execute(request, id, redirectErrorStream = true) { percent, eta, line ->
-                        if (line.contains("ERROR", true)) lastError.set(line.takeLast(1800))
-                        callback?.invoke(percent, eta, line)
-                    }
+                    val response = action(output::accept)
+                    output.failure.get()?.let { throw it }
+                    response
                 } catch (e: CancellationException) { throw e }
                 catch (e: Exception) {
-                    throw IllegalStateException(lastError.get().ifBlank { e.message.orEmpty() }, e)
+                    output.failure.get()?.let { throw it }
+                    throw IllegalStateException(output.lastError.get().ifBlank { e.message.orEmpty() }, e)
                 }
             }
-        } finally { watchdog.cancel(); RuntimeManager.destroyProcessById(id) }
+        } finally { watchdog.cancel(); stopProcess(id); processes.remove(id) }
+    }
+    suspend fun execute(request: YTDLRequest, id: String, callback: ((Float, Long, String) -> Unit)? = null,
+                        owner: String = id): com.deniscerri.ytdl.core.models.ExecuteResponse = bridge(id, owner, callback) {
+        RuntimeManager.execute(request, id, redirectErrorStream = true, callback = it)
+    }
+    suspend fun native(command: List<String>, id: String, owner: String = id): String {
+        val guard = ActivityGuard(android.os.SystemClock.elapsedRealtime())
+        guard.observe(android.os.SystemClock.elapsedRealtime(), phase = "VALIDATE")
+        val stalled = java.util.concurrent.atomic.AtomicBoolean(false)
+        val monitor = CoroutineScope(Dispatchers.IO).launch {
+            while (isActive) {
+                val cpu = try { cpuTicks(id) } catch (e: Exception) { Diagnostics.failure(Diagnostics.Stage.VALIDATE, e); -1 }
+                if (cpu >= 0) {
+                    guard.observe(android.os.SystemClock.elapsedRealtime(), cpuTicks = cpu)
+                    if (guard.stalled(android.os.SystemClock.elapsedRealtime())) { stalled.set(true); stopProcess(id) }
+                }
+                delay(1_000)
+            }
+        }
+        try { return bridge(id, owner, null) { RuntimeManager.executeImpl(command, id, redirectErrorStream = false, callback = it) }.out }
+        catch (e: Exception) {
+            if (stalled.get()) throw TransferException(Failure("STALLED", "A verificação ficou sem atividade de CPU. Tente novamente; o original foi preservado.", true), e)
+            throw e
+        } finally { monitor.cancel() }
     }
 
     override suspend fun inspect(context: Context, links: List<String>, progress: (String) -> Unit): Inspection = withContext(Dispatchers.IO) {

@@ -2,7 +2,7 @@
 
 ## On the phone
 
-1. Install the new **0.6.1 Ytdlp-G.apk**, not the older APK in download history.
+1. Install the new **0.6.2 Ytdlp-G.apk**, not the older APK in download history.
    Confirm the version in Android Settings → Apps → Ytdlp-G.
 2. Test Analyze link using one accessible public YouTube link. Wait for the first
    runtime extraction; check that the UI remains responsive and can cancel.

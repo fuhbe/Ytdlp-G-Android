@@ -25,9 +25,36 @@ object Storage {
             require(tree != null && tree.exists() && tree.canWrite()) { "A pasta está inacessível. Selecione novamente a pasta de destino." }
         } else require(Build.VERSION.SDK_INT >= 29) { "Escolha uma pasta de destino antes de baixar." }
     }
-    fun export(context: Context, source: File, folder: String, mime: String, check: () -> Unit): Uri {
+    fun export(context: Context, source: File, folder: String, mime: String, check: () -> Unit,
+               progress: (Long, Long) -> Unit = { _, _ -> }, journal: File? = null, owner: String = ""): Uri {
         validate(context, folder)
         val resolver = context.contentResolver
+        fun journalWrite(uri: Uri, stage: String) {
+            journal ?: return
+            val atomic = android.util.AtomicFile(journal)
+            val output = atomic.startWrite()
+            try {
+                output.write(org.json.JSONObject().put("source", source.canonicalPath).put("bytes", source.length()).put("modified", source.lastModified()).put("uri", uri.toString()).put("stage", stage).toString().toByteArray())
+                atomic.finishWrite(output)
+            } catch (e: Exception) { atomic.failWrite(output); throw e }
+        }
+        // Recover a completed export after process death; never create another copy.
+        if (journal?.isFile == true) {
+            val old = org.json.JSONObject(journal.readText())
+            val oldUri = Uri.parse(old.getString("uri"))
+            if (old.optString("source") == source.canonicalPath && old.optLong("bytes") == source.length() && old.optLong("modified") == source.lastModified()) {
+                if (old.optString("stage") in setOf("COPIED", "COMMITTED")) {
+                    val length = resolver.openAssetFileDescriptor(oldUri, "r")?.use { it.length }
+                    if (length == source.length() || length == -1L) {
+                        if (folder.isBlank()) resolver.update(oldUri, ContentValues().apply { put(MediaStore.MediaColumns.IS_PENDING, 0) }, null, null)
+                        journalWrite(oldUri, "COMMITTED")
+                        return oldUri
+                    }
+                }
+                resolver.delete(oldUri, null, null)
+            } else if (old.optString("stage") != "COMMITTED") resolver.delete(oldUri, null, null)
+            android.util.AtomicFile(journal).delete()
+        }
         val uri: Uri
         if (folder.isNotBlank()) {
             val tree = checkNotNull(DocumentFile.fromTreeUri(context, Uri.parse(folder)))
@@ -48,11 +75,26 @@ object Storage {
             })) { "Não foi possível criar o arquivo em Downloads." }
         }
         try {
-            source.inputStream().use { input -> checkNotNull(resolver.openOutputStream(uri, "w")).use { output -> copy(input, output, check) } }
+            journalWrite(uri, "CREATED")
+            val signal = android.os.CancellationSignal()
+            val releaseSignal = ExportStreams.track(owner, java.io.Closeable { signal.cancel() })
+            try {
+                source.inputStream().use { input ->
+                    val descriptor = checkNotNull(resolver.openFileDescriptor(uri, "w", signal))
+                    android.os.ParcelFileDescriptor.AutoCloseOutputStream(descriptor).use { output ->
+                        val release = ExportStreams.track(owner, output)
+                        try { copy(input, output, check) { bytes -> progress(bytes, source.length()) } }
+                        finally { release() }
+                    }
+                }
+            } finally { releaseSignal() }
+            journalWrite(uri, "COPIED")
             if (folder.isBlank()) resolver.update(uri, ContentValues().apply { put(MediaStore.MediaColumns.IS_PENDING, 0) }, null, null)
+            journalWrite(uri, "COMMITTED")
             return uri
         } catch (error: Exception) {
             runCatching { resolver.delete(uri, null, null) }
+            journal?.let { android.util.AtomicFile(it).delete() }
             throw error
         }
     }
@@ -69,7 +111,11 @@ object Storage {
         }
     }
     fun archive(files: List<File>, target: File, check: () -> Unit, progress: (Float) -> Unit) {
-        require(files.size >= 2) { "ZIP exige pelo menos dois arquivos." }
+        archiveSelected(files, target, files.size, check, progress)
+    }
+    fun archiveSelected(files: List<File>, target: File, selectedCount: Int, check: () -> Unit, progress: (Float) -> Unit, verifying: () -> Unit = {}) {
+        require(selectedCount >= 2) { "ZIP exige uma seleção de pelo menos dois arquivos." }
+        require(files.isNotEmpty()) { "Nenhum arquivo válido foi concluído para o ZIP." }
         val partial = File(target.path + ".part")
         try {
             var completed = 0L
@@ -85,6 +131,7 @@ object Storage {
                     output.closeEntry()
                 }
             }
+            verifying()
             ZipFile(partial).use { require(it.size() == files.size) { "O ZIP ficou incompleto." } }
             ZipInputStream(partial.inputStream().buffered()).use { input ->
                 val buffer = ByteArray(64 * 1024)

@@ -29,14 +29,21 @@ jobs:
           sdkmanager_bin="$(find "$sdk_root/cmdline-tools" -maxdepth 3 -type f -name sdkmanager | head -n 1)"
           "$sdkmanager_bin" 'platforms;android-36' 'build-tools;36.0.0'
           echo "ANDROID_HOME=$sdk_root" >> "$GITHUB_ENV"
-      - name: Build optimized ARM64 APK and run automated tests
-        run: bash minimal/gradlew -p minimal :app:assembleGithubRelease :app:testGithubDebugUnitTest --no-daemon --max-workers=1 --warning-mode=none
-      - name: Run real HTTP downloads, MP3 conversion and MP4 resolution checks
+      - name: Prepare host integration tools
         run: |
           python3 scripts/prepare_smoke_ffmpeg.py "$PWD/.smoke-bin"
-          export PATH="$PWD/.smoke-bin:$PATH"
+          echo "$PWD/.smoke-bin" >> "$GITHUB_PATH"
+      - name: Build optimized ARM64 APK and run automated tests
+        run: bash minimal/gradlew -p minimal :app:assembleGithubRelease :app:testGithubDebugUnitTest :app:assembleGithubReleaseAndroidTest --no-daemon --max-workers=1 --warning-mode=none
+      - name: Run real HTTP downloads, MP3 conversion and MP4 resolution checks
+        run: |
           python3 minimal/smoke.py
           python3 minimal/verify_mp4.py minimal/app/build/generated/runtime/res/raw/ytdlp
+      - name: Measure paired generated-media baseline and optimized performance
+        run: |
+          python3 minimal/benchmark.py --mode baseline --repetitions 3
+          python3 minimal/benchmark.py --mode optimized --repetitions 3
+          python3 minimal/compare_benchmarks.py
       - name: Package exact APK and corresponding source
         run: |
           python3 minimal/package.py
@@ -51,6 +58,11 @@ jobs:
           path: minimal/build/distribution/*
           if-no-files-found: error
       - uses: actions/upload-artifact@v4
+        with:
+          name: Android-device-tests
+          path: minimal/build/device-tests/*
+          if-no-files-found: error
+      - uses: actions/upload-artifact@v4
         if: always()
         with:
           name: Minimal-verification
@@ -59,6 +71,10 @@ jobs:
             minimal/app/build/test-results/
             minimal/build/source-manifest.json
             minimal/build/host-smoke.json
+            minimal/build/benchmark-*.json
+            minimal/build/performance-report.md
+            minimal/build/fixture-stderr.log
+            minimal/build/host-process-errors.log
             minimal/build/dex-bootstrap.json
             minimal/build/zip-bootstrap-regression.json
             minimal/app/build/outputs/mapping/githubRelease/

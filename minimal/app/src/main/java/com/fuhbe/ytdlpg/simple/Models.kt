@@ -17,7 +17,22 @@ data class QueueJob(
     val choice: Choice, val folder: String, val state: String = "QUEUED",
     val progress: Float = 0f, val current: Int = 0, val speed: Long = 0, val eta: Long = 0,
     val phase: String = "Na fila", val error: String = "", val files: List<SavedFile> = emptyList(),
-    val archiveUri: String = "", val created: Long = System.currentTimeMillis()
+    val archiveUri: String = "", val created: Long = System.currentTimeMillis(),
+    val records: List<ItemRecord> = emptyList(), val indeterminate: Boolean = true,
+    val foundTotal: Int = items.size, val retryGeneration: Int = 0,
+    val optimization: String = ""
+)
+
+data class ItemRecord(
+    val position: Int, val mediaId: String, val state: String = "PENDING",
+    val phase: String = "Aguardando", val fraction: Float = 0f,
+    val reason: String = "", val code: String = "", val retryable: Boolean = false,
+    val attempts: Int = 0, val bytes: Long = 0, val total: Long = 0,
+    val speed: Long = 0, val eta: Long = 0, val indeterminate: Boolean = true
+)
+data class TransferProgress(
+    val phase: String, val fraction: Float? = null, val bytes: Long = 0,
+    val total: Long = 0, val speed: Long = 0, val eta: Long = 0
 )
 
 object Policy {

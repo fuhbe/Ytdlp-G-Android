@@ -36,3 +36,21 @@ The loading UI also runs under Robolectric API 26, 31 and 35. These are Android
 framework tests on a JVM, not a physical device or emulator. The ZIP regression
 uses R8 classfile output and the real APK payloads; the DEX guard independently
 checks the actual optimized Android binary. See [CRASH_FIX.md](CRASH_FIX.md).
+
+## 0.6.2 additions
+
+The suite now also runs the real production batch coordinator against a
+16-item real HTTP/MP3 pipeline with unavailable items in the middle, split DASH
+MP4 and codec conversion, resume after a broken HTTP connection, transient retry,
+missing fragment rejection, full host decoding, validated-output reuse and
+atomic export-journal recovery. Queue tests cover bounded parallelism, actual
+pause/retry transitions, systemic stop, monotonic progress and old-row defaults.
+The frozen old reader and a real child process reproduce the callback pipe
+deadlock; the corrected guarded reader terminates/drains instead.
+
+The paired generated-media benchmark publishes raw times, speeds, CPU, sampled
+RSS and output size, including regressions. Read performance-report.md from the
+exact run; controlled local HLS latency is not Internet throughput. Four
+instrumented scenarios are compiled for the optimized APK and published in
+Android-device-tests, but remain unexecuted here. See DEVICE_TESTS.md and
+TURBO_REPORT.md. The same physical-device acceptance limits still apply.

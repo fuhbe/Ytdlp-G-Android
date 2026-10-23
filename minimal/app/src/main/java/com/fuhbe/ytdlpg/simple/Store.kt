@@ -23,7 +23,7 @@ class SimpleApp : Application() {
 }
 
 /** SQLite commits preserve queue controls, partial paths and export URIs on restart. */
-object Store {
+object Store : QueueRepository {
     private lateinit var db: SQLiteDatabase
     private val gson = Gson()
     val jobs = MutableStateFlow<List<QueueJob>>(emptyList())
@@ -36,7 +36,7 @@ object Store {
                     db.execSQL("ALTER TABLE jobs ADD COLUMN state TEXT NOT NULL DEFAULT 'QUEUED'")
                     db.rawQuery("SELECT id,json FROM jobs", null).use { cursor ->
                         while (cursor.moveToNext()) {
-                            val job = gson.fromJson(cursor.getString(1), QueueJob::class.java)
+                            val job = decode(cursor.getString(1))
                             db.update("jobs", ContentValues().apply { put("state", job.state) }, "id=?", arrayOf(cursor.getString(0)))
                         }
                     }
@@ -46,10 +46,10 @@ object Store {
         publish()
     }
     @Synchronized fun list(): List<QueueJob> = db.rawQuery("SELECT json FROM jobs", null).use { cursor ->
-        buildList { while (cursor.moveToNext()) add(gson.fromJson(cursor.getString(0), QueueJob::class.java)) }.sortedByDescending { it.created }
+        buildList { while (cursor.moveToNext()) add(decode(cursor.getString(0))) }.sortedByDescending { it.created }
     }
-    @Synchronized fun get(id: String): QueueJob = db.rawQuery("SELECT json FROM jobs WHERE id=?", arrayOf(id)).use {
-        check(it.moveToFirst()) { "Download não encontrado." }; gson.fromJson(it.getString(0), QueueJob::class.java)
+    @Synchronized override fun get(id: String): QueueJob = db.rawQuery("SELECT json FROM jobs WHERE id=?", arrayOf(id)).use {
+        check(it.moveToFirst()) { "Download não encontrado." }; decode(it.getString(0))
     }
     @Synchronized fun state(id: String): String = db.rawQuery("SELECT state FROM jobs WHERE id=?", arrayOf(id)).use {
         check(it.moveToFirst()); it.getString(0)
@@ -58,11 +58,22 @@ object Store {
         db.insertOrThrow("jobs", null, ContentValues().apply { put("id", job.id); put("state", job.state); put("json", gson.toJson(job)) })
         publish()
     }
-    @Synchronized fun edit(id: String, change: (QueueJob) -> QueueJob): QueueJob {
+    @Synchronized override fun edit(id: String, change: (QueueJob) -> QueueJob): QueueJob {
         val next = change(get(id))
         db.update("jobs", ContentValues().apply { put("state", next.state); put("json", gson.toJson(next)) }, "id=?", arrayOf(id))
         publish()
         return next
+    }
+    // Gson cannot apply Kotlin constructor defaults to old database JSON.
+    // Add only new fields, retaining old IDs, files, URIs and partial paths.
+    internal fun decode(json: String): QueueJob {
+        val objectValue = com.google.gson.JsonParser.parseString(json).asJsonObject
+        if (!objectValue.has("records")) objectValue.add("records", com.google.gson.JsonArray())
+        if (!objectValue.has("indeterminate")) objectValue.addProperty("indeterminate", true)
+        if (!objectValue.has("foundTotal")) objectValue.addProperty("foundTotal", objectValue.getAsJsonArray("items").size())
+        if (!objectValue.has("retryGeneration")) objectValue.addProperty("retryGeneration", 0)
+        if (!objectValue.has("optimization")) objectValue.addProperty("optimization", "")
+        return gson.fromJson(objectValue, QueueJob::class.java)
     }
     private fun publish() { jobs.value = list() }
     fun preferences(context: Context) = context.getSharedPreferences("minimal", Context.MODE_PRIVATE)

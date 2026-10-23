@@ -377,9 +377,10 @@ private fun Color.luminanceValue() = red * .2126f + green * .7152f + blue * .072
 @Composable private fun DownloadsScreen(jobs: List<QueueJob>, control: (String, String) -> Unit) {
     var completedTab by rememberSaveable { mutableStateOf(false) }
     var opened by remember { mutableStateOf<QueueJob?>(null) }
+    var failures by remember { mutableStateOf<QueueJob?>(null) }
     val context = LocalContext.current
-    val ongoing = jobs.filter { it.state != "DONE" }
-    val completed = jobs.filter { it.state == "DONE" }
+    val ongoing = jobs.filter { it.state !in setOf("DONE", "WARNING") }
+    val completed = jobs.filter { it.state in setOf("DONE", "WARNING") }
     Column(Modifier.fillMaxWidth()) {
         Segments(listOf("Downloads (${ongoing.size})", "Concluídos"), listOf(Icons.Default.Downloading, Icons.Default.CheckCircle), if (completedTab) 1 else 0) { completedTab = it == 1 }
         LazyColumn(Modifier.fillMaxWidth().padding(top = 12.dp), verticalArrangement = Arrangement.spacedBy(13.dp), contentPadding = PaddingValues(bottom = 24.dp)) {
@@ -387,36 +388,64 @@ private fun Color.luminanceValue() = red * .2126f + green * .7152f + blue * .072
             if (visible.isEmpty()) item { GlassCard { Text(if (completedTab) "Nenhum download concluído." else "Seus downloads aparecerão aqui.") } }
             items(visible, key = { it.id }) { job ->
                 GlassCard {
-                    val current = job.items.getOrNull(job.current.coerceAtMost(job.items.lastIndex)) ?: job.items.first()
+                    val finished = job.state in setOf("DONE", "WARNING")
+                    val records = BatchRunner.records(job)
+                    val missed = records.filter { it.state in setOf("FAILED", "SKIPPED") }
+                    val activeIndex = records.firstOrNull { it.state == "RUNNING" }?.position ?: job.current.coerceAtMost(job.items.lastIndex)
+                    val current = job.items.getOrNull(activeIndex) ?: job.items.first()
                     Preview(current.copy(title = if (job.items.size > 1) job.title else current.title),
                         "${if (job.choice.mp3) "MP3 • melhor fonte" else "MP4"}${if (job.items.size > 1) " • ${job.current} de ${job.items.size}" else ""}${if (job.choice.zip) " • ZIP" else ""}")
                     val progress by animateFloatAsState(job.progress, label = "Progresso real")
                     Row(Modifier.padding(top = 13.dp), verticalAlignment = Alignment.CenterVertically) {
-                        LinearProgressIndicator(progress = { progress }, modifier = Modifier.weight(1f).height(6.dp).clip(RoundedCornerShape(4.dp)), color = if (job.state == "DONE") Color(0xFF129775) else Blue, trackColor = MaterialTheme.colorScheme.onSurface.copy(alpha = .1f))
+                        if (job.state == "RUNNING" && job.indeterminate) LinearProgressIndicator(modifier = Modifier.weight(1f).height(6.dp).clip(RoundedCornerShape(4.dp)), color = Blue, trackColor = MaterialTheme.colorScheme.onSurface.copy(alpha = .1f))
+                        else LinearProgressIndicator(progress = { progress }, modifier = Modifier.weight(1f).height(6.dp).clip(RoundedCornerShape(4.dp)), color = if (finished) Color(0xFF129775) else Blue, trackColor = MaterialTheme.colorScheme.onSurface.copy(alpha = .1f))
                         Spacer(Modifier.width(10.dp))
-                        Text("${(job.progress * 100).toInt()}%", fontSize = 12.sp, fontWeight = FontWeight.SemiBold)
+                        if (!(job.state == "RUNNING" && job.indeterminate)) Text("${(job.progress * 100).toInt()}%", fontSize = 12.sp, fontWeight = FontWeight.SemiBold)
                     }
-                    Text(if (job.speed > 0 && job.state == "RUNNING") "${bytes(job.speed)}/s • ${duration(job.eta)} restantes" else job.phase,
-                        fontSize = 12.sp, color = MaterialTheme.colorScheme.onSurfaceVariant, modifier = Modifier.padding(top = 8.dp))
+                    Text(job.phase, fontSize = 12.sp, color = MaterialTheme.colorScheme.onSurfaceVariant, modifier = Modifier.padding(top = 8.dp))
+                    if (job.speed > 0 && job.state == "RUNNING") Text("${bytes(job.speed)}/s" + if (job.eta > 0) " • ${duration(job.eta)} nesta etapa" else "",
+                        fontSize = 12.sp, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                    if (job.optimization.isNotBlank() && job.state == "RUNNING") Text(job.optimization, fontSize = 11.sp, color = MaterialTheme.colorScheme.onSurfaceVariant)
                     if (job.error.isNotBlank()) Text(job.error, color = MaterialTheme.colorScheme.error, fontSize = 12.sp, modifier = Modifier.padding(top = 7.dp))
                     Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.End, verticalAlignment = Alignment.CenterVertically) {
-                        Text(when (job.state) { "DONE" -> "Concluído"; "PAUSED" -> "Pausado"; "CANCELLED" -> "Cancelado"; "ERROR" -> "Erro"; "QUEUED" -> "Na fila"; else -> "Baixando" },
-                            color = if (job.state == "DONE") Color(0xFF128466) else MaterialTheme.colorScheme.primary, fontSize = 12.sp, modifier = Modifier.weight(1f))
+                        Text(when (job.state) { "DONE" -> "Concluído"; "WARNING" -> "Concluído com avisos"; "PAUSED" -> "Pausado"; "CANCELLED" -> "Cancelado"; "ERROR" -> "Erro"; "QUEUED" -> "Na fila"; else -> "Baixando" },
+                            color = if (finished) Color(0xFF128466) else MaterialTheme.colorScheme.primary, fontSize = 12.sp, modifier = Modifier.weight(1f))
                         if (job.state in listOf("RUNNING", "QUEUED")) IconButton(onClick = { control(job.id, "pause") }) { Icon(Icons.Default.Pause, "Pausar ${job.title}") }
-                        if (job.state in listOf("PAUSED", "ERROR", "CANCELLED")) IconButton(onClick = { control(job.id, "resume") }) { Icon(if (job.state == "PAUSED") Icons.Default.PlayArrow else Icons.Default.Refresh, "Retomar ${job.title}") }
-                        if (job.state == "DONE") IconButton(onClick = {
+                        if (job.state in listOf("PAUSED", "CANCELLED") || (job.state == "ERROR" && (records.any { it.state in setOf("PENDING", "RUNNING") || it.retryable } || job.files.isNotEmpty()))) IconButton(onClick = { control(job.id, "resume") }) { Icon(if (job.state == "PAUSED") Icons.Default.PlayArrow else Icons.Default.Refresh, "Retomar ${job.title}") }
+                        if (finished) IconButton(onClick = {
                             if (job.archiveUri.isNotBlank()) openFile(context, Uri.parse(job.archiveUri), "application/zip")
                             else if (job.files.size == 1) openFile(context, Storage.openUri(context, job.files.first()), if (job.choice.mp3) "audio/mpeg" else "video/mp4")
                             else opened = job
                         }) { Icon(Icons.Default.FolderOpen, "Abrir arquivos de ${job.title}") }
                         else if (job.state != "CANCELLED") IconButton(onClick = { control(job.id, "cancel") }) { Icon(Icons.Default.Close, "Cancelar ${job.title}") }
                     }
-                    if (job.state == "DONE") {
+                    if (missed.isNotEmpty()) TextButton(onClick = { failures = job }) { Text("Ver não baixados (${missed.size})") }
+                    if (finished) {
                         Text("${bytes(job.files.sumOf { it.bytes })}${job.files.firstOrNull()?.height?.takeIf { it > 0 }?.let { " • ${it}p" }.orEmpty()}", fontSize = 12.sp, color = MaterialTheme.colorScheme.onSurfaceVariant)
                     }
                 }
             }
         }
+    }
+    failures?.let { selected ->
+        val job = jobs.firstOrNull { it.id == selected.id } ?: selected
+        val records = BatchRunner.records(job).filter { it.state in setOf("FAILED", "SKIPPED") }
+        val eligible = records.count { it.retryable }
+        AlertDialog(onDismissRequest = { failures = null }, title = { Text("Não baixados (${records.size})") }, text = {
+            LazyColumn(verticalArrangement = Arrangement.spacedBy(12.dp)) {
+                item { Text(BatchRunner.summary(job), fontSize = 13.sp) }
+                items(records, key = { it.position }) { record ->
+                    Column {
+                        Text("${record.position + 1}. ${job.items[record.position].title}", fontWeight = FontWeight.SemiBold, fontSize = 14.sp)
+                        Text(record.reason, fontSize = 12.sp)
+                        if (record.retryable) Text("Pode tentar novamente", fontSize = 11.sp, color = MaterialTheme.colorScheme.primary)
+                    }
+                }
+            }
+        }, confirmButton = {
+            if (eligible > 0 && job.state in setOf("WARNING", "ERROR")) TextButton(onClick = { control(job.id, "retry"); failures = null }) { Text("Tentar novamente ($eligible)") }
+            else TextButton(onClick = { failures = null }) { Text("Fechar") }
+        }, dismissButton = { if (eligible > 0 && job.state in setOf("WARNING", "ERROR")) TextButton(onClick = { failures = null }) { Text("Fechar") } })
     }
     opened?.let { job -> AlertDialog(onDismissRequest = { opened = null }, title = { Text("Arquivos concluídos") }, text = {
         LazyColumn { items(job.files) { file -> TextButton(onClick = { openFile(context, Storage.openUri(context, file), if (job.choice.mp3) "audio/mpeg" else "video/mp4") }) { Text(file.title) } } }

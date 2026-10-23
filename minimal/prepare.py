@@ -8,6 +8,7 @@ import sys
 import tarfile
 import urllib.request
 from pathlib import Path
+from runtime_patch import patch_runtime, stream_source
 
 HERE = Path(__file__).resolve().parent
 ROOT = HERE.parent
@@ -39,6 +40,11 @@ def main():
                 data = data.replace(b"import com.deniscerri.ytdl.App\n", b"")
                 data = data.replace(b"import com.deniscerri.ytdl.R", b"import com.fuhbe.ytdlpg.simple.R")
                 data = data.replace(b"import com.deniscerri.ytdl.BuildConfig", b"import com.fuhbe.ytdlpg.simple.BuildConfig")
+                if name.endswith("core/RuntimeManager.kt"):
+                    data = patch_runtime(data)
+                elif name.endswith("core/stream/StreamProcessExtractor.kt"):
+                    data = stream_source()
+                sources[-1]["prepared_sha256"] = hashlib.sha256(data).hexdigest()
                 target = java / name.removeprefix("app/src/main/java/")
                 target.parent.mkdir(parents=True, exist_ok=True)
                 target.write_bytes(data)
@@ -68,7 +74,7 @@ object FileUtil {
         f"Ytdlp-G, a GPL-3.0 derivative using YTDLnis runtime components.\n"
         f"Copyright Deniscerri and YTDLnis contributors.\n"
         f"Source: https://github.com/{PIN['repository']}/tree/{PIN['commit']}\n"
-        "Changes: separate minimal UI, persistent queue, SAF export and MP4 postprocessing.\n")
+        "Changes: separate minimal UI, persistent queue, SAF export, MP4 postprocessing, bounded stream reading and native CPU observation.\n")
     runtime = HERE / "app/build/generated/runtime/res"
     subprocess.run([sys.executable, str(ROOT / "scripts/prepare_runtime.py"), str(runtime)], check=True)
     (HERE / "build/source-manifest.json").write_text(json.dumps({"commit": PIN["commit"], "sources": sources}, indent=2))
