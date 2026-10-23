@@ -11,18 +11,28 @@ android {
         applicationId = "com.fuhbe.ytdlpg.minimal"
         minSdk = 26
         targetSdk = 35
-        versionCode = 69
-        versionName = "0.6.6-test4"
+        versionCode = 70
+        versionName = "0.6.6"
         ndk { abiFilters += (project.findProperty("abis")?.toString() ?: "arm64-v8a").split(",") }
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
     flavorDimensions += "runtime"
     productFlavors { create("github") { dimension = "runtime" } }
+    // Optional owner-provided signing credentials stay in CI secrets/environment.
+    val officialStore = providers.environmentVariable("YTDLPG_KEYSTORE_PATH").orNull
+    if (!officialStore.isNullOrBlank()) {
+        signingConfigs.create("official") {
+            storeFile = file(officialStore)
+            storePassword = providers.environmentVariable("YTDLPG_KEYSTORE_PASSWORD").get()
+            keyAlias = providers.environmentVariable("YTDLPG_KEY_ALIAS").get()
+            keyPassword = providers.environmentVariable("YTDLPG_KEY_PASSWORD").get()
+        }
+    }
     buildTypes {
         release {
             isMinifyEnabled = true
             isShrinkResources = true
-            signingConfig = signingConfigs.getByName("debug")
+            signingConfig = signingConfigs.findByName("official") ?: signingConfigs.getByName("debug")
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
         }
     }

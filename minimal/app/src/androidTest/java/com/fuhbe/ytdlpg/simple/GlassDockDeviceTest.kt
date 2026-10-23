@@ -36,8 +36,8 @@ class GlassDockDeviceTest {
                 }
             }
             instrumentation.waitForIdleSync();device.waitForIdle(2000)
-            val first=device.findObject(By.desc("Voltar")).visibleBounds
-            val last=device.findObject(By.desc("Configurações")).visibleBounds
+            val first=device.findObject(By.desc("Back")).visibleBounds
+            val last=device.findObject(By.desc("Settings")).visibleBounds
             assertTrue(device.swipe(first.centerX(),first.centerY(),last.centerX(),last.centerY(),30))
             instrumentation.waitForIdleSync();device.waitForIdle(2000)
             scenario.onActivity { assertEquals(listOf("settings"),calls) }

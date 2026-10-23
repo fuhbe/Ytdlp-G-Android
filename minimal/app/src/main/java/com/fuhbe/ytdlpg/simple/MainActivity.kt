@@ -117,7 +117,7 @@ private val Shape = RoundedCornerShape(23.dp)
         if (uri != null) try {
             context.contentResolver.takePersistableUriPermission(uri, Intent.FLAG_GRANT_READ_URI_PERMISSION or Intent.FLAG_GRANT_WRITE_URI_PERMISSION)
             model.setFolder(uri)
-        } catch (_: Exception) { model.error = "Não foi possível manter acesso a essa pasta. Escolha outra pasta." }
+        } catch (_: Exception) { model.error = "Cannot keep access to this folder. Choose another folder." }
     }
     val notifications = rememberLauncherForActivityResult(ActivityResultContracts.RequestPermission()) {}
     val chooseFolder = { folderPicker.launch(model.folder.takeIf { it.isNotBlank() }?.let(Uri::parse)) }
@@ -130,7 +130,7 @@ private val Shape = RoundedCornerShape(23.dp)
         Column(Modifier.fillMaxHeight().widthIn(max = 760.dp).fillMaxWidth().padding(horizontal = 12.dp).padding(bottom = with(density) { dockHeight.toDp() }).then(capture)) {
             Row(Modifier.fillMaxWidth().padding(vertical = 6.dp), verticalAlignment = Alignment.CenterVertically) {
                 if (model.area == "home" && model.inspection?.playlist == true) {
-                    IconButton(onClick = { if (model.area != "home") model.area = "home" else model.clear() }) { Icon(Icons.AutoMirrored.Filled.ArrowBack, "Voltar") }
+                    IconButton(onClick = { if (model.area != "home") model.area = "home" else model.clear() }) { Icon(Icons.AutoMirrored.Filled.ArrowBack, "Back") }
                 } else {
                     Box(Modifier.size(38.dp).clip(RoundedCornerShape(12.dp)).background(Brush.verticalGradient(listOf(Color(0xFF56B7FF), Blue))), contentAlignment = Alignment.Center) { Icon(Icons.Default.Download, null, tint = Color.White, modifier = Modifier.size(25.dp)) }
                     Spacer(Modifier.width(10.dp))
@@ -222,22 +222,22 @@ private val Shape = RoundedCornerShape(23.dp)
     LazyColumn(Modifier.fillMaxWidth().fillMaxHeight(), verticalArrangement = Arrangement.spacedBy(9.dp), contentPadding = PaddingValues(bottom = 24.dp)) {
         if (!playlist) item {
             GlassCard {
-                Heading("Link do vídeo")
+                Heading("Video link")
                 OutlinedTextField(model.url, { model.url = it; if (inspection != null) model.clear() },
-                    placeholder = { Text("Cole um ou vários links do YouTube", fontSize = 13.sp) },
+                    placeholder = { Text("Paste one or more YouTube links", fontSize = 13.sp) },
                     leadingIcon = { Icon(Icons.Default.Link, null, Modifier.size(20.dp)) },
                     trailingIcon = { IconButton(onClick = {
                         val clip = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
                         model.clear(); model.url = clip.primaryClip?.getItemAt(0)?.coerceToText(context)?.toString().orEmpty()
-                    }) { Icon(Icons.Default.ContentPaste, "Colar link", Modifier.size(20.dp)) } },
+                    }) { Icon(Icons.Default.ContentPaste, "Paste link", Modifier.size(20.dp)) } },
                     modifier = Modifier.fillMaxWidth().padding(vertical = 8.dp), shape = RoundedCornerShape(16.dp), maxLines = 4,
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Uri, imeAction = ImeAction.Go),
                     keyboardActions = KeyboardActions(onGo = { focus.clearFocus(); model.analyze() }))
-                if (inspection == null) ActionButton(if (model.busy) "Analisando…" else "Analisar link", Icons.Default.AutoAwesome, !model.busy && model.url.isNotBlank()) { focus.clearFocus(); model.analyze() }
+                if (inspection == null) ActionButton(if (model.busy) "Analyzing…" else "Analyze link", Icons.Default.AutoAwesome, !model.busy && model.url.isNotBlank()) { focus.clearFocus(); model.analyze() }
                 if (model.busy) {
                     LinearProgressIndicator(Modifier.fillMaxWidth().padding(top = 12.dp))
                     Text(model.status, fontSize = 12.sp, modifier = Modifier.padding(top = 8.dp))
-                    TextButton(onClick = { model.clear() }) { Text("Cancelar análise") }
+                    TextButton(onClick = { model.clear() }) { Text("Cancel analysis") }
                 }
             }
         }
@@ -245,19 +245,19 @@ private val Shape = RoundedCornerShape(23.dp)
         if (inspection != null) {
             item {
                 GlassCard {
-                    if (playlist) Text("Playlist detectada!", color = MaterialTheme.colorScheme.onSurfaceVariant, fontSize = 12.sp, modifier = Modifier.padding(bottom = 8.dp))
-                    else Heading("Prévia do vídeo")
+                    if (playlist) Text("Playlist detected", color = MaterialTheme.colorScheme.onSurfaceVariant, fontSize = 12.sp, modifier = Modifier.padding(bottom = 8.dp))
+                    else Heading("Video preview")
                     val preview = inspection.items.first().let { if (playlist) it.copy(title = inspection.title) else it }
-                    Preview(preview, if (playlist) "${inspection.items.size} vídeos • ${duration(inspection.items.sumOf { it.duration })}" else duration(preview.duration), true)
+                    Preview(preview, if (playlist) "${inspection.items.size} videos • ${duration(inspection.items.sumOf { it.duration })}" else duration(preview.duration), true)
                 }
             }
             if (playlist) {
                 item {
-                    Heading("Vídeos da playlist", "${model.selected.size} de ${inspection.items.size} selecionados")
+                    Heading("Playlist videos", "${model.selected.size} of ${inspection.items.size} selected")
                     TextButton(onClick = {
                         model.selected = if (model.selected.size == inspection.items.count { it.available }) emptySet() else inspection.items.filter { it.available }.map { it.id }.toSet()
                         model.choice = Policy.choice(model.choice, model.selected.size)
-                    }) { Text(if (model.selected.size == inspection.items.count { it.available }) "Limpar seleção" else "Selecionar todos") }
+                    }) { Text(if (model.selected.size == inspection.items.count { it.available }) "Clear selection" else "Select all") }
                 }
                 if (!showAll) item {
                     GlassCard {
@@ -269,28 +269,28 @@ private val Shape = RoundedCornerShape(23.dp)
                 } else items(inspection.items, key = { it.id }) { media ->
                     GlassCard { PlaylistRow(media, model) }
                 }
-                if (inspection.items.size > 4) item { TextButton(onClick = { showAll = !showAll }) { Text(if (showAll) "Mostrar menos" else "Mostrar todos os ${inspection.items.size} vídeos") } }
+                if (inspection.items.size > 4) item { TextButton(onClick = { showAll = !showAll }) { Text(if (showAll) "Show less" else "Show all ${inspection.items.size} videos") } }
             }
             item {
                 GlassCard {
-                    Heading("Formato")
+                    Heading("Format")
                     Segments(listOf("MP3", "MP4"), listOf(Icons.Default.MusicNote, Icons.Default.SmartDisplay), if (model.choice.mp3) 0 else 1) { model.choice = model.choice.copy(mp3 = it == 0) }
-                    if (model.choice.mp3) Text("Extrai a melhor fonte de áudio e converte para MP3 em qualidade variável alta. A qualidade é limitada pela fonte.", fontSize = 12.sp, color = MaterialTheme.colorScheme.onSurfaceVariant, modifier = Modifier.padding(top = 9.dp))
+                    if (model.choice.mp3) Text("Converts the best audio source to high-quality VBR MP3. Quality depends on the source.", fontSize = 12.sp, color = MaterialTheme.colorScheme.onSurfaceVariant, modifier = Modifier.padding(top = 9.dp))
                 }
             }
             if (!model.choice.mp3) item { QualityCard(inspection, model.choice.height) { model.choice = model.choice.copy(height = it) } }
             item { DestinationCard(model.folder, chooseFolder) }
             if (Policy.zipAllowed(model.selected.size)) item {
                 GlassCard {
-                    Heading("Modo de download")
+                    Heading("Download mode")
                     Segments(listOf("Normal", "ZIP"), listOf(Icons.Default.Download, Icons.Default.FolderZip), if (model.choice.zip) 1 else 0) { model.choice = model.choice.copy(zip = it == 1) }
-                    Text("ZIP reúne os arquivos selecionados. Os originais temporários são preservados até você limpar os concluídos.", fontSize = 12.sp, color = MaterialTheme.colorScheme.onSurfaceVariant, modifier = Modifier.padding(top = 8.dp))
+                    Text("ZIP combines the selected files. Temporary originals remain until completed copies are cleared.", fontSize = 12.sp, color = MaterialTheme.colorScheme.onSurfaceVariant, modifier = Modifier.padding(top = 8.dp))
                 }
             }
-            item { ActionButton(if (model.queuing) "Iniciando…" else if (playlist) "Baixar playlist" else "Baixar", Icons.Default.Download, model.selected.isNotEmpty() && !model.queuing, download) }
+            item { ActionButton(if (model.queuing) "Starting…" else if (playlist) "Download playlist" else "Download", Icons.Default.Download, model.selected.isNotEmpty() && !model.queuing, download) }
         }
         if (inspection == null && !model.busy) item {
-            Text("Vídeos e playlists, em MP3 ou MP4. Cole vários links, um por linha.\n\nBaixe apenas conteúdo que você tem autorização para salvar.", color = MaterialTheme.colorScheme.onSurfaceVariant, fontSize = 13.sp, modifier = Modifier.padding(10.dp))
+            Text("Videos and playlists as MP3 or MP4. Paste multiple links, one per line.\n\nDownload only content you have permission to save.", color = MaterialTheme.colorScheme.onSurfaceVariant, fontSize = 13.sp, modifier = Modifier.padding(10.dp))
         }
     }
 }
@@ -298,7 +298,7 @@ private val Shape = RoundedCornerShape(23.dp)
 @Composable private fun PlaylistRow(media: Media, model: AppModel) {
     Row(Modifier.fillMaxWidth().clickable(enabled = media.available) { model.select(media.id) }.padding(vertical = 7.dp), verticalAlignment = Alignment.CenterVertically) {
         Checkbox(media.id in model.selected, { model.select(media.id) }, enabled = media.available,
-            modifier = Modifier.semantics { contentDescription = "Selecionar ${media.title}" })
+            modifier = Modifier.semantics { contentDescription = "Select ${media.title}" })
         Box(Modifier.size(62.dp, 55.dp).clip(RoundedCornerShape(9.dp)).background(MaterialTheme.colorScheme.surfaceVariant)) {
             Icon(Icons.Default.Landscape, null, Modifier.align(Alignment.Center), tint = MaterialTheme.colorScheme.onSurfaceVariant)
             AsyncImage(media.thumb, null, Modifier.fillMaxSize(), contentScale = ContentScale.Crop)
@@ -308,34 +308,34 @@ private val Shape = RoundedCornerShape(23.dp)
         Spacer(Modifier.width(10.dp))
         Column(Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(3.dp)) {
             Text(media.title, fontSize = 14.sp, fontWeight = FontWeight.SemiBold)
-            Text(if (media.available) media.author else "Indisponível", fontSize = 12.sp, color = MaterialTheme.colorScheme.onSurfaceVariant)
+            Text(if (media.available) media.author else "Unavailable", fontSize = 12.sp, color = MaterialTheme.colorScheme.onSurfaceVariant)
         }
     }
 }
 
 @Composable private fun QualityCard(inspection: Inspection, selected: Int, choose: (Int) -> Unit) {
     GlassCard {
-        Heading("Qualidade de vídeo")
+        Heading("Video quality")
         GlassQualityPicker(listOf(0) + inspection.heights, selected, choose)
-        Text(if (inspection.playlist) "Resoluções encontradas no vídeo de referência. Se um item não oferecer a escolhida, usa a melhor disponível abaixo dela, sem aumentar a resolução."
-            else "Somente resoluções encontradas. Vídeo e áudio são combinados; codecs incompatíveis são convertidos para MP4.", fontSize = 12.sp, color = MaterialTheme.colorScheme.onSurfaceVariant, modifier = Modifier.padding(top = 7.dp))
+        Text(if (inspection.playlist) "Resolutions found in the reference video. Items use the best available resolution up to your choice, without upscaling."
+            else "Available resolutions only. Video and audio are combined; incompatible codecs are converted to MP4.", fontSize = 12.sp, color = MaterialTheme.colorScheme.onSurfaceVariant, modifier = Modifier.padding(top = 7.dp))
     }
 }
 @Composable private fun DestinationCard(folder: String, choose: () -> Unit) {
     val context = LocalContext.current
-    val label by produceState(if (folder.isBlank()) "Downloads/Ytdlp-G" else "Pasta selecionada", folder) {
+    val label by produceState(if (folder.isBlank()) "Downloads/Ytdlp-G" else "Selected folder", folder) {
         value = kotlinx.coroutines.withContext(kotlinx.coroutines.Dispatchers.IO) { Storage.folderName(context, folder) }
     }
     GlassCard {
-        Heading("Pasta de destino")
+        Heading("Destination folder")
         Surface(onClick = choose, color = MaterialTheme.colorScheme.surface.copy(alpha = .3f), shape = RoundedCornerShape(16.dp), modifier = Modifier.fillMaxWidth().heightIn(min = 56.dp)) {
             Row(Modifier.padding(12.dp), verticalAlignment = Alignment.CenterVertically) {
                 Icon(Icons.Default.FolderOpen, null); Spacer(Modifier.width(12.dp))
                 Column(Modifier.weight(1f)) {
-                    Text("Salvar em", fontSize = 13.sp, fontWeight = FontWeight.SemiBold)
+                    Text("Save to", fontSize = 13.sp, fontWeight = FontWeight.SemiBold)
                     Text(label, fontSize = 12.sp, color = MaterialTheme.colorScheme.onSurfaceVariant)
                 }
-                Icon(Icons.Default.ChevronRight, "Alterar pasta")
+                Icon(Icons.Default.ChevronRight, "Change folder")
             }
         }
     }
@@ -352,10 +352,10 @@ private val Shape = RoundedCornerShape(23.dp)
     val ongoing = jobs.filter { it.state !in setOf("DONE", "WARNING") }
     val completed = jobs.filter { it.state in setOf("DONE", "WARNING") }
     Column(Modifier.fillMaxWidth()) {
-        Segments(listOf("Downloads (${ongoing.size})", "Concluídos"), listOf(Icons.Default.Downloading, Icons.Default.CheckCircle), if (completedTab) 1 else 0) { completedTab = it == 1 }
+        Segments(listOf("Downloads (${ongoing.size})", "Completed"), listOf(Icons.Default.Downloading, Icons.Default.CheckCircle), if (completedTab) 1 else 0) { completedTab = it == 1 }
         LazyColumn(Modifier.fillMaxWidth().padding(top = 12.dp), verticalArrangement = Arrangement.spacedBy(13.dp), contentPadding = PaddingValues(bottom = 24.dp)) {
             val visible = if (completedTab) completed else jobs
-            if (visible.isEmpty()) item { GlassCard { Text(if (completedTab) "Nenhum download concluído." else "Seus downloads aparecerão aqui.") } }
+            if (visible.isEmpty()) item { GlassCard { Text(if (completedTab) "No completed downloads." else "Your downloads will appear here.") } }
             items(visible, key = { it.id }) { job ->
                 GlassCard {
                     val finished = job.state in setOf("DONE", "WARNING")
@@ -364,7 +364,7 @@ private val Shape = RoundedCornerShape(23.dp)
                     val activeIndex = records.firstOrNull { it.state == "RUNNING" }?.position ?: job.current.coerceAtMost(job.items.lastIndex)
                     val current = job.items.getOrNull(activeIndex) ?: job.items.first()
                     Preview(current.copy(title = if (job.items.size > 1) job.title else current.title),
-                        "${if (job.choice.mp3) "MP3 • melhor fonte" else "MP4"}${if (job.items.size > 1) " • ${job.current} de ${job.items.size}" else ""}${if (job.choice.zip) " • ZIP" else ""}")
+                        "${if (job.choice.mp3) "MP3 • best source" else "MP4"}${if (job.items.size > 1) " • ${job.current} of ${job.items.size}" else ""}${if (job.choice.zip) " • ZIP" else ""}")
                     val progress by animateFloatAsState(job.progress, label = "Progresso real")
                     Row(Modifier.padding(top = 13.dp), verticalAlignment = Alignment.CenterVertically) {
                         if (job.state == "RUNNING" && job.indeterminate) LinearProgressIndicator(modifier = Modifier.weight(1f).height(6.dp).clip(RoundedCornerShape(4.dp)), color = Blue, trackColor = MaterialTheme.colorScheme.onSurface.copy(alpha = .1f))
@@ -373,23 +373,23 @@ private val Shape = RoundedCornerShape(23.dp)
                         if (!(job.state == "RUNNING" && job.indeterminate)) Text("${(job.progress * 100).toInt()}%", fontSize = 12.sp, fontWeight = FontWeight.SemiBold)
                     }
                     Text(job.phase, fontSize = 12.sp, color = MaterialTheme.colorScheme.onSurfaceVariant, modifier = Modifier.padding(top = 8.dp))
-                    if (job.speed > 0 && job.state == "RUNNING") Text("${bytes(job.speed)}/s" + if (job.eta > 0) " • ${duration(job.eta)} nesta etapa" else "",
+                    if (job.speed > 0 && job.state == "RUNNING") Text("${bytes(job.speed)}/s" + if (job.eta > 0) " • ${duration(job.eta)} at this stage" else "",
                         fontSize = 12.sp, color = MaterialTheme.colorScheme.onSurfaceVariant)
                     if (job.optimization.isNotBlank() && job.state == "RUNNING") Text(job.optimization, fontSize = 11.sp, color = MaterialTheme.colorScheme.onSurfaceVariant)
                     if (job.error.isNotBlank()) Text(job.error, color = MaterialTheme.colorScheme.error, fontSize = 12.sp, modifier = Modifier.padding(top = 7.dp))
                     Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.End, verticalAlignment = Alignment.CenterVertically) {
-                        Text(when (job.state) { "DONE" -> "Concluído"; "WARNING" -> "Concluído com avisos"; "PAUSED" -> "Pausado"; "CANCELLED" -> "Cancelado"; "ERROR" -> "Erro"; "QUEUED" -> "Na fila"; else -> "Baixando" },
+                        Text(when (job.state) { "DONE" -> "Completed"; "WARNING" -> "Completed with warnings"; "PAUSED" -> "Paused"; "CANCELLED" -> "Cancelled"; "ERROR" -> "Error"; "QUEUED" -> "Queued"; else -> "Downloading" },
                             color = if (finished) Color(0xFF82F0C6) else MaterialTheme.colorScheme.primary, fontSize = 12.sp, modifier = Modifier.weight(1f))
-                        if (job.state in listOf("RUNNING", "QUEUED")) IconButton(onClick = { control(job.id, "pause") }) { Icon(Icons.Default.Pause, "Pausar ${job.title}") }
-                        if (job.state in listOf("PAUSED", "CANCELLED") || (job.state == "ERROR" && (records.any { it.state in setOf("PENDING", "RUNNING") || it.retryable } || job.files.isNotEmpty()))) IconButton(onClick = { control(job.id, "resume") }) { Icon(if (job.state == "PAUSED") Icons.Default.PlayArrow else Icons.Default.Refresh, "Retomar ${job.title}") }
+                        if (job.state in listOf("RUNNING", "QUEUED")) IconButton(onClick = { control(job.id, "pause") }) { Icon(Icons.Default.Pause, "Pause ${job.title}") }
+                        if (job.state in listOf("PAUSED", "CANCELLED") || (job.state == "ERROR" && (records.any { it.state in setOf("PENDING", "RUNNING") || it.retryable } || job.files.isNotEmpty()))) IconButton(onClick = { control(job.id, "resume") }) { Icon(if (job.state == "PAUSED") Icons.Default.PlayArrow else Icons.Default.Refresh, "Resume ${job.title}") }
                         if (finished) IconButton(onClick = {
                             if (job.archiveUri.isNotBlank()) openFile(context, Uri.parse(job.archiveUri), "application/zip")
                             else if (job.files.size == 1) openFile(context, Storage.openUri(context, job.files.first()), if (job.choice.mp3) "audio/mpeg" else "video/mp4")
                             else opened = job
-                        }) { Icon(Icons.Default.FolderOpen, "Abrir arquivos de ${job.title}") }
-                        else if (job.state != "CANCELLED") IconButton(onClick = { control(job.id, "cancel") }) { Icon(Icons.Default.Close, "Cancelar ${job.title}") }
+                        }) { Icon(Icons.Default.FolderOpen, "Open files for ${job.title}") }
+                        else if (job.state != "CANCELLED") IconButton(onClick = { control(job.id, "cancel") }) { Icon(Icons.Default.Close, "Cancel ${job.title}") }
                     }
-                    if (missed.isNotEmpty()) TextButton(onClick = { failures = job }) { Text("Ver não baixados (${missed.size})") }
+                    if (missed.isNotEmpty()) TextButton(onClick = { failures = job }) { Text("Review unsuccessful items (${missed.size})") }
                     if (finished) {
                         Text("${bytes(job.files.sumOf { it.bytes })}${job.files.firstOrNull()?.height?.takeIf { it > 0 }?.let { " • ${it}p" }.orEmpty()}", fontSize = 12.sp, color = MaterialTheme.colorScheme.onSurfaceVariant)
                     }
@@ -401,37 +401,37 @@ private val Shape = RoundedCornerShape(23.dp)
         val job = jobs.firstOrNull { it.id == selected.id } ?: selected
         val records = BatchRunner.records(job).filter { it.state in setOf("FAILED", "SKIPPED") }
         val eligible = records.count { it.retryable }
-        AlertDialog(onDismissRequest = { failures = null }, title = { Text("Não baixados (${records.size})") }, text = {
+        AlertDialog(onDismissRequest = { failures = null }, title = { Text("Unsuccessful items (${records.size})") }, text = {
             LazyColumn(verticalArrangement = Arrangement.spacedBy(12.dp)) {
                 item { Text(BatchRunner.summary(job), fontSize = 13.sp) }
                 items(records, key = { it.position }) { record ->
                     Column {
                         Text("${record.position + 1}. ${job.items[record.position].title}", fontWeight = FontWeight.SemiBold, fontSize = 14.sp)
                         Text(record.reason, fontSize = 12.sp)
-                        if (record.retryable) Text("Pode tentar novamente", fontSize = 11.sp, color = MaterialTheme.colorScheme.primary)
+                        if (record.retryable) Text("Can be retried", fontSize = 11.sp, color = MaterialTheme.colorScheme.primary)
                     }
                 }
             }
         }, confirmButton = {
-            if (eligible > 0 && job.state in setOf("WARNING", "ERROR")) TextButton(onClick = { control(job.id, "retry"); failures = null }) { Text("Tentar novamente ($eligible)") }
-            else TextButton(onClick = { failures = null }) { Text("Fechar") }
-        }, dismissButton = { if (eligible > 0 && job.state in setOf("WARNING", "ERROR")) TextButton(onClick = { failures = null }) { Text("Fechar") } })
+            if (eligible > 0 && job.state in setOf("WARNING", "ERROR")) TextButton(onClick = { control(job.id, "retry"); failures = null }) { Text("Retry ($eligible)") }
+            else TextButton(onClick = { failures = null }) { Text("Close") }
+        }, dismissButton = { if (eligible > 0 && job.state in setOf("WARNING", "ERROR")) TextButton(onClick = { failures = null }) { Text("Close") } })
     }
-    opened?.let { job -> AlertDialog(onDismissRequest = { opened = null }, title = { Text("Arquivos concluídos") }, text = {
+    opened?.let { job -> AlertDialog(onDismissRequest = { opened = null }, title = { Text("Completed files") }, text = {
         LazyColumn { items(job.files) { file -> TextButton(onClick = { openFile(context, Storage.openUri(context, file), if (job.choice.mp3) "audio/mpeg" else "video/mp4") }) { Text(file.title) } } }
-    }, confirmButton = { TextButton(onClick = { opened = null }) { Text("Fechar") } }) }
+    }, confirmButton = { TextButton(onClick = { opened = null }) { Text("Close") } }) }
 }
 
 @Composable private fun SettingsScreen(model: AppModel, folder: () -> Unit) {
     var licenses by remember { mutableStateOf(false) }
     val context = LocalContext.current
     LazyColumn(Modifier.fillMaxWidth(), verticalArrangement = Arrangement.spacedBy(12.dp), contentPadding = PaddingValues(bottom = 24.dp)) {
-        item { Text("Configurações", fontSize = 22.sp, fontWeight = FontWeight.Bold, modifier = Modifier.padding(vertical = 10.dp)) }
+        item { Text("Settings", fontSize = 22.sp, fontWeight = FontWeight.Bold, modifier = Modifier.padding(vertical = 10.dp)) }
         item { DestinationCard(model.folder, folder) }
         item {
             GlassCard {
-                Heading("Aparência")
-                listOf("system" to "Automático", "light" to "Claro", "dark" to "Escuro").forEach { (value, label) ->
+                Heading("Appearance")
+                listOf("system" to "System default", "light" to "Light", "dark" to "Dark").forEach { (value, label) ->
                     Row(Modifier.fillMaxWidth().clickable(role = Role.RadioButton) { model.setAppearance(value) }.padding(vertical = 2.dp), verticalAlignment = Alignment.CenterVertically) {
                         RadioButton(model.theme == value, { model.setAppearance(value) }); Text(label)
                     }
@@ -440,18 +440,18 @@ private val Shape = RoundedCornerShape(23.dp)
         }
         item {
             GlassCard {
-                Heading("Mecanismo de download")
-                Text("yt-dlp ${Store.preferences(context).getString("engine-version", "2026.10.21")}\nPython, FFmpeg e QuickJS incluídos.", fontSize = 13.sp)
-                TextButton(onClick = model::updateEngine, enabled = !model.updating) { Text(if (model.updating) "Atualizando…" else "Verificar e atualizar yt-dlp") }
-                TextButton(onClick = model::copyDiagnostics) { Text("Copiar diagnóstico") }
+                Heading("Download engine")
+                Text("yt-dlp ${Store.preferences(context).getString("engine-version", "2026.10.21")}\nPython, FFmpeg and QuickJS included.", fontSize = 13.sp)
+                TextButton(onClick = model::updateEngine, enabled = !model.updating) { Text(if (model.updating) "Updating…" else "Check and update yt-dlp") }
+                TextButton(onClick = model::copyDiagnostics) { Text("Copy diagnostics") }
                 if (model.updating) LinearProgressIndicator(Modifier.fillMaxWidth())
             }
         }
         item {
             GlassCard {
-                Heading("Armazenamento temporário")
-                Text("Downloads pausados mantêm os dados parciais. Os originais do ZIP permanecem no aplicativo. Limpar remove apenas cópias temporárias de downloads concluídos e já salvos.", fontSize = 13.sp, color = MaterialTheme.colorScheme.onSurfaceVariant)
-                TextButton(onClick = model::cleanCompleted) { Text("Limpar temporários concluídos") }
+                Heading("Temporary storage")
+                Text("Paused downloads retain partial data. ZIP originals remain in the app. Clearing removes only temporary copies of completed, exported downloads.", fontSize = 13.sp, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                TextButton(onClick = model::cleanCompleted) { Text("Clear completed temporary files") }
             }
         }
         if (model.error.isNotBlank()) item { ErrorCard(model.error) }
@@ -459,25 +459,25 @@ private val Shape = RoundedCornerShape(23.dp)
         item {
             GlassCard {
                 Heading("Ytdlp-G ${BuildConfig.VERSION_NAME}")
-                Text("Interface simples para vídeos, músicas e playlists. Base de execução YTDLnis, de Deniscerri e colaboradores, sob GPLv3.", fontSize = 13.sp)
-                TextButton(onClick = { licenses = true }) { Text("Licenças e código-fonte") }
+                Text("A simple interface for videos, music and playlists. Execution core from YTDLnis by Deniscerri and contributors, under GPLv3.", fontSize = 13.sp)
+                TextButton(onClick = { licenses = true }) { Text("Licenses and source code") }
             }
         }
     }
-    if (licenses) AlertDialog(onDismissRequest = { licenses = false }, title = { Text("Código aberto") }, text = {
+    if (licenses) AlertDialog(onDismissRequest = { licenses = false }, title = { Text("Open source") }, text = {
         Column(Modifier.verticalScroll(rememberScrollState())) {
-            Text("Ytdlp-G: GPLv3. Núcleo baseado no YTDLnis, © Deniscerri e colaboradores. yt-dlp: Unlicense; EJS: ISC; Python: PSF; QuickJS: MIT; FFmpeg inclui componentes GPL. Os textos das licenças estão incluídos no APK e o código correspondente acompanha a distribuição. Material visual Backdrop 1.0.3, © 2025 Kyant, sob Apache 2.0. Componentes visuais adaptados do Square/Convx (2026, GPLv3) e do catálogo Backdrop (Apache 2.0).", fontSize = 13.sp)
-            TextButton(onClick = { openFile(context, Uri.parse("https://github.com/fuhbe/Ytdlp-G-Android"), null) }) { Text("Código do Ytdlp-G") }
-            TextButton(onClick = { openFile(context, Uri.parse("https://github.com/deniscerri/ytdlnis"), null) }) { Text("Projeto YTDLnis") }
+            Text("Ytdlp-G: GPLv3. Core based on YTDLnis, © Deniscerri and contributors. yt-dlp: Unlicense; EJS: ISC; Python: PSF; QuickJS: MIT; FFmpeg includes GPL components. License texts are bundled in the APK and corresponding source accompanies the release. Backdrop 1.0.3, © 2025 Kyant, under Apache 2.0. Visual components adapted from Square/Convx (2026, GPLv3) and the Backdrop catalog (Apache 2.0).", fontSize = 13.sp)
+            TextButton(onClick = { openFile(context, Uri.parse("https://github.com/fuhbe/Ytdlp-G-Android"), null) }) { Text("Ytdlp-G source") }
+            TextButton(onClick = { openFile(context, Uri.parse("https://github.com/deniscerri/ytdlnis"), null) }) { Text("YTDLnis project") }
         }
-    }, confirmButton = { TextButton(onClick = { licenses = false }) { Text("Fechar") } })
+    }, confirmButton = { TextButton(onClick = { licenses = false }) { Text("Close") } })
 }
 
 private fun openFile(context: Context, uri: Uri, mime: String?) {
     try {
         val intent = Intent(Intent.ACTION_VIEW).setDataAndType(uri, mime).addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION or Intent.FLAG_ACTIVITY_NEW_TASK)
         context.startActivity(intent)
-    } catch (_: Exception) { Toast.makeText(context, "Não foi possível abrir. O arquivo pode ter sido movido ou não há um aplicativo compatível instalado.", Toast.LENGTH_LONG).show() }
+    } catch (_: Exception) { Toast.makeText(context, "Cannot open this file. It may have moved, or no compatible app is installed.", Toast.LENGTH_LONG).show() }
 }
 internal fun duration(seconds: Long): String = if (seconds >= 3600) "%d:%02d:%02d".format(Locale.ROOT, seconds / 3600, seconds / 60 % 60, seconds % 60) else "%d:%02d".format(Locale.ROOT, seconds.coerceAtLeast(0) / 60, seconds.coerceAtLeast(0) % 60)
 internal fun bytes(value: Long): String = if (value >= 1024 * 1024) "%.1f MB".format(Locale.getDefault(), value / 1048576.0) else "%.0f KB".format(Locale.getDefault(), value / 1024.0)

@@ -24,9 +24,9 @@ class GlassContrastTest {
         val model=AppModel(RuntimeEnvironment.getApplication()).apply { theme="light" }
         compose.setContent { AppContent(model) }
         fun foreground():Float {
-            compose.onNodeWithText("Analisar link").assertIsNotEnabled()
+            compose.onNodeWithText("Analyze link").assertIsNotEnabled()
             val results=mutableListOf<TextLayoutResult>()
-            compose.onNodeWithText("Analisar link",useUnmergedTree=true)
+            compose.onNodeWithText("Analyze link",useUnmergedTree=true)
                 .performSemanticsAction(SemanticsActions.GetTextLayoutResult) { assertTrue(it(results)) }
             assertFalse(model.busy);assertTrue(model.url.isBlank())
             return results.single().layoutInput.style.color.luminance()

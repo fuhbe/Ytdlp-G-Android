@@ -1,0 +1,10 @@
+    // Optional owner-provided signing credentials stay in CI secrets/environment.
+    val officialStore = providers.environmentVariable("YTDLPG_KEYSTORE_PATH").orNull
+    if (!officialStore.isNullOrBlank()) {
+        signingConfigs.create("official") {
+            storeFile = file(officialStore)
+            storePassword = providers.environmentVariable("YTDLPG_KEYSTORE_PASSWORD").get()
+            keyAlias = providers.environmentVariable("YTDLPG_KEY_ALIAS").get()
+            keyPassword = providers.environmentVariable("YTDLPG_KEY_PASSWORD").get()
+        }
+    }

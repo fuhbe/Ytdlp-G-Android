@@ -53,18 +53,18 @@ class GlassDockGestureTest {
     private fun dock()=compose.onNodeWithTag("glass-navigation")
     @Test fun normalTapsAndSelectedIndicatorKeepTheirOriginalCallbacks() {
         show()
-        compose.onNodeWithContentDescription("Voltar").assertHasNoClickAction()
+        compose.onNodeWithContentDescription("Back").assertHasNoClickAction()
         compose.onNodeWithContentDescription("Downloads").performClick()
         compose.onNodeWithContentDescription("Downloads").assertIsSelected().assertHasNoClickAction()
-        compose.onNodeWithContentDescription("Configurações").performClick()
-        compose.onNodeWithContentDescription("Voltar").performClick()
+        compose.onNodeWithContentDescription("Settings").performClick()
+        compose.onNodeWithContentDescription("Back").performClick()
         assertEquals(listOf("downloads","settings","home"),calls)
     }
     @Test @Config(sdk=[26,28,31,33,35]) fun horizontalDragDispatchesOnlyTheReleasedDestinationAcrossApis() {
         show()
         dock().performTouchInput { swipe(Offset(width/6f,centerY),Offset(width*5/6f,centerY),300) }
         assertEquals(listOf("settings"),calls)
-        compose.onNodeWithContentDescription("Configurações").assertIsSelected()
+        compose.onNodeWithContentDescription("Settings").assertIsSelected()
         dock().performTouchInput { swipe(Offset(width*5/6f,centerY),Offset(width/2f,centerY),300) }
         assertEquals(listOf("settings","downloads"),calls)
     }
@@ -77,7 +77,7 @@ class GlassDockGestureTest {
         show()
         dock().performTouchInput { down(Offset(width/6f,centerY));moveTo(Offset(width*5/6f,centerY),200);cancel() }
         assertTrue(calls.isEmpty())
-        compose.onNodeWithContentDescription("Voltar").assertIsSelected()
+        compose.onNodeWithContentDescription("Back").assertIsSelected()
     }
     @Test fun capturedDragReleasedOutsideTheDockKeepsItsHorizontalDestination() {
         show()
@@ -86,13 +86,13 @@ class GlassDockGestureTest {
             moveTo(Offset(width*5/6f,-20f),100);up()
         }
         assertEquals(listOf("settings"),calls)
-        compose.onNodeWithContentDescription("Configurações").assertIsSelected()
+        compose.onNodeWithContentDescription("Settings").assertIsSelected()
     }
     @Test fun releaseBeyondRightEdgeSelectsTheExtremeDestination() {
         show()
         dock().performTouchInput { down(Offset(width/6f,centerY));moveTo(Offset(width+20f,centerY),300);up() }
         assertEquals(listOf("settings"),calls)
-        compose.onNodeWithContentDescription("Configurações").assertIsSelected()
+        compose.onNodeWithContentDescription("Settings").assertIsSelected()
     }
     @Test fun verticalGestureDoesNotChangeDestinations() {
         show()
@@ -123,13 +123,13 @@ class GlassDockGestureTest {
         dock().assertIsDisplayed()
         dock().performTouchInput { swipe(Offset(width/6f,centerY),Offset(width*5/6f,centerY),300) }
         assertEquals(listOf("settings"),calls)
-        compose.onNodeWithText("Configurações").assertIsDisplayed()
+        compose.onNodeWithText("Settings").assertIsDisplayed()
     }
     @Test fun capsuleMovesThroughIntermediatePositionsAndSettles() {
         show()
         compose.mainClock.autoAdvance=false
         val before=compose.onNodeWithTag("glass-navigation-capsule").fetchSemanticsNode().boundsInRoot.left
-        compose.onNodeWithContentDescription("Configurações").performClick()
+        compose.onNodeWithContentDescription("Settings").performClick()
         compose.mainClock.advanceTimeByFrame()
         compose.waitForIdle()
         compose.mainClock.advanceTimeBy(64)

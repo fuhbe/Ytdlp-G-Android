@@ -64,10 +64,10 @@ class SquareGlassMotionTest {
         compose.onNode(hasScrollToNodeAction()).performScrollToNode(hasText("ZIP"))
         drag("files",compose.onAllNodesWithTag("glass-segment-track")[1],"Normal","ZIP")
         compose.runOnIdle { assertTrue(model.choice.zip) }
-        drag("navigation",compose.onNodeWithTag("glass-navigation"),"Início","Downloads")
+        drag("navigation",compose.onNodeWithTag("glass-navigation"),"Home","Downloads")
         compose.runOnIdle { assertEquals("downloads",model.area) }
-        drag("history",compose.onNodeWithTag("glass-segment-track"),"Downloads (0)","Concluídos")
-        compose.onNodeWithText("Nenhum download concluído.").assertIsDisplayed()
+        drag("history",compose.onNodeWithTag("glass-segment-track"),"Downloads (0)","Completed")
+        compose.onNodeWithText("No completed downloads.").assertIsDisplayed()
     }
     @Test fun lightThemeFrames()=record(false)
     @Test fun darkThemeFrames()=record(true)

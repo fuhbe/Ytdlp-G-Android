@@ -171,9 +171,9 @@ class GlassEdgeGestureTest {
         edge(compose.onNodeWithTag("glass-navigation"),true);compose.runOnIdle { assertEquals("settings",model.area) }
         edge(compose.onNodeWithTag("glass-navigation"),false);compose.runOnIdle { assertEquals("home",model.area) }
         compose.onNodeWithContentDescription("Downloads").performClick()
-        edge(segment("Concluídos"),true)
-        compose.onNodeWithText("Nenhum download concluído.").assertIsDisplayed()
-        edge(segment("Concluídos"),false)
+        edge(segment("Completed"),true)
+        compose.onNodeWithText("No completed downloads.").assertIsDisplayed()
+        edge(segment("Completed"),false)
         compose.onNodeWithText("Downloads (0)").assertIsSelected()
     }
 }

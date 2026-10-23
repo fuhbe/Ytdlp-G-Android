@@ -118,9 +118,9 @@ class SquareGlassGestureTest {
     @Test fun actualHistoryTabsStillFilterCompletedJobs() {
         compose.setContent { GlassTheme(false) { DownloadsScreen(emptyList()) {_,_->} } }
         val a=compose.onNodeWithText("Downloads (0)").fetchSemanticsNode().boundsInRoot.center
-        val b=compose.onNodeWithText("Concluídos").fetchSemanticsNode().boundsInRoot.center
+        val b=compose.onNodeWithText("Completed").fetchSemanticsNode().boundsInRoot.center
         compose.onRoot().performTouchInput { swipe(a,b,300) }
-        compose.onNodeWithText("Nenhum download concluído.").assertIsDisplayed()
+        compose.onNodeWithText("No completed downloads.").assertIsDisplayed()
     }
     @Test fun liveDownloadCountDoesNotJumpOrPrematurelyCommitTheHeldPane() {
         val jobs=mutableStateOf<List<QueueJob>>(emptyList())
@@ -136,9 +136,9 @@ class SquareGlassGestureTest {
         compose.onNodeWithText("Downloads (10)").assertIsDisplayed()
         val after=compose.onNodeWithTag("glass-selection-capsule").fetchSemanticsNode().boundsInRoot.left
         assertEquals(before,after,1f)
-        compose.onAllNodesWithText("Nenhum download concluído.").assertCountEquals(0)
+        compose.onAllNodesWithText("No completed downloads.").assertCountEquals(0)
         control.performTouchInput { moveTo(Offset(width*.75f,centerY),100);up() }
-        compose.onNodeWithText("Nenhum download concluído.").assertIsDisplayed()
+        compose.onNodeWithText("No completed downloads.").assertIsDisplayed()
     }
     @Test fun measuredGeometryHandlesAsymmetricBoundsAndInvalidPoints() {
         val bounds=mapOf(0 to Rect(0f,0f,80f,60f),1 to Rect(80f,0f,300f,60f))

@@ -61,11 +61,11 @@ class LiquidGlassDeviceTest {
                 // Fixture queue states are assigned only to the UI flow, never persisted or executed.
                 scenario.onActivity { Store.jobs.value=listOf(
                     QueueJob(id="visual-active",title="Example playlist",items=items,choice=Choice(mp3=true),folder="",state="RUNNING",progress=.64f,phase="Baixando áudio…",indeterminate=false),
-                    QueueJob(id="visual-paused",title="Example video",items=items.take(1),choice=Choice(),folder="",state="PAUSED",progress=.38f,phase="Pausado",indeterminate=false)) }
+                    QueueJob(id="visual-paused",title="Example video",items=items.take(1),choice=Choice(),folder="",state="PAUSED",progress=.38f,phase="Paused",indeterminate=false)) }
                 val downloads=device.findObject(By.desc("Downloads")); assertNotNull(downloads); downloads.click()
                 settled(); scenario.onActivity { assertEquals("downloads",model.area) }; save("downloads-light")
                 scenario.onActivity { model.theme="dark" }; settled(); save("downloads-dark")
-                val settings=device.findObject(By.desc("Configurações")); assertNotNull(settings); settings.click()
+                val settings=device.findObject(By.desc("Settings")); assertNotNull(settings); settings.click()
                 settled(); scenario.onActivity { assertEquals("settings",model.area) }; save("settings-dark")
             }
         } finally { Store.jobs.value=original }

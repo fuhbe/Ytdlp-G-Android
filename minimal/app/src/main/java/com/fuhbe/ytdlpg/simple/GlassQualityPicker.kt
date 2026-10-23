@@ -53,11 +53,11 @@ import androidx.compose.ui.unit.sp
     GlassQualitySurface(onClick={expanded=!expanded},modifier=Modifier.testTag("glass-quality-trigger")) {
         Icon(Icons.Default.HighQuality,null,Modifier.size(23.dp));Spacer(Modifier.width(12.dp))
         Column(Modifier.weight(1f)) {
-            Text(if(selected==0) "Melhor qualidade" else "${selected}p",fontWeight=FontWeight.SemiBold)
-            Text(if(selected==0) "Até 4K, quando disponível" else "Até a resolução selecionada",
+            Text(if(selected==0) "Best quality" else "${selected}p",fontWeight=FontWeight.SemiBold)
+            Text(if(selected==0) "Up to 4K, when available" else "Up to the selected resolution",
                 fontSize=12.sp,color=MaterialTheme.colorScheme.onSurfaceVariant)
         }
-        Icon(Icons.Default.ExpandMore,"Escolher qualidade",Modifier.graphicsLayer { rotationZ=angle.value })
+        Icon(Icons.Default.ExpandMore,"Choose quality",Modifier.graphicsLayer { rotationZ=angle.value })
     }
     if(visibility.currentState || visibility.targetState) {
         Popup(popupPositionProvider=provider,onDismissRequest={expanded=false},
@@ -80,7 +80,7 @@ import androidx.compose.ui.unit.sp
                                 material=false) {
                                 RadioButton(value==selected,onClick=null)
                                 Spacer(Modifier.width(8.dp))
-                                Text(if(value==0) "Melhor qualidade (até 4K)" else "${value}p",
+                                Text(if(value==0) "Best quality (up to 4K)" else "${value}p",
                                     modifier=Modifier.weight(1f),fontWeight=if(value==selected) FontWeight.SemiBold else FontWeight.Normal)
                                 if(value==selected) Icon(Icons.Default.Check,null,Modifier.size(20.dp),tint=MaterialTheme.colorScheme.primary)
                             }

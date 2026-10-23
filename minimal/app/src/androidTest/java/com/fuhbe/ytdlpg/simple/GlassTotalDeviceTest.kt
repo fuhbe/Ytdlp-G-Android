@@ -60,18 +60,18 @@ class GlassTotalDeviceTest {
                 repeat(3) { drag("MP4","MP3");scenario.onActivity { assertTrue(model.choice.mp3) };drag("MP3","MP4") }
                 reveal("Normal");drag("Normal","ZIP");scenario.onActivity { assertTrue(model.choice.zip) }
                 drag("ZIP","Normal");scenario.onActivity { assertFalse(model.choice.zip) }
-                reveal("Melhor qualidade")
-                checkNotNull(device.findObject(By.desc("Escolher qualidade"))).click();settle()
+                reveal("Best quality")
+                checkNotNull(device.findObject(By.desc("Choose quality"))).click();settle()
                 assertTrue(device.takeScreenshot(File(out,"quality-open.png")))
                 assertNull(device.findObject(By.text("2160p")))
                 checkNotNull(device.findObject(By.text("720p"))).click();settle()
                 scenario.onActivity { assertEquals(720,model.choice.height);assertFalse(model.choice.mp3) }
-                val home=checkNotNull(device.findObject(By.desc("Voltar"))).visibleBounds
+                val home=checkNotNull(device.findObject(By.desc("Back"))).visibleBounds
                 val downloads=checkNotNull(device.findObject(By.desc("Downloads"))).visibleBounds
                 assertTrue(device.swipe(home.centerX(),home.centerY(),downloads.centerX(),downloads.centerY(),36));settle()
                 scenario.onActivity { assertEquals("downloads",model.area) }
-                drag("Downloads (0)","Concluídos")
-                assertNotNull(device.findObject(By.text("Nenhum download concluído.")))
+                drag("Downloads (0)","Completed")
+                assertNotNull(device.findObject(By.text("No completed downloads.")))
                 assertTrue(device.takeScreenshot(File(out,"completed.png")))
                 scenario.onActivity { it.window.removeOnFrameMetricsAvailableListener(listener) }
                 val drained=java.util.concurrent.CountDownLatch(1)

@@ -29,7 +29,7 @@ class GlassEvolutionPreviewTest {
                 records = items.mapIndexed { i, m -> ItemRecord(i, m.id, state = if (i < 2) "DONE" else if (i == 2) "RUNNING" else "PENDING", indeterminate = false) }))
             Store.insert(QueueJob(id = "preview-paused", title = "Natureza em 4K", items = listOf(items.first()), choice = Choice(height = 1080), folder = "", state = "PAUSED", progress = .38f, phase = "Pausado — dados parciais preservados", indeterminate = false))
             val file = SavedFile(items.last().id, "/preview/example.mp4", bytes = 18_400_000, title = items.last().title, thumb = "", height = 1080)
-            Store.insert(QueueJob(id = "preview-completed", title = file.title, items = listOf(items.last()), choice = Choice(), folder = "", state = "DONE", progress = 1f, current = 1, phase = "Concluído", files = listOf(file), indeterminate = false))
+            Store.insert(QueueJob(id = "preview-completed", title = file.title, items = listOf(items.last()), choice = Choice(), folder = "", state = "DONE", progress = 1f, current = 1, phase = "Completed", files = listOf(file), indeterminate = false))
         } else {
             model.inspection = Inspection(if (playlist) "Músicas para relaxar e estudar" else items.first().title, items, playlist, listOf(2160, 1080, 720))
             model.selected = items.map { it.id }.toSet()

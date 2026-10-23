@@ -58,9 +58,9 @@ class GlassUiTest {
         model.busy = true
         model.status = "Preparando o mecanismo…"
         render(model, "analysis-loading")
-        compose.onNodeWithText("Cancelar análise").assertIsDisplayed().performClick()
+        compose.onNodeWithText("Cancel analysis").assertIsDisplayed().performClick()
         compose.runOnIdle { assertFalse(model.busy) }
-        compose.onNodeWithText("Analisar link").assertIsDisplayed()
+        compose.onNodeWithText("Analyze link").assertIsDisplayed()
     }
     @Test fun playlistSelectionsControlWhetherZipIsAvailable() {
         val model = model(true)
@@ -74,22 +74,22 @@ class GlassUiTest {
         val model = model()
         model.theme = "dark"
         render(model, "small-dark-large-font", 1.8f)
-        compose.onNode(hasScrollToNodeAction()).performScrollToNode(hasText("Baixar"))
-        compose.onNodeWithText("Baixar", useUnmergedTree = true).assertIsDisplayed()
-        val bounds = compose.onNodeWithText("Baixar", useUnmergedTree = true).fetchSemanticsNode().boundsInRoot
+        compose.onNode(hasScrollToNodeAction()).performScrollToNode(hasText("Download"))
+        compose.onNodeWithText("Download", useUnmergedTree = true).assertIsDisplayed()
+        val bounds = compose.onNodeWithText("Download", useUnmergedTree = true).fetchSemanticsNode().boundsInRoot
         val root = compose.onRoot().fetchSemanticsNode().boundsInRoot
         assertTrue(bounds.left >= root.left && bounds.right <= root.right)
         assertTrue(bounds.top >= root.top && bounds.bottom <= root.bottom)
     }
     @Test @Config(qualifiers = "w800dp-h1280dp-mdpi") fun tabletUsesReadableCenteredContent() {
         render(model(true), "tablet-playlist")
-        compose.onNode(hasScrollToNodeAction()).performScrollToNode(hasText("Baixar playlist"))
-        compose.onNodeWithText("Baixar playlist", useUnmergedTree = true).assertIsDisplayed()
+        compose.onNode(hasScrollToNodeAction()).performScrollToNode(hasText("Download playlist"))
+        compose.onNodeWithText("Download playlist", useUnmergedTree = true).assertIsDisplayed()
     }
     @Test @Config(qualifiers = "w720dp-h400dp-mdpi") fun landscapeRemainsScrollable() {
         render(model(), "landscape")
-        compose.onNode(hasScrollToNodeAction()).performScrollToNode(hasText("Baixar"))
-        compose.onNodeWithText("Baixar", useUnmergedTree = true).assertIsDisplayed()
+        compose.onNode(hasScrollToNodeAction()).performScrollToNode(hasText("Download"))
+        compose.onNodeWithText("Download", useUnmergedTree = true).assertIsDisplayed()
     }
     @Test fun managerShowsActualStoredStateAndRetryControl() {
         val model = model()
@@ -98,6 +98,6 @@ class GlassUiTest {
         Store.insert(QueueJob(title = items.first().title, items = items, choice = Choice(), folder = "", state = "ERROR", progress = .42f, error = "HTTP 403", phase = "Falha no download"))
         render(model, "manager-error")
         compose.onNodeWithText("HTTP 403").assertIsDisplayed()
-        compose.onNodeWithContentDescription("Retomar ${items.first().title}").assertIsDisplayed()
+        compose.onNodeWithContentDescription("Resume ${items.first().title}").assertIsDisplayed()
     }
 }

@@ -1,0 +1,189 @@
+{
+  "releases": [
+    {
+      "tag": "v0.6.6-test3",
+      "id": 422301412,
+      "prerelease": true,
+      "assets": [
+        {
+          "id": 670381789,
+          "name": "LICENSE.txt",
+          "size": 35149,
+          "digest": "sha256:3972dc9744f6499f0f9b2dbf76696f2ae7ad8af9b23dde66d6af86c9dfb36986"
+        },
+        {
+          "id": 670381829,
+          "name": "release-info.json",
+          "size": 1153,
+          "digest": "sha256:a569e814afa5031d34b5700a1df50670a3b18c31ea71347b9ab0025b2c3b18ee"
+        },
+        {
+          "id": 670381894,
+          "name": "SHA256SUMS.txt",
+          "size": 680,
+          "digest": "sha256:46294eeeeb07bb08bc3467262ffdad4e041431c468e225af4f5a51d860b049e1"
+        },
+        {
+          "id": 670381676,
+          "name": "Ytdlp-G-device-tests.zip",
+          "size": 425167,
+          "digest": "sha256:cfab5a28fd55bc92ebb3ea0a793577ab2afefca7787de26da876e8b3f6c8465a"
+        },
+        {
+          "id": 670381716,
+          "name": "Ytdlp-G-icon.png",
+          "size": 5549,
+          "digest": "sha256:417bff36479686e640372bd41c0529a6ccaf2717531c8357d948ffbf0624c09d"
+        },
+        {
+          "id": 670381746,
+          "name": "Ytdlp-G-screenshots.zip",
+          "size": 1244492,
+          "digest": "sha256:27a885514c5db24c3fa5ca3066ab5f2ae7fb561d8ce3d1d1fcda21bfc1f44564"
+        },
+        {
+          "id": 670381555,
+          "name": "Ytdlp-G-source.zip",
+          "size": 18939458,
+          "digest": "sha256:0ee9226dcf95cf7b75f62ebaa41bafffde8a3703b94a53d00c8e4337ef5bbf6e"
+        },
+        {
+          "id": 670381630,
+          "name": "Ytdlp-G-verification.zip",
+          "size": 13231127,
+          "digest": "sha256:e25af224d01d835ef2a24850c3977526cf850c8da23be0ca5c7e7e70c98ad680"
+        },
+        {
+          "id": 670381479,
+          "name": "Ytdlp-G.apk",
+          "size": 59626044,
+          "digest": "sha256:c4d7efd33a5b60eece2721508ee91679bd61d5daa73b0c2911f18b47905bea4a"
+        }
+      ]
+    },
+    {
+      "tag": "v0.6.4",
+      "id": 421745725,
+      "prerelease": false,
+      "assets": [
+        {
+          "id": 668869035,
+          "name": "LICENSE.txt",
+          "size": 35149,
+          "digest": "sha256:3972dc9744f6499f0f9b2dbf76696f2ae7ad8af9b23dde66d6af86c9dfb36986"
+        },
+        {
+          "id": 668869253,
+          "name": "release-info.json",
+          "size": 964,
+          "digest": "sha256:0713c67245027d299f6da21ca1a5d0ccf6bca63c1706ed22ce42953593f2ae51"
+        },
+        {
+          "id": 668868987,
+          "name": "SHA256SUMS.txt",
+          "size": 163,
+          "digest": "sha256:02c17ed63b0d793cb1439eeb93475f90c9ca36d0d5885c86f5ef2af703dbfae1"
+        },
+        {
+          "id": 668869090,
+          "name": "Ytdlp-G-icon.png",
+          "size": 5549,
+          "digest": "sha256:417bff36479686e640372bd41c0529a6ccaf2717531c8357d948ffbf0624c09d"
+        },
+        {
+          "id": 668869128,
+          "name": "Ytdlp-G-screenshots.zip",
+          "size": 11737055,
+          "digest": "sha256:0dea8fb89763998446e8482c916c397ebca0a471fd63e745ddf1639760007784"
+        },
+        {
+          "id": 668868945,
+          "name": "Ytdlp-G-source.zip",
+          "size": 18809131,
+          "digest": "sha256:3311bd1fced61a84a4c5b4a0010c85f3a698377e37198a4740cb927f892dba06"
+        },
+        {
+          "id": 668869176,
+          "name": "Ytdlp-G-verification.zip",
+          "size": 13077572,
+          "digest": "sha256:31092147cca3b24794d8b15416728bdfb1de7cd27c43b908200fd6a9450b8fba"
+        },
+        {
+          "id": 668868868,
+          "name": "Ytdlp-G.apk",
+          "size": 59580302,
+          "digest": "sha256:dae229cff276bea3f9e0d51f7fa94275bf40d12be650987a6c36fb623ae9d334"
+        }
+      ]
+    },
+    {
+      "tag": "v0.6.2",
+      "id": 421377534,
+      "prerelease": false,
+      "assets": [
+        {
+          "id": 667685146,
+          "name": "LICENSE.txt",
+          "size": 35149,
+          "digest": "sha256:3972dc9744f6499f0f9b2dbf76696f2ae7ad8af9b23dde66d6af86c9dfb36986"
+        },
+        {
+          "id": 667685214,
+          "name": "release-info.json",
+          "size": 906,
+          "digest": "sha256:289f7d661834064efbeaf952c0b9313ffe1af606713e2bd5af4aeec3cf07fb26"
+        },
+        {
+          "id": 667685114,
+          "name": "SHA256SUMS.txt",
+          "size": 163,
+          "digest": "sha256:0f4fbba3c99a2de6106a8688c65cf72450e660a09d1a38f6cc90257f3105de89"
+        },
+        {
+          "id": 667685169,
+          "name": "Ytdlp-G-icon.png",
+          "size": 5549,
+          "digest": "sha256:417bff36479686e640372bd41c0529a6ccaf2717531c8357d948ffbf0624c09d"
+        },
+        {
+          "id": 667685187,
+          "name": "Ytdlp-G-screenshots.zip",
+          "size": 1098107,
+          "digest": "sha256:6d7b2f8283a4e99ad988852462952a23774bb60d75cb7a8f9aa480c25fe98de5"
+        },
+        {
+          "id": 667685091,
+          "name": "Ytdlp-G-source.zip",
+          "size": 15433293,
+          "digest": "sha256:509a42d4719034e7d1836bbf7e4e1fb9653eada225ffd9b05c60424c4395fe48"
+        },
+        {
+          "id": 667685000,
+          "name": "Ytdlp-G.apk",
+          "size": 56230904,
+          "digest": "sha256:735b4ac44a0aad52816df1f2ebcf3a637fb901ad690ee5b395ffe468a0349387"
+        }
+      ]
+    }
+  ],
+  "tags": [
+    {
+      "tag": "v0.6.2",
+      "sha": "956bcb36365d46f79e1d9c70e308803468a212d2",
+      "type": "commit",
+      "url": "https://api.github.com/repos/fuhbe/Ytdlp-G-Android/git/commits/956bcb36365d46f79e1d9c70e308803468a212d2"
+    },
+    {
+      "tag": "v0.6.4",
+      "sha": "30a347f48cbf04ccf0973b3c5a2f6e869ecb81ed",
+      "type": "commit",
+      "url": "https://api.github.com/repos/fuhbe/Ytdlp-G-Android/git/commits/30a347f48cbf04ccf0973b3c5a2f6e869ecb81ed"
+    },
+    {
+      "tag": "v0.6.6-test3",
+      "sha": "0aca45f6b60cde42ed483f10fb57a7ae944a4e88",
+      "type": "commit",
+      "url": "https://api.github.com/repos/fuhbe/Ytdlp-G-Android/git/commits/0aca45f6b60cde42ed483f10fb57a7ae944a4e88"
+    }
+  ]
+}

@@ -37,8 +37,8 @@ class GlassApiMatrixTest {
         val dock=compose.onNodeWithTag("glass-navigation").fetchSemanticsNode().boundsInRoot
         assertTrue(dock.left>=root.left && dock.right<=root.right && dock.bottom<=root.bottom)
         if(area=="settings") {
-            compose.onNode(hasScrollToNodeAction()).performScrollToNode(hasText("Copiar diagnóstico"))
-            compose.onNodeWithText("Copiar diagnóstico").assertIsDisplayed()
+            compose.onNode(hasScrollToNodeAction()).performScrollToNode(hasText("Copy diagnostics"))
+            compose.onNodeWithText("Copy diagnostics").assertIsDisplayed()
         }
         val name="api-${Build.VERSION.SDK_INT}-$area-${if(playlist) "playlist" else "single"}-${if(dark) "dark" else "light"}${if(large) "-large" else ""}"
         compose.runOnIdle {

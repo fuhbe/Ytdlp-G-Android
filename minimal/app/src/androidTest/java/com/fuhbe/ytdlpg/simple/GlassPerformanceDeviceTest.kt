@@ -59,7 +59,7 @@ class GlassPerformanceDeviceTest {
                 instrumentation.waitForIdleSync();device.waitForIdle(2000)
                 // Initial layout/capture is outside the measurement interval.
                 device.findObject(By.desc("Downloads")).click();device.waitForIdle(1000)
-                device.findObject(By.desc("Voltar")).click();device.waitForIdle(1000)
+                device.findObject(By.desc("Back")).click();device.waitForIdle(1000)
                 totals.clear();gpu.clear()
                 // Compare real UI pixels with the identical source/selection.
                 // This is evidence only when the device test is actually run.
@@ -67,7 +67,7 @@ class GlassPerformanceDeviceTest {
                 val plain=checkNotNull(instrumentation.uiAutomation.takeScreenshot())
                 scenario.onActivity { optics.value=1f };device.waitForIdle(1000);android.os.SystemClock.sleep(500)
                 val refracted=checkNotNull(instrumentation.uiAutomation.takeScreenshot())
-                val region=checkNotNull(device.findObject(By.desc("Voltar"))).visibleBounds
+                val region=checkNotNull(device.findObject(By.desc("Back"))).visibleBounds
                 var changed=0
                 for(y in region.top+6 until region.bottom-6)for(x in region.left+6 until region.right-6)
                     if(kotlin.math.abs(android.graphics.Color.blue(plain.getPixel(x,y))-android.graphics.Color.blue(refracted.getPixel(x,y)))>25)changed++
@@ -78,7 +78,7 @@ class GlassPerformanceDeviceTest {
                 totals.clear();gpu.clear();droppedCallbacks=0
                 val beforeRecords=stats.sourceRecords;val beforeReadbacks=stats.readbacks
                 repeat(8) {
-                    val a=checkNotNull(device.findObject(By.desc("Voltar"))).visibleBounds
+                    val a=checkNotNull(device.findObject(By.desc("Back"))).visibleBounds
                     val b=checkNotNull(device.findObject(By.desc("Downloads"))).visibleBounds
                     assertTrue(device.swipe(a.centerX(),a.centerY(),b.centerX(),b.centerY(),36))
                     device.waitForIdle(1000)

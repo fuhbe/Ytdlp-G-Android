@@ -36,9 +36,9 @@ internal fun glassDockTarget(position: Offset, size: IntSize): Int? =
     val selected=when(area) { "downloads"->1;"settings"->2;else->0 }
     val actions=listOf(onBack,onDownloads,onSettings)
     GlassSlidingSegments(selected,3,{actions[it]()},modifier.testTag("glass-navigation"),source,"glass-navigation-capsule") {
-        DockDestination("Início","Voltar",Icons.Default.Home,selected==0,onBack,Modifier.weight(1f).glassSegmentItem(0))
+        DockDestination("Home","Back",Icons.Default.Home,selected==0,onBack,Modifier.weight(1f).glassSegmentItem(0))
         DockDestination("Downloads","Downloads",Icons.Default.DownloadForOffline,selected==1,onDownloads,Modifier.weight(1f).glassSegmentItem(1))
-        DockDestination("Configurações","Configurações",Icons.Default.Settings,selected==2,onSettings,Modifier.weight(1f).glassSegmentItem(2))
+        DockDestination("Settings","Settings",Icons.Default.Settings,selected==2,onSettings,Modifier.weight(1f).glassSegmentItem(2))
     }
 }
 

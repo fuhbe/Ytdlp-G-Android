@@ -49,16 +49,16 @@ class AnalyzeActionTest {
         val model = AppModel(RuntimeEnvironment.getApplication(), backend)
         model.url = "https://youtu.be/123456789ab"
         compose.setContent { AppContent(model) }
-        compose.onNodeWithText("Analisar link").performClick()
+        compose.onNodeWithText("Analyze link").performClick()
         awaitState { backend.started.isCompleted }
-        compose.onNodeWithText("Cancelar análise").assertIsDisplayed()
+        compose.onNodeWithText("Cancel analysis").assertIsDisplayed()
         backend.result.completeExceptionally(ExceptionInInitializerError(RuntimeException("not a concrete class: secret")))
         awaitState { !model.busy }
         compose.onNodeWithText("RUNTIME_LINKAGE", substring = true).assertIsDisplayed()
         assertFalse(compose.activity.isFinishing)
         assertNull(model.inspection)
         backend.result = CompletableDeferred()
-        compose.onNodeWithText("Analisar link").performClick()
+        compose.onNodeWithText("Analyze link").performClick()
         val video = Media("fixture", model.url, "Prévia após nova análise", heights = listOf(1080))
         backend.result.complete(Inspection(video.title, listOf(video), false, listOf(1080)))
         awaitState { model.inspection != null && !model.busy }
@@ -69,8 +69,8 @@ class AnalyzeActionTest {
         val backend = Backend()
         val model = AppModel(RuntimeEnvironment.getApplication(), backend).apply { area = "settings" }
         compose.setContent { AppContent(model) }
-        compose.onNode(hasScrollToNodeAction()).performScrollToNode(hasText("Verificar e atualizar yt-dlp"))
-        compose.onNodeWithText("Verificar e atualizar yt-dlp").performClick()
+        compose.onNode(hasScrollToNodeAction()).performScrollToNode(hasText("Check and update yt-dlp"))
+        compose.onNodeWithText("Check and update yt-dlp").performClick()
         awaitState { backend.updateStarted.isCompleted }
         backend.updateResult.completeExceptionally(NoClassDefFoundError("secretNativeDetails"))
         awaitState { !model.updating }
@@ -85,19 +85,19 @@ class AnalyzeActionTest {
         val backend = Backend()
         val model = AppModel(RuntimeEnvironment.getApplication(), backend).apply { url = "https://youtu.be/123456789ab" }
         compose.setContent { AppContent(model) }
-        compose.onNodeWithText("Analisar link").performClick()
+        compose.onNodeWithText("Analyze link").performClick()
         awaitState { backend.started.isCompleted }
-        compose.onNodeWithText("Cancelar análise").performClick()
+        compose.onNodeWithText("Cancel analysis").performClick()
         backend.result.complete(Inspection("Late fixture", emptyList(), false, emptyList()))
         compose.waitForIdle()
         assertFalse(model.busy); assertNull(model.inspection); assertTrue(model.error.isEmpty())
-        compose.onNodeWithText("Analisar link").assertIsDisplayed()
+        compose.onNodeWithText("Analyze link").assertIsDisplayed()
     }
     @Test fun processHttpFailureIsAVisibleErrorNotASuccessOrActivityClose() {
         val backend = Backend()
         val model = AppModel(RuntimeEnvironment.getApplication(), backend).apply { url = "https://youtu.be/123456789ab" }
         compose.setContent { AppContent(model) }
-        compose.onNodeWithText("Analisar link").performClick()
+        compose.onNodeWithText("Analyze link").performClick()
         backend.result.completeExceptionally(java.io.IOException("HTTP Error 403: Forbidden"))
         awaitState { !model.busy }
         compose.onNodeWithText("403", substring = true).assertIsDisplayed()

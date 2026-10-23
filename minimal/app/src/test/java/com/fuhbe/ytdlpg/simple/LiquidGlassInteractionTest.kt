@@ -38,11 +38,11 @@ class LiquidGlassInteractionTest {
         compose.setContent { AppContent(model) }
         compose.onNodeWithContentDescription("Downloads").performClick()
         compose.runOnIdle { assertEquals("downloads", model.area) }
-        compose.onNodeWithContentDescription("Voltar").performClick()
+        compose.onNodeWithContentDescription("Back").performClick()
         compose.runOnIdle { assertEquals("home", model.area); assertNotNull(model.inspection) }
-        compose.onNodeWithContentDescription("Configurações").performClick()
+        compose.onNodeWithContentDescription("Settings").performClick()
         compose.runOnIdle { assertEquals("settings", model.area) }
-        compose.onNodeWithContentDescription("Voltar").performClick()
+        compose.onNodeWithContentDescription("Back").performClick()
         compose.runOnIdle { assertEquals("home", model.area) }
     }
     @Test fun formatQualityAndZipKeepTheirOriginalModelValuesAndSelectionRules() {
@@ -51,8 +51,8 @@ class LiquidGlassInteractionTest {
         scrollTo("MP3"); compose.onNodeWithText("MP3").performClick()
         compose.runOnIdle { assertTrue(model.choice.mp3) }
         compose.onNodeWithText("MP4").performClick()
-        scrollTo("Melhor qualidade")
-        compose.onNodeWithContentDescription("Escolher qualidade").performClick()
+        scrollTo("Best quality")
+        compose.onNodeWithContentDescription("Choose quality").performClick()
         compose.onNodeWithText("720p").performClick()
         compose.runOnIdle { assertFalse(model.choice.mp3); assertEquals(720, model.choice.height) }
         scrollTo("ZIP"); compose.onNodeWithText("ZIP").performClick()
@@ -62,16 +62,16 @@ class LiquidGlassInteractionTest {
     }
     @Test @Config(qualifiers = "w320dp-h640dp-mdpi") fun downloadActionRemainsAboveTheDockOnSmallScreens() {
         compose.setContent { AppContent(model()) }
-        scrollTo("Baixar")
-        val download = compose.onNodeWithText("Baixar").fetchSemanticsNode().boundsInRoot
+        scrollTo("Download")
+        val download = compose.onNodeWithText("Download").fetchSemanticsNode().boundsInRoot
         val dock = compose.onNodeWithTag("glass-navigation").fetchSemanticsNode().boundsInRoot
         assertTrue("Dock must not cover the download action", download.bottom <= dock.top)
     }
     @Test fun destinationStillLaunchesTheAndroidDocumentTreePicker() {
         val model = model()
         compose.setContent { AppContent(model) }
-        scrollTo("Pasta de destino")
-        compose.onNodeWithContentDescription("Alterar pasta").performClick()
+        scrollTo("Destination folder")
+        compose.onNodeWithContentDescription("Change folder").performClick()
         compose.runOnIdle {
             val started = shadowOf(compose.activity).nextStartedActivityForResult
             assertNotNull(started)
@@ -85,13 +85,13 @@ class LiquidGlassInteractionTest {
         val failed = active.copy(id = "failed", title = "C", items = listOf(item.copy(title = "C")), state = "ERROR", records = listOf(ItemRecord(0,"a",state="FAILED",reason="Network",retryable=true)))
         val calls = mutableListOf<Pair<String, String>>()
         compose.setContent { GlassTheme(false) { DownloadsScreen(listOf(active, paused, failed)) { id, action -> calls += id to action } } }
-        compose.onNodeWithContentDescription("Pausar A").performClick()
-        compose.onNodeWithContentDescription("Cancelar A").performClick()
-        compose.onNode(hasScrollToNodeAction()).performScrollToNode(hasContentDescription("Retomar B"))
-        compose.onNodeWithContentDescription("Retomar B").performClick()
-        compose.onNode(hasScrollToNodeAction()).performScrollToNode(hasText("Ver não baixados (1)"))
-        compose.onNodeWithText("Ver não baixados (1)").performClick()
-        compose.onNodeWithText("Tentar novamente (1)").performClick()
+        compose.onNodeWithContentDescription("Pause A").performClick()
+        compose.onNodeWithContentDescription("Cancel A").performClick()
+        compose.onNode(hasScrollToNodeAction()).performScrollToNode(hasContentDescription("Resume B"))
+        compose.onNodeWithContentDescription("Resume B").performClick()
+        compose.onNode(hasScrollToNodeAction()).performScrollToNode(hasText("Review unsuccessful items (1)"))
+        compose.onNodeWithText("Review unsuccessful items (1)").performClick()
+        compose.onNodeWithText("Retry (1)").performClick()
         assertEquals(listOf("active" to "pause", "active" to "cancel", "paused" to "resume", "failed" to "retry"), calls)
     }
     @Test @Config(sdk = [33]) fun exactDependencyLensShaderCompilesAndRefractsRealPixels() {

@@ -30,10 +30,10 @@ class TurboUiTest {
             records = listOf(ItemRecord(0, "1", state = "DONE"), ItemRecord(1, "2", state = "FAILED", reason = "Vídeo indisponível", retryable = false),
                 ItemRecord(2, "3", state = "FAILED", reason = "Falha de conexão", retryable = true))))
         compose.setContent { AppContent(model()) }
-        compose.onNode(hasScrollToNodeAction()).performScrollToNode(hasText("Ver não baixados (2)"))
-        compose.onNodeWithText("Ver não baixados (2)").performClick()
+        compose.onNode(hasScrollToNodeAction()).performScrollToNode(hasText("Review unsuccessful items (2)"))
+        compose.onNodeWithText("Review unsuccessful items (2)").performClick()
         compose.onNodeWithText("2. Item 2").assertIsDisplayed()
         compose.onNodeWithText("Vídeo indisponível").assertIsDisplayed()
-        compose.onNodeWithText("Tentar novamente (1)").assertIsDisplayed()
+        compose.onNodeWithText("Retry (1)").assertIsDisplayed()
     }
 }

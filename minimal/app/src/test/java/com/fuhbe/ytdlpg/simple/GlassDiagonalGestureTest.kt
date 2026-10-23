@@ -171,7 +171,7 @@ class GlassDiagonalGestureTest {
         drag(compose.onNodeWithTag("glass-navigation"),true,true);compose.runOnIdle { assertEquals("settings",model.area) }
         drag(compose.onNodeWithTag("glass-navigation"),false,true);compose.runOnIdle { assertEquals("home",model.area) }
         compose.onNodeWithContentDescription("Downloads").performClick()
-        drag(segment("Concluídos"),true,true);compose.onNodeWithText("Nenhum download concluído.").assertIsDisplayed()
-        drag(segment("Concluídos"),false,false);compose.onNodeWithText("Downloads (0)").assertIsSelected()
+        drag(segment("Completed"),true,true);compose.onNodeWithText("No completed downloads.").assertIsDisplayed()
+        drag(segment("Completed"),false,false);compose.onNodeWithText("Downloads (0)").assertIsSelected()
     }
 }
