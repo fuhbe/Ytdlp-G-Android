@@ -1,0 +1,165 @@
+{
+  "artifacts": [
+    {
+      "id": 12470085925,
+      "name": "Android-device-tests",
+      "sha256": "fa3324f2093966b1c6a05d4dc7b0f43b1de3511c07cc7f4ac4b6d22a1f762970"
+    },
+    {
+      "id": 12469622631,
+      "name": "Ytdlp-G-Android-Minimal",
+      "sha256": "6d4ef4c7bb009a416cad5d8542fed5c610567542effb56abcae59b03d707612a"
+    },
+    {
+      "id": 12469223108,
+      "name": "Minimal-verification",
+      "sha256": "397216d0437f1a36cbc6b21ced850718ddde0ebed17a4712e3bd605262b07efc"
+    }
+  ],
+  "tests": 57,
+  "suites": [
+    {
+      "name": "com.fuhbe.ytdlpg.simple.PolicyTest",
+      "tests": 4
+    },
+    {
+      "name": "com.fuhbe.ytdlpg.simple.TurboPolicyTest",
+      "tests": 3
+    },
+    {
+      "name": "com.fuhbe.ytdlpg.simple.AnalyzeActionTest",
+      "tests": 4
+    },
+    {
+      "name": "com.fuhbe.ytdlpg.simple.ExportRecoveryTest",
+      "tests": 3
+    },
+    {
+      "name": "com.fuhbe.ytdlpg.simple.GlassUiTest",
+      "tests": 9
+    },
+    {
+      "name": "com.fuhbe.ytdlpg.simple.StorageTest",
+      "tests": 4
+    },
+    {
+      "name": "com.deniscerri.ytdl.core.stream.StreamReaderTest",
+      "tests": 5
+    },
+    {
+      "name": "com.fuhbe.ytdlpg.simple.BatchRunnerTest",
+      "tests": 6
+    },
+    {
+      "name": "com.fuhbe.ytdlpg.simple.TurboUiTest",
+      "tests": 2
+    },
+    {
+      "name": "com.fuhbe.ytdlpg.simple.RuntimeSafetyTest",
+      "tests": 4
+    },
+    {
+      "name": "com.fuhbe.ytdlpg.simple.HostPipelineTest",
+      "tests": 6
+    },
+    {
+      "name": "com.fuhbe.ytdlpg.simple.TransferProtocolTest",
+      "tests": 3
+    },
+    {
+      "name": "com.fuhbe.ytdlpg.simple.DownloadCacheTest",
+      "tests": 4
+    }
+  ],
+  "apk_sha256": "735b4ac44a0aad52816df1f2ebcf3a637fb901ad690ee5b395ffe468a0349387",
+  "apk_bytes": 56230904,
+  "dex_constructors": 13,
+  "runtime_archive_controls": "PASS",
+  "package": "package: name='com.fuhbe.ytdlpg.minimal' versionCode='62' versionName='0.6.2' platformBuildVersionName='16' platformBuildVersionCode='36' compileSdkVersion='36' compileSdkVersionCodename='16'",
+  "signing_certificate_sha256": "3e1df7424b2cb4589de10dc26ae20afe68eded24acc82b6a0298de2fdb98798b",
+  "previous_signing_certificate_sha256": "cc4e42ae6f8285509dea9f29efab584853532e85d509f8919a02f3fb3cadff9b",
+  "same_signing_key_as_previous_apk": false,
+  "instrumented_tests": "4 built; NOT EXECUTED",
+  "benchmark": {
+    "scope": "host Linux HTTP loopback; generated 360p/24fps/6s media; segment request latency 80ms; not Android/YouTube/Snaptube",
+    "repetitions": 3,
+    "youtube_test": false,
+    "android_test": false,
+    "snaptube_comparison": false,
+    "rows": [
+      {
+        "case": "mp3",
+        "baseline_median_total_seconds": 2.8608010810000906,
+        "optimized_median_total_seconds": 2.8687630110000555,
+        "observed_total_change_percent": 0.2783112063555748,
+        "optimized_cpu_seconds": 1.4914019999999957,
+        "optimized_sampled_peak_rss_bytes": 109334528,
+        "optimized_first_transfer_seconds": 1.3509367469999916,
+        "optimized_average_transfer_bytes_per_second": 240763601.3081761,
+        "optimized_peak_callback_bytes_per_second": 240763601.3081761,
+        "output_bytes_baseline": 56581,
+        "output_bytes_optimized": 56581
+      },
+      {
+        "case": "compatible-mp4",
+        "baseline_median_total_seconds": 2.850229581999997,
+        "optimized_median_total_seconds": 2.8583057489998964,
+        "observed_total_change_percent": 0.28335145529687633,
+        "optimized_cpu_seconds": 1.4344190000000043,
+        "optimized_sampled_peak_rss_bytes": 66449408,
+        "optimized_first_transfer_seconds": 1.353679179999972,
+        "optimized_average_transfer_bytes_per_second": 228007346.85180905,
+        "optimized_peak_callback_bytes_per_second": 228007346.85180905,
+        "output_bytes_baseline": 611509,
+        "output_bytes_optimized": 611509
+      },
+      {
+        "case": "convert-mp4",
+        "baseline_median_total_seconds": 3.470943441999907,
+        "optimized_median_total_seconds": 3.2030431099998395,
+        "observed_total_change_percent": -7.718372150878583,
+        "optimized_cpu_seconds": 2.4504880000000004,
+        "optimized_sampled_peak_rss_bytes": 145846272,
+        "optimized_first_transfer_seconds": 1.351815770999906,
+        "optimized_average_transfer_bytes_per_second": 253282475.8668542,
+        "optimized_peak_callback_bytes_per_second": 253282475.8668542,
+        "output_bytes_baseline": 958776,
+        "output_bytes_optimized": 899664
+      },
+      {
+        "case": "hls-N1",
+        "baseline_median_total_seconds": 3.9086255880000635,
+        "optimized_median_total_seconds": 3.9025840850000577,
+        "observed_total_change_percent": -0.15456847589991884,
+        "optimized_cpu_seconds": 1.5310499999999962,
+        "optimized_sampled_peak_rss_bytes": 67174400,
+        "optimized_first_transfer_seconds": 1.4534065870000177,
+        "optimized_average_transfer_bytes_per_second": 694887.2581116683,
+        "optimized_peak_callback_bytes_per_second": 694887.2581116683,
+        "output_bytes_baseline": 662684,
+        "output_bytes_optimized": 662684
+      },
+      {
+        "case": "hls-N4",
+        "baseline_median_total_seconds": 3.1597249499999407,
+        "optimized_median_total_seconds": 3.1666190519999873,
+        "observed_total_change_percent": 0.21818677603715475,
+        "optimized_cpu_seconds": 1.5210649999999974,
+        "optimized_sampled_peak_rss_bytes": 67026944,
+        "optimized_first_transfer_seconds": 1.4421715759999643,
+        "optimized_average_transfer_bytes_per_second": 2639771.8538052943,
+        "optimized_peak_callback_bytes_per_second": 2639771.8538052943,
+        "output_bytes_baseline": 662684,
+        "output_bytes_optimized": 662684
+      }
+    ],
+    "controlled_hls_N1_to_N4_total_change_percent": -18.858402970196597,
+    "notes": [
+      "CPU covers host download/postprocess subprocesses, not the phone or analysis process.",
+      "RSS is sampled for the host process family; it is approximate.",
+      "Streaming export is a local host copy, not Android SAF.",
+      "80ms segment latency is deliberately controlled, not measured Internet latency.",
+      "veryfast at CRF18 retains resolution/codecs; encoded size and compression efficiency may change."
+    ]
+  }
+}
