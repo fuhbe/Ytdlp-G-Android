@@ -1,0 +1,23 @@
+{
+  "source_run": 40018985216,
+  "source_commit": "eca84b671056349075db83ab2eab6a9590dcdeb3",
+  "renderer": "Robolectric native Skia software; actual Compose application, sample metadata, placeholder thumbnails",
+  "images": {
+    "single-video.png": {
+      "report_path": "glass/individual-light.png",
+      "sha256": "3f3787114413abd145379416be70215ea83e768171901039ea58539d8ce408d5"
+    },
+    "playlist.png": {
+      "report_path": "glass/playlist-light.png",
+      "sha256": "7dce38ec44f56b1ff952819062f68a926af8b2af712d50bb530e2c4dc10f5350"
+    },
+    "dark-theme.png": {
+      "report_path": "liquid-glass/api-31-home-playlist-dark.png",
+      "sha256": "10c5a7ab08a28a1730b6636e21fdeaecd72296305b020d387ab5a0836041bcf2"
+    },
+    "downloads.png": {
+      "report_path": "liquid-glass/api-35-downloads-single-light.png",
+      "sha256": "c24f35a3141a19045ba8e18c2845e15a9f4ea2928d5e5812ab7ab4aa14327856"
+    }
+  }
+}
