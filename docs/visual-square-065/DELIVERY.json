@@ -1,0 +1,61 @@
+{
+  "commit": "7670491fd731700e194c9c95c9c6aa8ff3ad2e76",
+  "run": 39963042420,
+  "artifacts": [
+    {
+      "id": 12506456138,
+      "name": "Square-Glass-0.6.5-device-tests",
+      "sha256": "b1218b13d9d1525898d47211988c585b28f22b0730627b37ce55f07c34cb6716"
+    },
+    {
+      "id": 12505069231,
+      "name": "Ytdlp-G-0.6.5-Square-Glass-Test",
+      "sha256": "a64ec474ed661930058810b42a20daaf24e7d54fa555801b3731e1836fbf46d8"
+    },
+    {
+      "id": 12504919600,
+      "name": "Square-Glass-0.6.5-verification",
+      "sha256": "e7d8fa52939c6b2d3f9a9dfa31fcfde6a67b60a04d5bb699174003f02496fb9a"
+    }
+  ],
+  "scope": {
+    "baseline": "30a347f48cbf04ccf0973b3c5a2f6e869ecb81ed",
+    "protected_files_unchanged": 90,
+    "all_original_test_sources_unchanged": true,
+    "main_activity_presentation_and_legal_substitutions_only": true,
+    "download_dependencies_unchanged": true,
+    "square_commit": "17ed2b87974cf6fec9c531ef3f1438448bb2b729",
+    "visual_dependency": "io.github.kyant0:backdrop:1.0.3",
+    "minSdk": 26,
+    "abi": "arm64-v8a",
+    "applicationId": "com.fuhbe.ytdlpg.minimal"
+  },
+  "certificate_sha256": "a45e0cfccbb5d492fd38c6ebac10cfbe395679e1b2b63ef2df698552093ec2af",
+  "stable_certificate_sha256": "3e1df7424b2cb4589de10dc26ae20afe68eded24acc82b6a0298de2fdb98798b",
+  "same_key_as_stable": false,
+  "visual_063_certificate_sha256": "4631c543a394e02adbbb61307358bad8ff4cd13f24db51574d749ee29f28873e",
+  "published_064_certificate_sha256": "35d6e13608735ab96e1b1c376900d106beeaffe00c12bc9e43d60b8372c1e5d4",
+  "same_key_as_published_064": false,
+  "same_key_as_visual_063": false,
+  "exact_supplied_wallpapers_in_apk": true,
+  "tests": 138,
+  "passed": 137,
+  "skipped": 1,
+  "apk_sha256": "9672b0fcebe720f9e3202c354c467ae51cb38e6ba4b4404cfe638a59712ae3b1",
+  "apk_bytes": 59611344,
+  "package": "package: name='com.fuhbe.ytdlpg.minimal' versionCode='65' versionName='0.6.5-test' platformBuildVersionName='16' platformBuildVersionCode='36' compileSdkVersion='36' compileSdkVersionCodename='16'",
+  "screenshots": 70,
+  "instrumentation": "8 compiled; not executed",
+  "source_sha256": "9005734cb72a8dd512463ff66d4f8c00d3f26d1c0c68169ae160efa1038362de",
+  "device_tests_sha256": "025de54bbc507368d40bebb71f2a429af0cda7ce10583f45598fab606100475c",
+  "workflow_conclusion": "success",
+  "artifact_bytes_downloaded_and_verified": true,
+  "published_stable_preserved": {
+    "tag": "v0.6.4",
+    "apk_sha256": "dae229cff276bea3f9e0d51f7fa94275bf40d12be650987a6c36fb623ae9d334"
+  },
+  "default_branch_preserved": "3064edecd8e3c1805ff629f6dcfd181c2b747479",
+  "host_source_mirror_verification": "322 tracked files identical to published visual branch before delivery documentation",
+  "native_optical_acceptance": "Pending real hardware API33+; eight native tests compiled, none executed",
+  "live_youtube_or_device_performance_claim": false
+}

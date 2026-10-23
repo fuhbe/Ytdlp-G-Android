@@ -1,5 +1,7 @@
 # Square Liquid Glass test previews
 
+[Download the verified test APK and read the installation/signing notes](DELIVERY.md).
+
 Actual Compose software renders of the isolated **0.6.5-test** branch. Sample
 metadata is only for layout verification. These images do not demonstrate a
 successful download or native AGSL refraction. The approved v0.6.4 release is
