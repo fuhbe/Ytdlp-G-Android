@@ -105,8 +105,8 @@ private val Shape = RoundedCornerShape(23.dp)
     SideEffect {
         (context as? android.app.Activity)?.let { activity ->
             WindowCompat.getInsetsController(activity.window, activity.window.decorView).apply {
-                isAppearanceLightStatusBars = false
-                isAppearanceLightNavigationBars = false
+                isAppearanceLightStatusBars = !dark
+                isAppearanceLightNavigationBars = !dark
             }
         }
     }
@@ -172,7 +172,7 @@ private val Shape = RoundedCornerShape(23.dp)
     val interaction = remember { MutableInteractionSource() }
     val pressed by interaction.collectIsPressedAsState()
     val scale by animateFloatAsState(if (pressed) .98f else 1f, tween(120), label = "Button feedback")
-    Surface(onClick = onClick, enabled = enabled, interactionSource = interaction, color = Color.Transparent, shape = RoundedCornerShape(22.dp), modifier = Modifier.fillMaxWidth().heightIn(min = 52.dp).graphicsLayer { scaleX = scale; scaleY = scale }.liquidGlass(RoundedCornerShape(24.dp), prominent = true, selected = enabled)) {
+    Surface(onClick = onClick, enabled = enabled, interactionSource = interaction, color = Color.Transparent, shape = RoundedCornerShape(22.dp), modifier = Modifier.fillMaxWidth().heightIn(min = 52.dp).graphicsLayer { scaleX = scale; scaleY = scale }.liquidGlass(RoundedCornerShape(24.dp), prominent = true, selected = enabled, interaction = { ((1f-scale)/.02f).coerceIn(0f,1f) })) {
         Row(Modifier.padding(13.dp), horizontalArrangement = Arrangement.Center, verticalAlignment = Alignment.CenterVertically) {
             Icon(icon, null, tint = Color.White, modifier = Modifier.size(24.dp)); Spacer(Modifier.width(10.dp))
             Text(label, color = Color.White, fontWeight = FontWeight.SemiBold, fontSize = 16.sp)
@@ -180,11 +180,11 @@ private val Shape = RoundedCornerShape(23.dp)
     }
 }
 @Composable private fun Segments(labels: List<String>, icons: List<ImageVector>, selected: Int, onSelected: (Int) -> Unit) {
-    Row(Modifier.fillMaxWidth().liquidGlass(RoundedCornerShape(22.dp), prominent = true).padding(3.dp), horizontalArrangement = Arrangement.spacedBy(4.dp)) {
+    GlassSelectionTrack(selected, labels.size) {
         labels.forEachIndexed { index, label ->
             val active = selected == index
             Surface(onClick = { onSelected(index) }, modifier = Modifier.weight(1f).heightIn(min = 48.dp), shape = RoundedCornerShape(16.dp), color = Color.Transparent) {
-                Row(Modifier.then(if (active) Modifier.liquidGlass(RoundedCornerShape(19.dp), prominent = true, selected = true) else Modifier).padding(horizontal = 10.dp, vertical = 12.dp), horizontalArrangement = Arrangement.Center, verticalAlignment = Alignment.CenterVertically) {
+                Row(Modifier.padding(horizontal = 10.dp, vertical = 12.dp), horizontalArrangement = Arrangement.Center, verticalAlignment = Alignment.CenterVertically) {
                     Icon(icons[index], null, modifier = Modifier.size(20.dp), tint = if (active) Color.White else MaterialTheme.colorScheme.onSurface)
                     Spacer(Modifier.width(6.dp))
                     Text(label, fontSize = 14.sp, fontWeight = FontWeight.SemiBold, color = if (active) Color.White else MaterialTheme.colorScheme.onSurface)

@@ -1,0 +1,544 @@
+{
+  "source_commit": "acd71d2cfaddd8b5b626d6cfa8559e58937bb5d6",
+  "source_sha256": {
+    "minimal/CRASH_FIX.md": "0d9f047aca87cecded92008bd5e6e8b6f74446a020f86abea9846eaebe5cd7de",
+    "minimal/DELIVERY_REPORT.md": "23af6b4aaa1824dc76351bc0ae83844815adcf90858752b94aabe2309217f603",
+    "minimal/DEVICE_TESTS.md": "7bb2ac02bfac3a537090ad1de72ae843a23cdd198c77a373428bd772d06e176a",
+    "minimal/LOGCAT.md": "3832c6d56c8a7a5312b521e1f0c636114d36359c1a721252bb2ec85dac0e6f70",
+    "minimal/README.md": "682196242fa4c7ad7443d99fee40f01366cfeffd2b2214399f3e026e1541c71f",
+    "minimal/TURBO_REPORT.md": "a25b1799ae35afebd6491216d74a275a956bb921d46616a543f31fbfcd89a307",
+    "minimal/VERIFICATION.md": "688a72510082ad66af71f4d2e24bccc3153268c9a3e70474f406f9a00dc2779a",
+    "minimal/app/build.gradle.kts": "ff15a85a407eaef1c560326553383a561d919fef6a7cb47b42fa76dc070d17f9",
+    "minimal/app/proguard-rules.pro": "061aa20979ba730c6d9bf7444a3f43dceccf284bc495832536c05f5c2d1e6133",
+    "minimal/app/src/androidTest/assets/backdrop-lens.agsl": "7df9cee847ecdd72685db880af582369b9c4cedf60d56b1ced4dffba1fb31a97",
+    "minimal/app/src/androidTest/assets/convert.webm.b64": "7be947852284b7ce9f6084bca18ef498423fae799ab8c2b6c5a6374ea1eb8b61",
+    "minimal/app/src/androidTest/assets/copy.mp4.b64": "dba0d559b68da105a6b75712e543b4f4cd72b0128ba76c854e5da321b8c019a3",
+    "minimal/app/src/androidTest/java/com/fuhbe/ytdlpg/simple/LiquidGlassDeviceTest.kt": "c52d5863eea742abc9b3f431f91aa26840393b87a74b2917987373f7eca0bd73",
+    "minimal/app/src/androidTest/java/com/fuhbe/ytdlpg/simple/NativePipelineTest.kt": "da5ce5f94d5cfabbdceb248af5f00f4ab492707e158674f7e8ea337816df5a3a",
+    "minimal/app/src/main/AndroidManifest.xml": "567ae6e35657da92827bf725ffce6134c525af2f17b8d41f0ad4f63e9a365cbc",
+    "minimal/app/src/main/assets/licenses/Backdrop-APACHE-2.0.txt": "4b9f7e7c2821a5a1822a6cf1e4a34e877bba48a99b9bba1f03e5e2eccf6dec56",
+    "minimal/app/src/main/assets/licenses/Backdrop-NOTICE.txt": "1762c51dc2c398392204a4c86b917716184ab4463d9d3f400e6e5654a7e8ff48",
+    "minimal/app/src/main/java/com/fuhbe/ytdlpg/simple/ActivityGuard.kt": "04cab07cd71ddabdbd6acb95ba9bfcb6c0891cf5e11cf480a2552d96b63411f1",
+    "minimal/app/src/main/java/com/fuhbe/ytdlpg/simple/AdaptiveAdmission.kt": "996b5cce19ee99ad02c8a85f962b1166b36bac1f3de6567ce0fb6adc3e5ddd5a",
+    "minimal/app/src/main/java/com/fuhbe/ytdlpg/simple/AppModel.kt": "94ae2556c747d5a99958a171b78d10e756717a82409fb15448264845f1d3d37b",
+    "minimal/app/src/main/java/com/fuhbe/ytdlpg/simple/BatchRunner.kt": "4e3b60cedef705b80b4909b715f029a137c8790298deb4bc0568c787ba8c6399",
+    "minimal/app/src/main/java/com/fuhbe/ytdlpg/simple/BundledRuntime.kt": "122cbd5de6b8d594eec8f110b1f60ee8969b1e82aa31a5d49000e43e9b924283",
+    "minimal/app/src/main/java/com/fuhbe/ytdlpg/simple/Diagnostics.kt": "23d9e0f85a7576d2c380e6098e1343b0ab5767651293e7a8532e85a1993fbdb7",
+    "minimal/app/src/main/java/com/fuhbe/ytdlpg/simple/DownloadCache.kt": "e4d0e7a5a6ff236dc87ebfd8f0c0ccd182322906775467efce2cb716bcc6237f",
+    "minimal/app/src/main/java/com/fuhbe/ytdlpg/simple/DownloadRequest.kt": "7cd0f77090de23a477ff8a99957fc33c2e4935cf6b70ee66bd93b1390b0f30d4",
+    "minimal/app/src/main/java/com/fuhbe/ytdlpg/simple/Engine.kt": "80d1b5698b2a693ba4378cff7079236b5ea6c5f7f05621e37c8c5705203d1cd8",
+    "minimal/app/src/main/java/com/fuhbe/ytdlpg/simple/ExportStreams.kt": "59f96fa6a05d19c0b229ed9be089734e74b464132ea16ddf3f0a77f28fc6f181",
+    "minimal/app/src/main/java/com/fuhbe/ytdlpg/simple/Failures.kt": "9d19749737b39f81bd6ebb11687101c61b88cb15ac5c8e14dea7a4fcc5c11b0d",
+    "minimal/app/src/main/java/com/fuhbe/ytdlpg/simple/LiquidGlass.kt": "8c6220f5d57fc9e57e4724be2adad6c080207d7e6d066f41c7b7eba9059598fa",
+    "minimal/app/src/main/java/com/fuhbe/ytdlpg/simple/MainActivity.kt": "82a6b3db1a41fd1eb9e497d796717626f8648bd74b0a944005b2cb4a6dff9eb8",
+    "minimal/app/src/main/java/com/fuhbe/ytdlpg/simple/MediaValidator.kt": "f839d4716f4145d271765e4fa35cc6cbd680a25a691d77b3827a9a9adb165916",
+    "minimal/app/src/main/java/com/fuhbe/ytdlpg/simple/Models.kt": "a5276e836549e690db1fd9db0a93996ebb79a1b1871cfbbc57c008569e86bdfe",
+    "minimal/app/src/main/java/com/fuhbe/ytdlpg/simple/ProcessOutput.kt": "9208a68be951446135ce556a65df3cf88f448c405256c9c308c9f79cf71ed957",
+    "minimal/app/src/main/java/com/fuhbe/ytdlpg/simple/QueueActions.kt": "6ae635d2759b9f75f3a60e4e9951c98ea85d0ded94eaf5d0ef040d1a57e97277",
+    "minimal/app/src/main/java/com/fuhbe/ytdlpg/simple/QueueWorker.kt": "ee11917e6ecff3e0d1cb0478fe24bde92bed3d2b8831d20add2fc8938a72e723",
+    "minimal/app/src/main/java/com/fuhbe/ytdlpg/simple/Storage.kt": "4b55ee3eae25db404793590ce8384541364ca0992ba8052a72503e7aa56a120d",
+    "minimal/app/src/main/java/com/fuhbe/ytdlpg/simple/Store.kt": "c3c050cd0ab63be88138db0ccbbcf0fb3e8bc9063be58391eab1085318d2c4e7",
+    "minimal/app/src/main/java/com/fuhbe/ytdlpg/simple/TransferProtocol.kt": "6abd77e1a0f04f6e236628c3b06cbc7e61cedb72862df1bce2e43fee8ed0ee96",
+    "minimal/app/src/main/java/com/fuhbe/ytdlpg/simple/TurboPolicy.kt": "77523b0eff526daac4a465e5782b301b666d9f1240c661e997efb826e0b2fb21",
+    "minimal/app/src/main/res/drawable/ic_download.xml": "4b2b333162b802c273190c0fd263a64c8c1b42579a119a0dea23842c880d7722",
+    "minimal/app/src/main/res/drawable/ic_launcher.xml": "61fd67dcd331a628ad86f16bcc709f6f017cddcb7963bd54c8d1f44c7fae1dd3",
+    "minimal/app/src/main/res/values/styles.xml": "978f64218ca4f66850c0b4061716a0f9a9700ea9cca9676515ce5d0445065eb5",
+    "minimal/app/src/main/res/xml/file_paths.xml": "32854cd786d6335de455528f61f4e548dc805caaa39200183bd6b8ce378da021",
+    "minimal/app/src/test/java/com/deniscerri/ytdl/core/stream/LegacyStreamProcessExtractor.kt": "2d3d108fa0c676b9caf6e6a3c2fa0fb99156ac1f1d79b15c129e8e2f72ee734f",
+    "minimal/app/src/test/java/com/deniscerri/ytdl/core/stream/StreamReaderTest.kt": "b4184e01dbea3acb59d27a9006c4823b0decabc2fe6a8a55503c48fc80347bb9",
+    "minimal/app/src/test/java/com/fuhbe/ytdlpg/simple/AnalyzeActionTest.kt": "5660a82a07b3a8ef2fd70e4555504155d65e6fa8949bd7018fc888e323e46070",
+    "minimal/app/src/test/java/com/fuhbe/ytdlpg/simple/BatchRunnerTest.kt": "f7b21e32ad60a68ad28278d73e4d366d9800bc42d047aa114c5788cc09fc9588",
+    "minimal/app/src/test/java/com/fuhbe/ytdlpg/simple/DownloadCacheTest.kt": "3a24ff12ee6761d4c7dd4aa01d0c9a8af570d137466991d9401949f756ae88e5",
+    "minimal/app/src/test/java/com/fuhbe/ytdlpg/simple/ExportRecoveryTest.kt": "6101b74b22408a6947ac817b952d4a64b90f8b18c459c8f7de65a32b980e477a",
+    "minimal/app/src/test/java/com/fuhbe/ytdlpg/simple/GlassApiMatrixTest.kt": "9a9b2b7ea91047c76b8ca609d846f5e3e29dc1ad9d1791493ff93b7b2be65d99",
+    "minimal/app/src/test/java/com/fuhbe/ytdlpg/simple/GlassUiTest.kt": "c909f0d9bc22745be50dbbe7a5f7836503506abc2bad121b5dd6e7ca3bab55e9",
+    "minimal/app/src/test/java/com/fuhbe/ytdlpg/simple/HostPipelineTest.kt": "d794e3814ee67ec1f67826a8fcfea6ced0428a9104a2da588c0a3f637f885921",
+    "minimal/app/src/test/java/com/fuhbe/ytdlpg/simple/LiquidGlassInteractionTest.kt": "92c50f46cedab4b15cc23f7dd04978720e08837d3453712b5bddb62c3b7a4d51",
+    "minimal/app/src/test/java/com/fuhbe/ytdlpg/simple/LiquidGlassUiPreviewTest.kt": "41780bf8c087f53959c6029c6c683fd97c9c92fd207c8073d5e59ec1fa138537",
+    "minimal/app/src/test/java/com/fuhbe/ytdlpg/simple/PolicyTest.kt": "9c3850527e7dea9464e46e32a98dadf05139273b7249f3464c25f3f6745a6ece",
+    "minimal/app/src/test/java/com/fuhbe/ytdlpg/simple/RuntimeSafetyTest.kt": "ee0bd7f7281bb2cb119a1faefb11ebd0378e6710d88926661ada854ac7fea425",
+    "minimal/app/src/test/java/com/fuhbe/ytdlpg/simple/StorageTest.kt": "f1e8f6c31ed12c4c0847ef0df3fa91cc998e917225dc12e6608e389e6e48f096",
+    "minimal/app/src/test/java/com/fuhbe/ytdlpg/simple/TransferProtocolTest.kt": "8b39a47d1b3c2f921edb5b2a71052ff1f0a32e38b1f5c41c2b741dca3f0dc04c",
+    "minimal/app/src/test/java/com/fuhbe/ytdlpg/simple/TurboPolicyTest.kt": "4a8f0030cae4202520b90ef6242a03af8193bec70d3537c540c0a3988e6c5a23",
+    "minimal/app/src/test/java/com/fuhbe/ytdlpg/simple/TurboUiTest.kt": "d1e7233e699af3ac25e57a5c3bc9b145af20c6cb9c2ee95ca7a30b8fd6acf4ab",
+    "minimal/benchmark.py": "ee57cef2e732f18123721021777745c7aec2441d5103a2631937c4d40fcdee86",
+    "minimal/benchmarks/baseline_glassmp4.py": "8eb6d2f276bf4ad10fd2fcac13531f475c08dde4643515403093f52618fb7496",
+    "minimal/build.gradle.kts": "a425cb4e757b1921e8967df873cbb5a48b656c9c5b3bbb92d519ae2ac79ad9d9",
+    "minimal/compare_benchmarks.py": "87e6d0d64d3351d9a825158aceea4f53a694a0ee0f771503f02ded102f4d0278",
+    "minimal/dex_bootstrap.py": "707fb31e3475dcbd7a738086d7143e2aedadb0c9825b75b5d53666870b9ab542",
+    "minimal/gradle.properties": "b7aaf2ce685e0fc935e86f9aa0410447952cc59bbf29738325da49421874a346",
+    "minimal/gradle/wrapper/gradle-wrapper.jar": "498495120a03b9a6ab5d155f5de3c8f0d986a449153702fb80fc80e134484f17",
+    "minimal/gradle/wrapper/gradle-wrapper.properties": "e749a614c561b19348c173889ec6d5420808ca1da44bd9b779c1ab92c7b06a4f",
+    "minimal/gradlew": "8c4c04dd98db1f00d49456dd162418a39312c5cb13d6865d783deb483bd1ed22",
+    "minimal/integration_fixture.py": "5bb12781e402002c75ffbffd5c160018fef49c69d2860ef709643c3e3cb14fad",
+    "minimal/package.py": "5f826f82d11f405d1593d538f62032141157cfa56ed0cc95d3228c88791da2a5",
+    "minimal/plugins/glassmp4/yt_dlp_plugins/postprocessor/glassmp4.py": "1b640995d867e043ac1554b74b875f662bb866d5f09d6478eb7611bdf0f23354",
+    "minimal/prepare.py": "53933e746067e5e2c861b9536911069b7c5bb08bd06e4122bb808bcd297dd57d",
+    "minimal/regression/0.6.0-bootstrap-dex.json": "827f5418b8871026e3b33d080c43febbf6081d896b0247f2f6a70fd70e62c786",
+    "minimal/regression/0.6.2-delivery.json": "4025e368f0376675ecbc5183b36b3719363591b85ceb9c043abb8c9ed5efa74d",
+    "minimal/regression/ZipBootstrapProbe.java": "be9f08314ce1729b0c8d267166ae8994d6472765e696716f86f8a9f31a46b355",
+    "minimal/regression_zip.py": "2db5b8324c39f236d4b180cb79309dd1ba778875d60c97a327cfa334faceaabe",
+    "minimal/runtime/StreamProcessExtractor.kt": "c521cecf452f36cae78dac44f9809d89b2defd41b096f0b6daf4c0c67e09533a",
+    "minimal/runtime_patch.py": "3eb2aa377e32f62952aea41fba6dfff79ce7744b64bdf6bbe4a43b8eea2cceab",
+    "minimal/settings.gradle.kts": "0826a293171d087d880935c7efbc46e9ca0a99b255618a3fadd384a7c9671d4c",
+    "minimal/smoke.py": "e74a286f2587ad22b263414c46702dca02848b60dd14ccef5c6ee8fde0621ae6",
+    "minimal/upstream.json": "561faef116c2e250699c0df4b4bd6067712e02f6c12236d1f69fb45c0fb53005",
+    "minimal/vendor/backdrop-1.0.3-sources.jar": "ec75a0edc6e60e354f48199f441d05aa16f689008a118096eecf1a14bcafef71",
+    "minimal/verify.py": "216348e47117ca5415810c162cead4c5e326edf9f6e8390edb7e6dcd04232cbe",
+    "minimal/verify_mp4.py": "70e4ae801c0a28520d0678120ad71e75878bea12d347b8e461fdbd51dc09f386"
+  },
+  "tests": [
+    {
+      "class": "com.fuhbe.ytdlpg.simple.PolicyTest",
+      "name": "accessDenialAndDiskErrorsAreActionable",
+      "skipped": false
+    },
+    {
+      "class": "com.fuhbe.ytdlpg.simple.PolicyTest",
+      "name": "zipIsNeverEnabledForOneFileAndSelectionChangesClearIt",
+      "skipped": false
+    },
+    {
+      "class": "com.fuhbe.ytdlpg.simple.PolicyTest",
+      "name": "offersOnlyRealHeightsUpTo4kAndUsesAnExplicitFallback",
+      "skipped": false
+    },
+    {
+      "class": "com.fuhbe.ytdlpg.simple.PolicyTest",
+      "name": "acceptsDistinctYoutubeLinksAndRejectsOtherHostsAndSchemes",
+      "skipped": false
+    },
+    {
+      "class": "com.fuhbe.ytdlpg.simple.TurboPolicyTest",
+      "name": "slowTransfersAndLongActiveConversionsAreNotKilledByTotalDuration",
+      "skipped": false
+    },
+    {
+      "class": "com.fuhbe.ytdlpg.simple.TurboPolicyTest",
+      "name": "fragmentAndFileConcurrencyRespectMemoryThermalPowerAndMetering",
+      "skipped": false
+    },
+    {
+      "class": "com.fuhbe.ytdlpg.simple.TurboPolicyTest",
+      "name": "permanentAccessAndSystemicDiskFailuresAreNotMisclassifiedAsNetworkRetries",
+      "skipped": false
+    },
+    {
+      "class": "com.fuhbe.ytdlpg.simple.AnalyzeActionTest",
+      "name": "processHttpFailureIsAVisibleErrorNotASuccessOrActivityClose",
+      "skipped": false
+    },
+    {
+      "class": "com.fuhbe.ytdlpg.simple.AnalyzeActionTest",
+      "name": "cancellingAnalysisDoesNotPublishLateMetadataOrAnError",
+      "skipped": false
+    },
+    {
+      "class": "com.fuhbe.ytdlpg.simple.AnalyzeActionTest",
+      "name": "updateClickSurvivesLinkageFailureAndKeepsDiagnosticsAvailable",
+      "skipped": false
+    },
+    {
+      "class": "com.fuhbe.ytdlpg.simple.AnalyzeActionTest",
+      "name": "analyzeClickSurvivesTheOldZipErrorAndCanRetrySuccessfully",
+      "skipped": false
+    },
+    {
+      "class": "com.fuhbe.ytdlpg.simple.ExportRecoveryTest",
+      "name": "cancellationDeletesOnlyTheIncompleteExportAndRetainsTheSource",
+      "skipped": false
+    },
+    {
+      "class": "com.fuhbe.ytdlpg.simple.ExportRecoveryTest",
+      "name": "completedAndCopiedJournalsRecoverTheSameUriWithoutCreatingDuplicateFiles",
+      "skipped": false
+    },
+    {
+      "class": "com.fuhbe.ytdlpg.simple.ExportRecoveryTest",
+      "name": "aNewArchiveRevisionNeverDeletesThePreviouslyCommittedExport",
+      "skipped": false
+    },
+    {
+      "class": "com.fuhbe.ytdlpg.simple.GlassUiTest",
+      "name": "tabletUsesReadableCenteredContent",
+      "skipped": false
+    },
+    {
+      "class": "com.fuhbe.ytdlpg.simple.GlassUiTest",
+      "name": "landscapeRemainsScrollable",
+      "skipped": false
+    },
+    {
+      "class": "com.fuhbe.ytdlpg.simple.GlassUiTest",
+      "name": "analysisLoadingStateCanBeDisplayedAndCancelled",
+      "skipped": false
+    },
+    {
+      "class": "com.fuhbe.ytdlpg.simple.GlassUiTest",
+      "name": "smallScreenAndLargeFontsCanReachTheDownloadButton",
+      "skipped": false
+    },
+    {
+      "class": "com.fuhbe.ytdlpg.simple.GlassUiTest",
+      "name": "playlistSelectionsControlWhetherZipIsAvailable",
+      "skipped": false
+    },
+    {
+      "class": "com.fuhbe.ytdlpg.simple.GlassUiTest",
+      "name": "managerShowsActualStoredStateAndRetryControl",
+      "skipped": false
+    },
+    {
+      "class": "com.fuhbe.ytdlpg.simple.GlassUiTest",
+      "name": "individualScreenHasRealMp4SelectionAndNoZip",
+      "skipped": false
+    },
+    {
+      "class": "com.fuhbe.ytdlpg.simple.GlassUiTest",
+      "name": "analysisLoadingStateCanBeDisplayedAndCancelled[26]",
+      "skipped": false
+    },
+    {
+      "class": "com.fuhbe.ytdlpg.simple.GlassUiTest",
+      "name": "analysisLoadingStateCanBeDisplayedAndCancelled[31]",
+      "skipped": false
+    },
+    {
+      "class": "com.fuhbe.ytdlpg.simple.StorageTest",
+      "name": "metadataSeparatesVideoFromAudioAndExcludesDrmAndUnavailableResolutions",
+      "skipped": false
+    },
+    {
+      "class": "com.fuhbe.ytdlpg.simple.StorageTest",
+      "name": "writesAndVerifiesAStreamingArchiveWithoutDeletingSources",
+      "skipped": false
+    },
+    {
+      "class": "com.fuhbe.ytdlpg.simple.StorageTest",
+      "name": "queueControlsAndSavedLocationsSurviveDatabaseReopening",
+      "skipped": false
+    },
+    {
+      "class": "com.fuhbe.ytdlpg.simple.StorageTest",
+      "name": "cancellationRemovesOnlyThePartialArchive",
+      "skipped": false
+    },
+    {
+      "class": "com.deniscerri.ytdl.core.stream.StreamReaderTest",
+      "name": "unboundedMalformedLinesAreRejectedWithoutUnboundedPermanentLogs",
+      "skipped": false
+    },
+    {
+      "class": "com.deniscerri.ytdl.core.stream.StreamReaderTest",
+      "name": "callbackFailureDoesNotAbandonAPipeAndDeadlockItsWriter",
+      "skipped": false
+    },
+    {
+      "class": "com.deniscerri.ytdl.core.stream.StreamReaderTest",
+      "name": "guardedCallbackStopsTheActualWriterAndDrainsItsPipe",
+      "skipped": false
+    },
+    {
+      "class": "com.deniscerri.ytdl.core.stream.StreamReaderTest",
+      "name": "splitUtf8AndTheFinalLineWithoutNewlineAreDelivered",
+      "skipped": false
+    },
+    {
+      "class": "com.deniscerri.ytdl.core.stream.StreamReaderTest",
+      "name": "oldCallbackFailureLeavesTheActualNativeWriterBlockedOnItsPipe",
+      "skipped": false
+    },
+    {
+      "class": "com.fuhbe.ytdlpg.simple.LiquidGlassUiPreviewTest",
+      "name": "darkTheme",
+      "skipped": false
+    },
+    {
+      "class": "com.fuhbe.ytdlpg.simple.LiquidGlassUiPreviewTest",
+      "name": "singleVideo",
+      "skipped": false
+    },
+    {
+      "class": "com.fuhbe.ytdlpg.simple.LiquidGlassUiPreviewTest",
+      "name": "downloadManager",
+      "skipped": false
+    },
+    {
+      "class": "com.fuhbe.ytdlpg.simple.LiquidGlassUiPreviewTest",
+      "name": "playlist",
+      "skipped": false
+    },
+    {
+      "class": "com.fuhbe.ytdlpg.simple.BatchRunnerTest",
+      "name": "pauseOrCancellationWinsOverAProcessFailure",
+      "skipped": false
+    },
+    {
+      "class": "com.fuhbe.ytdlpg.simple.BatchRunnerTest",
+      "name": "retryTargetsOnlyEligibleFailuresAndNeverDownloadsCompletedFilesAgain",
+      "skipped": false
+    },
+    {
+      "class": "com.fuhbe.ytdlpg.simple.BatchRunnerTest",
+      "name": "diskFullStopsTheBatchAndPreservesCompletedFilesAndPendingItems",
+      "skipped": false
+    },
+    {
+      "class": "com.fuhbe.ytdlpg.simple.BatchRunnerTest",
+      "name": "concurrencyIsBoundedAndGlobalProgressNeverMovesBackOnStageChanges",
+      "skipped": false
+    },
+    {
+      "class": "com.fuhbe.ytdlpg.simple.BatchRunnerTest",
+      "name": "permanentFailureFiveAndTwelveDoNotStopItemsSixToSixteen",
+      "skipped": false
+    },
+    {
+      "class": "com.fuhbe.ytdlpg.simple.BatchRunnerTest",
+      "name": "oldQueueJsonMigrationKeepsIdsUrisAndPartialPaths",
+      "skipped": false
+    },
+    {
+      "class": "com.fuhbe.ytdlpg.simple.TurboUiTest",
+      "name": "unknownConversionProgressIsIndeterminateAndDoesNotDisplayZeroPercent",
+      "skipped": false
+    },
+    {
+      "class": "com.fuhbe.ytdlpg.simple.TurboUiTest",
+      "name": "warningsOpenAPerItemReportAndOnlyEligibleFailuresOfferRetry",
+      "skipped": false
+    },
+    {
+      "class": "com.fuhbe.ytdlpg.simple.RuntimeSafetyTest",
+      "name": "missingNativeLibraryFailsClearlyBeforeStartingAnyProcess",
+      "skipped": false
+    },
+    {
+      "class": "com.fuhbe.ytdlpg.simple.RuntimeSafetyTest",
+      "name": "incompatibleAbiFailsBeforeExecution",
+      "skipped": false
+    },
+    {
+      "class": "com.fuhbe.ytdlpg.simple.RuntimeSafetyTest",
+      "name": "zipInitializerErrorIsReportedWithoutLosingItsCauseOrRunningOnMain",
+      "skipped": false
+    },
+    {
+      "class": "com.fuhbe.ytdlpg.simple.RuntimeSafetyTest",
+      "name": "cancellationAndUnrelatedFatalErrorsAreNotDisguisedAsSuccessfulAnalysis",
+      "skipped": false
+    },
+    {
+      "class": "com.fuhbe.ytdlpg.simple.LiquidGlassInteractionTest",
+      "name": "relocatedNavigationUsesTheExistingDestinationsAndBackBehavior",
+      "skipped": false
+    },
+    {
+      "class": "com.fuhbe.ytdlpg.simple.LiquidGlassInteractionTest",
+      "name": "renderingCapabilitiesRespectApiHardwareMemoryAndPowerSaver",
+      "skipped": false
+    },
+    {
+      "class": "com.fuhbe.ytdlpg.simple.LiquidGlassInteractionTest",
+      "name": "formatQualityAndZipKeepTheirOriginalModelValuesAndSelectionRules",
+      "skipped": false
+    },
+    {
+      "class": "com.fuhbe.ytdlpg.simple.LiquidGlassInteractionTest",
+      "name": "destinationStillLaunchesTheAndroidDocumentTreePicker",
+      "skipped": false
+    },
+    {
+      "class": "com.fuhbe.ytdlpg.simple.LiquidGlassInteractionTest",
+      "name": "pauseResumeCancelAndEligibleRetryDispatchTheExactOriginalIds",
+      "skipped": false
+    },
+    {
+      "class": "com.fuhbe.ytdlpg.simple.LiquidGlassInteractionTest",
+      "name": "downloadActionRemainsAboveTheDockOnSmallScreens",
+      "skipped": false
+    },
+    {
+      "class": "com.fuhbe.ytdlpg.simple.LiquidGlassInteractionTest",
+      "name": "exactDependencyLensShaderCompilesAndRefractsRealPixels",
+      "skipped": true
+    },
+    {
+      "class": "com.fuhbe.ytdlpg.simple.HostPipelineTest",
+      "name": "realHttpDisconnectResumesWithRangeAndTransient503RetriesWithoutDuplicateCompletion",
+      "skipped": false
+    },
+    {
+      "class": "com.fuhbe.ytdlpg.simple.HostPipelineTest",
+      "name": "combinedSplitAndIncompatibleMp4FinishWithAudioAndVideoAndOneFailureDoesNotAbort",
+      "skipped": false
+    },
+    {
+      "class": "com.fuhbe.ytdlpg.simple.HostPipelineTest",
+      "name": "missingFragmentNeverProducesACompletedFileAndOneSuccessCanStillFormSelectedZip",
+      "skipped": false
+    },
+    {
+      "class": "com.fuhbe.ytdlpg.simple.HostPipelineTest",
+      "name": "corruptMediaIsNotAValidMp4",
+      "skipped": false
+    },
+    {
+      "class": "com.fuhbe.ytdlpg.simple.HostPipelineTest",
+      "name": "incompatibleMp4KeepsItsOriginalUntilNativeValidationAndCommit",
+      "skipped": false
+    },
+    {
+      "class": "com.fuhbe.ytdlpg.simple.HostPipelineTest",
+      "name": "sixteenRealMp3TransfersContinuePastUnavailableFifthAndTwelfthAndZipFourteen",
+      "skipped": false
+    },
+    {
+      "class": "com.fuhbe.ytdlpg.simple.TransferProtocolTest",
+      "name": "processingUsesRealOutputTimeAndUnknownDurationIsIndeterminate",
+      "skipped": false
+    },
+    {
+      "class": "com.fuhbe.ytdlpg.simple.TransferProtocolTest",
+      "name": "truncatedOutputOrIncompatibleCodecsNeverPassValidation",
+      "skipped": false
+    },
+    {
+      "class": "com.fuhbe.ytdlpg.simple.TransferProtocolTest",
+      "name": "actualCliRequestUsesNativeFragmentsStrictFragmentFailureAndNoIgnoredPostprocessingErrors",
+      "skipped": false
+    },
+    {
+      "class": "com.fuhbe.ytdlpg.simple.GlassApiMatrixTest",
+      "name": "largeFontSettings",
+      "skipped": false
+    },
+    {
+      "class": "com.fuhbe.ytdlpg.simple.GlassApiMatrixTest",
+      "name": "settingsDark[31]",
+      "skipped": false
+    },
+    {
+      "class": "com.fuhbe.ytdlpg.simple.GlassApiMatrixTest",
+      "name": "playlistDark[31]",
+      "skipped": false
+    },
+    {
+      "class": "com.fuhbe.ytdlpg.simple.GlassApiMatrixTest",
+      "name": "managerLight[31]",
+      "skipped": false
+    },
+    {
+      "class": "com.fuhbe.ytdlpg.simple.GlassApiMatrixTest",
+      "name": "homeLight[31]",
+      "skipped": false
+    },
+    {
+      "class": "com.fuhbe.ytdlpg.simple.GlassApiMatrixTest",
+      "name": "settingsDark[26]",
+      "skipped": false
+    },
+    {
+      "class": "com.fuhbe.ytdlpg.simple.GlassApiMatrixTest",
+      "name": "playlistDark[26]",
+      "skipped": false
+    },
+    {
+      "class": "com.fuhbe.ytdlpg.simple.GlassApiMatrixTest",
+      "name": "managerLight[26]",
+      "skipped": false
+    },
+    {
+      "class": "com.fuhbe.ytdlpg.simple.GlassApiMatrixTest",
+      "name": "homeLight[26]",
+      "skipped": false
+    },
+    {
+      "class": "com.fuhbe.ytdlpg.simple.GlassApiMatrixTest",
+      "name": "settingsDark[28]",
+      "skipped": false
+    },
+    {
+      "class": "com.fuhbe.ytdlpg.simple.GlassApiMatrixTest",
+      "name": "playlistDark[28]",
+      "skipped": false
+    },
+    {
+      "class": "com.fuhbe.ytdlpg.simple.GlassApiMatrixTest",
+      "name": "managerLight[28]",
+      "skipped": false
+    },
+    {
+      "class": "com.fuhbe.ytdlpg.simple.GlassApiMatrixTest",
+      "name": "homeLight[28]",
+      "skipped": false
+    },
+    {
+      "class": "com.fuhbe.ytdlpg.simple.GlassApiMatrixTest",
+      "name": "settingsDark[33]",
+      "skipped": false
+    },
+    {
+      "class": "com.fuhbe.ytdlpg.simple.GlassApiMatrixTest",
+      "name": "playlistDark[33]",
+      "skipped": false
+    },
+    {
+      "class": "com.fuhbe.ytdlpg.simple.GlassApiMatrixTest",
+      "name": "managerLight[33]",
+      "skipped": false
+    },
+    {
+      "class": "com.fuhbe.ytdlpg.simple.GlassApiMatrixTest",
+      "name": "homeLight[33]",
+      "skipped": false
+    },
+    {
+      "class": "com.fuhbe.ytdlpg.simple.GlassApiMatrixTest",
+      "name": "settingsDark",
+      "skipped": false
+    },
+    {
+      "class": "com.fuhbe.ytdlpg.simple.GlassApiMatrixTest",
+      "name": "playlistDark",
+      "skipped": false
+    },
+    {
+      "class": "com.fuhbe.ytdlpg.simple.GlassApiMatrixTest",
+      "name": "managerLight",
+      "skipped": false
+    },
+    {
+      "class": "com.fuhbe.ytdlpg.simple.GlassApiMatrixTest",
+      "name": "homeLight",
+      "skipped": false
+    },
+    {
+      "class": "com.fuhbe.ytdlpg.simple.DownloadCacheTest",
+      "name": "cancelledOrPermanentFailuresDoNotBecomeRetryTargets",
+      "skipped": false
+    },
+    {
+      "class": "com.fuhbe.ytdlpg.simple.DownloadCacheTest",
+      "name": "validatedOutputsCanBeReusedWithoutNetworkButChangedOrPartialFilesCannot",
+      "skipped": false
+    },
+    {
+      "class": "com.fuhbe.ytdlpg.simple.DownloadCacheTest",
+      "name": "cleanupRemovesIntermediatesOnlyAfterTheCommitHookAndKeepsFinalAndRecoveryMarkers",
+      "skipped": false
+    },
+    {
+      "class": "com.fuhbe.ytdlpg.simple.DownloadCacheTest",
+      "name": "integrityRetryPreservesRejectedSourceAndPartialsButFreesTheFinalFilename",
+      "skipped": false
+    }
+  ],
+  "passed": 88,
+  "skipped": 1,
+  "release_apk_built": true,
+  "instrumentation": "compiled, not executed",
+  "minSdk": 26,
+  "abi": "arm64-v8a",
+  "new_branch": "visual/liquid-glass-0.6.4"
+}

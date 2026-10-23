@@ -1,0 +1,20 @@
+{
+  "light": {
+    "path": "minimal/app/src/main/res/drawable-nodpi/glass_wallpaper_light.png",
+    "sha256": "d3cc14ceb679efbb165cacadac941af6a57485ed1f5ac6af588a695a9ef39bbe",
+    "bytes": 1875967,
+    "original_dimensions": [
+      1080,
+      2400
+    ]
+  },
+  "dark": {
+    "path": "minimal/app/src/main/res/drawable-nodpi/glass_wallpaper_dark.png",
+    "sha256": "fb7aa49ba4e56f87c1e777c0ecdd94fe019b34385e027f360014784b3f7207c1",
+    "bytes": 1444517,
+    "original_dimensions": [
+      1080,
+      2400
+    ]
+  }
+}
