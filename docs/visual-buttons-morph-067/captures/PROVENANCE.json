@@ -1,0 +1,534 @@
+{
+  "source_commit": "4f09a59c888d6d67800baeaff53f968fe9ced02b",
+  "run": 40106009294,
+  "renderer": "Actual Compose app/Popup windows, Robolectric native Skia SOFTWARE",
+  "sample_data": true,
+  "physical_device": false,
+  "playback": "Captured logical frames with slowed illustrative replay; not real-time phone video or a GPU/FPS measurement",
+  "original_frames": {
+    "button-light/00-idle.png": {
+      "sha256": "1be4b310630e323a43c9078e1f0a1038eca041d2c6d0f891d484fba9d4e54948",
+      "version": "0.6.7-test1",
+      "sampleData": true,
+      "physicalDevice": false,
+      "renderer": "Actual Compose windows; Robolectric native Skia software",
+      "progress": 0,
+      "neckConnected": false,
+      "buttonPressure": 0
+    },
+    "button-light/01-pressed.png": {
+      "sha256": "33de2d366e9081aac8ee3f53a6797de310d83839104999b2f7884ad75eb72861",
+      "version": "0.6.7-test1",
+      "sampleData": true,
+      "physicalDevice": false,
+      "renderer": "Actual Compose windows; Robolectric native Skia software",
+      "progress": 0,
+      "neckConnected": false,
+      "buttonPressure": 1
+    },
+    "button-light/02-horizontal-pull.png": {
+      "sha256": "fe947e21c29d52c0e6dfa659b55ab856cf12cd9690cc3896ebfd5f860a67c0e2",
+      "version": "0.6.7-test1",
+      "sampleData": true,
+      "physicalDevice": false,
+      "renderer": "Actual Compose windows; Robolectric native Skia software",
+      "progress": 0,
+      "neckConnected": false,
+      "buttonPressure": 1
+    },
+    "button-light/03-diagonal-pull.png": {
+      "sha256": "8b80632246fbb8e68e8caa3ccfa181eaecb18107486db4a797d5d9f90e17a300",
+      "version": "0.6.7-test1",
+      "sampleData": true,
+      "physicalDevice": false,
+      "renderer": "Actual Compose windows; Robolectric native Skia software",
+      "progress": 0,
+      "neckConnected": false,
+      "buttonPressure": 1
+    },
+    "button-light/04-release.png": {
+      "sha256": "8b80632246fbb8e68e8caa3ccfa181eaecb18107486db4a797d5d9f90e17a300",
+      "version": "0.6.7-test1",
+      "sampleData": true,
+      "physicalDevice": false,
+      "renderer": "Actual Compose windows; Robolectric native Skia software",
+      "progress": 0,
+      "neckConnected": false,
+      "buttonPressure": 1
+    },
+    "button-light/05-return-64ms.png": {
+      "sha256": "713465de30f889731610a0eccf95c7f8b11b63147004e13ab8350100775cc12f",
+      "version": "0.6.7-test1",
+      "sampleData": true,
+      "physicalDevice": false,
+      "renderer": "Actual Compose windows; Robolectric native Skia software",
+      "progress": 0,
+      "neckConnected": false,
+      "buttonPressure": 0.6559273
+    },
+    "button-light/06-return-160ms.png": {
+      "sha256": "e51aebee943b031944d60409f0dcd0a9cb56bca969465babab18c7db0e5137fe",
+      "version": "0.6.7-test1",
+      "sampleData": true,
+      "physicalDevice": false,
+      "renderer": "Actual Compose windows; Robolectric native Skia software",
+      "progress": 0,
+      "neckConnected": false,
+      "buttonPressure": 0
+    },
+    "button-light/07-settled.png": {
+      "sha256": "e51aebee943b031944d60409f0dcd0a9cb56bca969465babab18c7db0e5137fe",
+      "version": "0.6.7-test1",
+      "sampleData": true,
+      "physicalDevice": false,
+      "renderer": "Actual Compose windows; Robolectric native Skia software",
+      "progress": 0,
+      "neckConnected": false,
+      "buttonPressure": 0
+    },
+    "button-dark/00-idle.png": {
+      "sha256": "90c9eff0a1956263849bdeac65d72dbcf8e2907482fbb52a5c753d276db5d8f1",
+      "version": "0.6.7-test1",
+      "sampleData": true,
+      "physicalDevice": false,
+      "renderer": "Actual Compose windows; Robolectric native Skia software",
+      "progress": 0,
+      "neckConnected": false,
+      "buttonPressure": 0
+    },
+    "button-dark/01-pressed.png": {
+      "sha256": "40435c2f5e474e272ea62db457b5998f007d95ed792099f55f729e5e4a40cc6e",
+      "version": "0.6.7-test1",
+      "sampleData": true,
+      "physicalDevice": false,
+      "renderer": "Actual Compose windows; Robolectric native Skia software",
+      "progress": 0,
+      "neckConnected": false,
+      "buttonPressure": 1
+    },
+    "button-dark/02-horizontal-pull.png": {
+      "sha256": "5ff04776200b2941aa84a3b3292fd6285e332c377934c454d2af120d0952145b",
+      "version": "0.6.7-test1",
+      "sampleData": true,
+      "physicalDevice": false,
+      "renderer": "Actual Compose windows; Robolectric native Skia software",
+      "progress": 0,
+      "neckConnected": false,
+      "buttonPressure": 1
+    },
+    "button-dark/03-diagonal-pull.png": {
+      "sha256": "a4c5fa83c725e0fa579727c92f09069cc5d18311659fc60de0ad2b7ba72511b7",
+      "version": "0.6.7-test1",
+      "sampleData": true,
+      "physicalDevice": false,
+      "renderer": "Actual Compose windows; Robolectric native Skia software",
+      "progress": 0,
+      "neckConnected": false,
+      "buttonPressure": 1
+    },
+    "button-dark/04-release.png": {
+      "sha256": "a4c5fa83c725e0fa579727c92f09069cc5d18311659fc60de0ad2b7ba72511b7",
+      "version": "0.6.7-test1",
+      "sampleData": true,
+      "physicalDevice": false,
+      "renderer": "Actual Compose windows; Robolectric native Skia software",
+      "progress": 0,
+      "neckConnected": false,
+      "buttonPressure": 1
+    },
+    "button-dark/05-return-64ms.png": {
+      "sha256": "eaa490622734b2d6f3e1954a32c84de11941c0926be69f3c7d5331c7acbc6b4c",
+      "version": "0.6.7-test1",
+      "sampleData": true,
+      "physicalDevice": false,
+      "renderer": "Actual Compose windows; Robolectric native Skia software",
+      "progress": 0,
+      "neckConnected": false,
+      "buttonPressure": 0.6559273
+    },
+    "button-dark/06-return-160ms.png": {
+      "sha256": "9ea5c21104ae1f284f4c6b41414b00c12263369eee0af443a66f2229343062fe",
+      "version": "0.6.7-test1",
+      "sampleData": true,
+      "physicalDevice": false,
+      "renderer": "Actual Compose windows; Robolectric native Skia software",
+      "progress": 0,
+      "neckConnected": false,
+      "buttonPressure": 0
+    },
+    "button-dark/07-settled.png": {
+      "sha256": "9ea5c21104ae1f284f4c6b41414b00c12263369eee0af443a66f2229343062fe",
+      "version": "0.6.7-test1",
+      "sampleData": true,
+      "physicalDevice": false,
+      "renderer": "Actual Compose windows; Robolectric native Skia software",
+      "progress": 0,
+      "neckConnected": false,
+      "buttonPressure": 0
+    },
+    "menu-light/00-closed.png": {
+      "sha256": "cb13e9710f893629e3fb6e9aa095515843ffd12fec9086bc1c0500090221d7a8",
+      "version": "0.6.7-test1",
+      "sampleData": true,
+      "physicalDevice": false,
+      "renderer": "Actual Compose windows; Robolectric native Skia software",
+      "progress": 0,
+      "neckConnected": false,
+      "buttonPressure": 0
+    },
+    "menu-light/01-opening.png": {
+      "sha256": "cb13e9710f893629e3fb6e9aa095515843ffd12fec9086bc1c0500090221d7a8",
+      "version": "0.6.7-test1",
+      "sampleData": true,
+      "physicalDevice": false,
+      "renderer": "Actual Compose windows; Robolectric native Skia software",
+      "progress": 0,
+      "neckConnected": false,
+      "buttonPressure": 0
+    },
+    "menu-light/02-bridge-start.png": {
+      "sha256": "d548a0088dac5ab8ba3bf5632a80270e1c7229092408ffc1f374f55d8c810fe4",
+      "version": "0.6.7-test1",
+      "sampleData": true,
+      "physicalDevice": false,
+      "renderer": "Actual Compose windows; Robolectric native Skia software",
+      "panel": [
+        24,
+        563,
+        256,
+        737
+      ],
+      "progress": 0,
+      "neckConnected": false,
+      "buttonPressure": 0
+    },
+    "menu-light/03-bridge-middle.png": {
+      "sha256": "ab1661c3d242eba46060474c49b26a036b1c0f4949b5cef7c420014419a508b4",
+      "version": "0.6.7-test1",
+      "sampleData": true,
+      "physicalDevice": false,
+      "renderer": "Actual Compose windows; Robolectric native Skia software",
+      "panel": [
+        24,
+        563,
+        256,
+        737
+      ],
+      "progress": 0.16575691,
+      "neckConnected": true,
+      "buttonPressure": 0
+    },
+    "menu-light/04-panel-formation.png": {
+      "sha256": "d019520548f0269cceb8325cdd9347561c26ddeb0fbf146a65df82413f542bbe",
+      "version": "0.6.7-test1",
+      "sampleData": true,
+      "physicalDevice": false,
+      "renderer": "Actual Compose windows; Robolectric native Skia software",
+      "panel": [
+        24,
+        563,
+        256,
+        737
+      ],
+      "progress": 0.57765883,
+      "neckConnected": true,
+      "buttonPressure": 0
+    },
+    "menu-light/05-open.png": {
+      "sha256": "59aef0d88861edeeb0e271dcc1d71040a356e7af218cb635f779ccdb6bf880e0",
+      "version": "0.6.7-test1",
+      "sampleData": true,
+      "physicalDevice": false,
+      "renderer": "Actual Compose windows; Robolectric native Skia software",
+      "panel": [
+        24,
+        563,
+        256,
+        737
+      ],
+      "progress": 1,
+      "neckConnected": false,
+      "buttonPressure": 0
+    },
+    "menu-light/06-closing-bridge.png": {
+      "sha256": "938105cebf7a65f9cd4e3022d1a3e4f45f54c6740c26b1962f7841ddd4239d74",
+      "version": "0.6.7-test1",
+      "sampleData": true,
+      "physicalDevice": false,
+      "renderer": "Actual Compose windows; Robolectric native Skia software",
+      "panel": [
+        24,
+        563,
+        256,
+        737
+      ],
+      "progress": 0.94953394,
+      "neckConnected": false,
+      "buttonPressure": 0
+    },
+    "menu-light/07-closing-merge.png": {
+      "sha256": "b2acdda16de8c28caf426f946f519c5878fecaec7808425b03c4df647cc07b52",
+      "version": "0.6.7-test1",
+      "sampleData": true,
+      "physicalDevice": false,
+      "renderer": "Actual Compose windows; Robolectric native Skia software",
+      "panel": [
+        24,
+        563,
+        256,
+        737
+      ],
+      "progress": 0.55176014,
+      "neckConnected": true,
+      "buttonPressure": 0
+    },
+    "menu-light/08-closed.png": {
+      "sha256": "cb13e9710f893629e3fb6e9aa095515843ffd12fec9086bc1c0500090221d7a8",
+      "version": "0.6.7-test1",
+      "sampleData": true,
+      "physicalDevice": false,
+      "renderer": "Actual Compose windows; Robolectric native Skia software",
+      "panel": [
+        24,
+        563,
+        256,
+        737
+      ],
+      "progress": 0,
+      "neckConnected": false,
+      "buttonPressure": 0
+    },
+    "menu-dark/00-closed.png": {
+      "sha256": "d4f5817a67707a7fc5f35a06375e5837e18b543588f3cd4b8f6a1147eef30a58",
+      "version": "0.6.7-test1",
+      "sampleData": true,
+      "physicalDevice": false,
+      "renderer": "Actual Compose windows; Robolectric native Skia software",
+      "progress": 0,
+      "neckConnected": false,
+      "buttonPressure": 0
+    },
+    "menu-dark/01-opening.png": {
+      "sha256": "d4f5817a67707a7fc5f35a06375e5837e18b543588f3cd4b8f6a1147eef30a58",
+      "version": "0.6.7-test1",
+      "sampleData": true,
+      "physicalDevice": false,
+      "renderer": "Actual Compose windows; Robolectric native Skia software",
+      "progress": 0,
+      "neckConnected": false,
+      "buttonPressure": 0
+    },
+    "menu-dark/02-bridge-start.png": {
+      "sha256": "73ca0e4fc9d57741baa053a1a16a10559d1d283761669243916d9f95e1be82ad",
+      "version": "0.6.7-test1",
+      "sampleData": true,
+      "physicalDevice": false,
+      "renderer": "Actual Compose windows; Robolectric native Skia software",
+      "panel": [
+        24,
+        563,
+        256,
+        737
+      ],
+      "progress": 0,
+      "neckConnected": false,
+      "buttonPressure": 0
+    },
+    "menu-dark/03-bridge-middle.png": {
+      "sha256": "1301edc0f72a4aa8df6838c7016f000abbc60ab9fc10ff0f9ba30c70493d6704",
+      "version": "0.6.7-test1",
+      "sampleData": true,
+      "physicalDevice": false,
+      "renderer": "Actual Compose windows; Robolectric native Skia software",
+      "panel": [
+        24,
+        563,
+        256,
+        737
+      ],
+      "progress": 0.16575691,
+      "neckConnected": true,
+      "buttonPressure": 0
+    },
+    "menu-dark/04-panel-formation.png": {
+      "sha256": "8d519b298cdedba289e6b5e6693c2a6ef1d357f4b1e685e570e183d36c066d81",
+      "version": "0.6.7-test1",
+      "sampleData": true,
+      "physicalDevice": false,
+      "renderer": "Actual Compose windows; Robolectric native Skia software",
+      "panel": [
+        24,
+        563,
+        256,
+        737
+      ],
+      "progress": 0.57765883,
+      "neckConnected": true,
+      "buttonPressure": 0
+    },
+    "menu-dark/05-open.png": {
+      "sha256": "811c33c561ed19ce301e5f12b51bf3f47aa6e9a5b8017b221e0a0196f815531f",
+      "version": "0.6.7-test1",
+      "sampleData": true,
+      "physicalDevice": false,
+      "renderer": "Actual Compose windows; Robolectric native Skia software",
+      "panel": [
+        24,
+        563,
+        256,
+        737
+      ],
+      "progress": 1,
+      "neckConnected": false,
+      "buttonPressure": 0
+    },
+    "menu-dark/06-closing-bridge.png": {
+      "sha256": "bbdf459205011a170262f37fe4fcd431eae9c902b04d7413ebba7a6129b9ed23",
+      "version": "0.6.7-test1",
+      "sampleData": true,
+      "physicalDevice": false,
+      "renderer": "Actual Compose windows; Robolectric native Skia software",
+      "panel": [
+        24,
+        563,
+        256,
+        737
+      ],
+      "progress": 0.94953394,
+      "neckConnected": false,
+      "buttonPressure": 0
+    },
+    "menu-dark/07-closing-merge.png": {
+      "sha256": "4d7029105f422da24aa736e57f851c83d8ae1e0195461f78c514636d7df94cc7",
+      "version": "0.6.7-test1",
+      "sampleData": true,
+      "physicalDevice": false,
+      "renderer": "Actual Compose windows; Robolectric native Skia software",
+      "panel": [
+        24,
+        563,
+        256,
+        737
+      ],
+      "progress": 0.55176014,
+      "neckConnected": true,
+      "buttonPressure": 0
+    },
+    "menu-dark/08-closed.png": {
+      "sha256": "d4f5817a67707a7fc5f35a06375e5837e18b543588f3cd4b8f6a1147eef30a58",
+      "version": "0.6.7-test1",
+      "sampleData": true,
+      "physicalDevice": false,
+      "renderer": "Actual Compose windows; Robolectric native Skia software",
+      "panel": [
+        24,
+        563,
+        256,
+        737
+      ],
+      "progress": 0,
+      "neckConnected": false,
+      "buttonPressure": 0
+    }
+  },
+  "derivatives": {
+    "button-light.gif": {
+      "crop": [
+        0,
+        140,
+        411,
+        245
+      ],
+      "sha256": "c755a12424a4b6a4b5dab09c4389b9f0d6ac1927c47ccf984b132a08f4843a9e",
+      "frames": [
+        "00-idle.png",
+        "01-pressed.png",
+        "02-horizontal-pull.png",
+        "03-diagonal-pull.png",
+        "04-release.png",
+        "05-return-64ms.png",
+        "06-return-160ms.png",
+        "07-settled.png"
+      ]
+    },
+    "button-light-sequence.png": {
+      "sha256": "d440b5035109d2d2c26cff11386f84637bb2e9aa7f5a9ce06f43c4568564dc88",
+      "source": "Verified CI gallery, unmodified bytes"
+    },
+    "button-dark.gif": {
+      "crop": [
+        0,
+        140,
+        411,
+        245
+      ],
+      "sha256": "07af1409c09d22be3c503556bede35e4971d4f8a23826b6242ff4d504b59f00b",
+      "frames": [
+        "00-idle.png",
+        "01-pressed.png",
+        "02-horizontal-pull.png",
+        "03-diagonal-pull.png",
+        "04-release.png",
+        "05-return-64ms.png",
+        "06-return-160ms.png",
+        "07-settled.png"
+      ]
+    },
+    "button-dark-sequence.png": {
+      "sha256": "b3193b6ff209d94e1b97e92072892262bbe92e5fd9fc5ba12a6383483920b45a",
+      "source": "Verified CI gallery, unmodified bytes"
+    },
+    "menu-light.gif": {
+      "crop": [
+        0,
+        430,
+        411,
+        820
+      ],
+      "sha256": "b31515ff888479ab6e68b22a4aaf85ce7bb923daae0520d6097dcc3c055e9c73",
+      "frames": [
+        "00-closed.png",
+        "01-opening.png",
+        "02-bridge-start.png",
+        "03-bridge-middle.png",
+        "04-panel-formation.png",
+        "05-open.png",
+        "06-closing-bridge.png",
+        "07-closing-merge.png",
+        "08-closed.png"
+      ]
+    },
+    "menu-light-sequence.png": {
+      "sha256": "321b0c5f05052e30f5ee60bfea2ada40a3f854c0fcae4e30df0da6a4c25030e5",
+      "source": "Verified CI gallery, unmodified bytes"
+    },
+    "menu-dark.gif": {
+      "crop": [
+        0,
+        430,
+        411,
+        820
+      ],
+      "sha256": "6b913b2170b51444c39b615b0154ebc946748d25214511c0b7fc5f936f6b0a33",
+      "frames": [
+        "00-closed.png",
+        "01-opening.png",
+        "02-bridge-start.png",
+        "03-bridge-middle.png",
+        "04-panel-formation.png",
+        "05-open.png",
+        "06-closing-bridge.png",
+        "07-closing-merge.png",
+        "08-closed.png"
+      ]
+    },
+    "menu-dark-sequence.png": {
+      "sha256": "d7802c6b88bbf64740ea96dc99adcdf963f7b2aecadf9fa26e3b30944638eefd",
+      "source": "Verified CI gallery, unmodified bytes"
+    },
+    "baseline-versus-test.png": {
+      "sha256": "83d66eff2c6126e62c4ff667444570c94927ea3446667d5f721e23a31f9c8e4f",
+      "source": "Verified CI gallery; actual stable and test application windows, sample data"
+    }
+  }
+}

@@ -1,0 +1,159 @@
+{
+  "downloaded_artifacts": {
+    "Ytdlp-G-0.6.7-test1-device-tests": {
+      "id": 12564857711,
+      "sha256": "82601a4f18a4a0909c6749585ddcd7dfaef969970c9a1e4e6ce5286c416732e2",
+      "size": 423749
+    },
+    "Ytdlp-G-0.6.7-Test1-Buttons-Morph": {
+      "id": 12564728339,
+      "sha256": "c6dcf756b267a83c268c2c45c8b9065d3af6aa942eb635de867db2f6957aa5b9",
+      "size": 77793154
+    },
+    "Ytdlp-G-0.6.7-test1-verification": {
+      "id": 12564658694,
+      "sha256": "4eee91a2a890d0047a64c044576686612dc63f1707283b3f45cb8125728248d9",
+      "size": 56390003
+    },
+    "host-smoke.json": {
+      "type": "real host HTTP/HLS downloads with generated media",
+      "youtube_device_test": false,
+      "checks": [
+        "Metadata reports real HLS resolutions: 180p and 360p",
+        "Real MP4 download: requested <= 180p, output 180p H.264/AAC",
+        "Real MP4 download: requested <= 2160p, output 360p H.264/AAC",
+        "Real best-source MP3 conversion and byte-based progress protocol verified"
+      ]
+    },
+    "dex-bootstrap.json": {
+      "apk": "Ytdlp-G.apk",
+      "checks": [
+        {
+          "class": "org.apache.commons.compress.archivers.zip.AsiExtraField",
+          "class_flags": 1,
+          "public_noarg_constructor": true,
+          "concrete": true,
+          "pass": true
+        },
+        {
+          "class": "org.apache.commons.compress.archivers.zip.X5455_ExtendedTimestamp",
+          "class_flags": 1,
+          "public_noarg_constructor": true,
+          "concrete": true,
+          "pass": true
+        },
+        {
+          "class": "org.apache.commons.compress.archivers.zip.X7875_NewUnix",
+          "class_flags": 1,
+          "public_noarg_constructor": true,
+          "concrete": true,
+          "pass": true
+        },
+        {
+          "class": "org.apache.commons.compress.archivers.zip.JarMarker",
+          "class_flags": 17,
+          "public_noarg_constructor": true,
+          "concrete": true,
+          "pass": true
+        },
+        {
+          "class": "org.apache.commons.compress.archivers.zip.UnicodePathExtraField",
+          "class_flags": 1,
+          "public_noarg_constructor": true,
+          "concrete": true,
+          "pass": true
+        },
+        {
+          "class": "org.apache.commons.compress.archivers.zip.UnicodeCommentExtraField",
+          "class_flags": 1,
+          "public_noarg_constructor": true,
+          "concrete": true,
+          "pass": true
+        },
+        {
+          "class": "org.apache.commons.compress.archivers.zip.Zip64ExtendedInformationExtraField",
+          "class_flags": 1,
+          "public_noarg_constructor": true,
+          "concrete": true,
+          "pass": true
+        },
+        {
+          "class": "org.apache.commons.compress.archivers.zip.X000A_NTFS",
+          "class_flags": 1,
+          "public_noarg_constructor": true,
+          "concrete": true,
+          "pass": true
+        },
+        {
+          "class": "org.apache.commons.compress.archivers.zip.X0014_X509Certificates",
+          "class_flags": 1,
+          "public_noarg_constructor": true,
+          "concrete": true,
+          "pass": true
+        },
+        {
+          "class": "org.apache.commons.compress.archivers.zip.X0015_CertificateIdForFile",
+          "class_flags": 1,
+          "public_noarg_constructor": true,
+          "concrete": true,
+          "pass": true
+        },
+        {
+          "class": "org.apache.commons.compress.archivers.zip.X0016_CertificateIdForCentralDirectory",
+          "class_flags": 1,
+          "public_noarg_constructor": true,
+          "concrete": true,
+          "pass": true
+        },
+        {
+          "class": "org.apache.commons.compress.archivers.zip.X0017_StrongEncryptionHeader",
+          "class_flags": 1,
+          "public_noarg_constructor": true,
+          "concrete": true,
+          "pass": true
+        },
+        {
+          "class": "org.apache.commons.compress.archivers.zip.X0019_EncryptionRecipientCertificateList",
+          "class_flags": 1,
+          "public_noarg_constructor": true,
+          "concrete": true,
+          "pass": true
+        }
+      ],
+      "pass": true
+    },
+    "zip-bootstrap-regression.json": {
+      "type": "real runtime ZIPs + unshrunk/R8 JVM control",
+      "checks": [
+        {
+          "unshrunk": "PASS",
+          "output": "PASS ZIP entries=2998 bytes=88500519\nPASS ZIP entries=13 bytes=37729132"
+        },
+        {
+          "without-rule": "EXPECTED FAILURE reproduced",
+          "exception": "Exception in thread \"main\" java.lang.ExceptionInInitializerError\n\tat b.p0.a(SourceFile:564)\n\tat b.p0.<init>(SourceFile:217)\n\tat ZipBootstrapProbe.main(SourceFile:13)\nCaused by: java.lang.RuntimeException: class b.b is not a concrete class\n\tat b.g.a(SourceFile:71)\n\tat b.g.<clinit>(SourceFile:42)\n\t... 3 more"
+        },
+        {
+          "with-rule": "PASS",
+          "output": "PASS ZIP entries=2998 bytes=88500519\nPASS ZIP entries=13 bytes=37729132"
+        }
+      ]
+    }
+  },
+  "source_commit": "4f09a59c888d6d67800baeaff53f968fe9ced02b",
+  "apk_sha256": "fb43381e2403960dcb5f7270293550c0a80e4b346e83017db45244a41d342975",
+  "source_sha256": "f11fbd2b7dc743a4edcc096abe5c24e3ef802d6a0aad0a35a972aea7c15f94ba",
+  "certificate_sha256": "0a5754023fcd24e63e559bab1a9aad754a645807d346b0251f2391155a07fdcb",
+  "signing_continuity_with_stable": false,
+  "tests": 241,
+  "passed": 239,
+  "skipped": 2,
+  "failed": 0,
+  "preserved_baseline_cases": 204,
+  "protected_source_files_unchanged": 130,
+  "stable_binary_payloads_unchanged": 20,
+  "genuine_software_frames_verified": 34,
+  "physical_device_executed": false,
+  "emulator_executed": false,
+  "gpu_fps_claim": false
+}

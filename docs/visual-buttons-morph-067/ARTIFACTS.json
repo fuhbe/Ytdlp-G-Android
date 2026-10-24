@@ -1,0 +1,65 @@
+{
+  "total_count": 3,
+  "artifacts": [
+    {
+      "id": 12564857711,
+      "node_id": "MDg6QXJ0aWZhY3QxMjU2NDg1NzcxMQ==",
+      "name": "Ytdlp-G-0.6.7-test1-device-tests",
+      "size_in_bytes": 423749,
+      "url": "https://api.github.com/repos/fuhbe/Ytdlp-G-Android/actions/artifacts/12564857711",
+      "archive_download_url": "https://api.github.com/repos/fuhbe/Ytdlp-G-Android/actions/artifacts/12564857711/zip",
+      "expired": false,
+      "digest": "sha256:82601a4f18a4a0909c6749585ddcd7dfaef969970c9a1e4e6ce5286c416732e2",
+      "created_at": "2026-10-24T15:22:13Z",
+      "updated_at": "2026-10-24T15:22:13Z",
+      "expires_at": "2027-01-22T15:13:46Z",
+      "workflow_run": {
+        "id": 40106009294,
+        "repository_id": 1428936453,
+        "head_repository_id": 1428936453,
+        "head_branch": "feature/liquid-glass-buttons-morph-067",
+        "head_sha": "4f09a59c888d6d67800baeaff53f968fe9ced02b"
+      }
+    },
+    {
+      "id": 12564728339,
+      "node_id": "MDg6QXJ0aWZhY3QxMjU2NDcyODMzOQ==",
+      "name": "Ytdlp-G-0.6.7-Test1-Buttons-Morph",
+      "size_in_bytes": 77793154,
+      "url": "https://api.github.com/repos/fuhbe/Ytdlp-G-Android/actions/artifacts/12564728339",
+      "archive_download_url": "https://api.github.com/repos/fuhbe/Ytdlp-G-Android/actions/artifacts/12564728339/zip",
+      "expired": false,
+      "digest": "sha256:c6dcf756b267a83c268c2c45c8b9065d3af6aa942eb635de867db2f6957aa5b9",
+      "created_at": "2026-10-24T15:22:12Z",
+      "updated_at": "2026-10-24T15:22:12Z",
+      "expires_at": "2027-01-22T15:13:46Z",
+      "workflow_run": {
+        "id": 40106009294,
+        "repository_id": 1428936453,
+        "head_repository_id": 1428936453,
+        "head_branch": "feature/liquid-glass-buttons-morph-067",
+        "head_sha": "4f09a59c888d6d67800baeaff53f968fe9ced02b"
+      }
+    },
+    {
+      "id": 12564658694,
+      "node_id": "MDg6QXJ0aWZhY3QxMjU2NDY1ODY5NA==",
+      "name": "Ytdlp-G-0.6.7-test1-verification",
+      "size_in_bytes": 56390003,
+      "url": "https://api.github.com/repos/fuhbe/Ytdlp-G-Android/actions/artifacts/12564658694",
+      "archive_download_url": "https://api.github.com/repos/fuhbe/Ytdlp-G-Android/actions/artifacts/12564658694/zip",
+      "expired": false,
+      "digest": "sha256:4eee91a2a890d0047a64c044576686612dc63f1707283b3f45cb8125728248d9",
+      "created_at": "2026-10-24T15:22:16Z",
+      "updated_at": "2026-10-24T15:22:16Z",
+      "expires_at": "2027-01-22T15:13:46Z",
+      "workflow_run": {
+        "id": 40106009294,
+        "repository_id": 1428936453,
+        "head_repository_id": 1428936453,
+        "head_branch": "feature/liquid-glass-buttons-morph-067",
+        "head_sha": "4f09a59c888d6d67800baeaff53f968fe9ced02b"
+      }
+    }
+  ]
+}

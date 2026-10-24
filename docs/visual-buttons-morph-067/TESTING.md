@@ -14,7 +14,7 @@ Read actual JUnit XML and `VERIFIED.json` for executed counts/outcomes. A compil
 
 ## Redmi Android 12 acceptance
 
-1. **Check signing before installing.** If Android reports an incompatible signature, stop. Do not uninstall your working app without preserving wanted files/settings/queue state. A clean test profile/device avoids deleting private app data. The optional owner key was not replaced or exposed.
+1. **Check signing before installing.** If Android reports an incompatible signature, stop. Do not uninstall your working app without preserving wanted files/settings/queue state. Use a separate test device if certificates differ. Android user/work profiles share package signing identity and do not bypass signature verification. The optional owner key was not replaced or exposed.
 2. Install `Ytdlp-G.apk`; confirm version `0.6.7-test1`.
 3. Analyze: normal tap still analyzes. Press and gently pull horizontally/diagonally; observe bounded shape and light response. A substantial pull must return without analysis. Verify page scrolling still works normally.
 4. Download: with an inspected item, pull diagonally and release outside; no job should start. An ordinary tap must start the same download as before. Recheck an actual MP3 and MP4 and unchanged available qualities.
