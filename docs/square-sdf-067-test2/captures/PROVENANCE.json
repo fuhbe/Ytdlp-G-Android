@@ -1,0 +1,206 @@
+{
+  "button-light-sequence.png": {
+    "source_sha256": "80220be30e8c51f839a3e7d24c129214ec4450cc1aead64b48d8ecc005a5409c",
+    "description": "Actual CI app frames; sample data; native Skia SOFTWARE; full contact sheet"
+  },
+  "button-dark-sequence.png": {
+    "source_sha256": "e44afaa9d51a49af21ed472d4482132c381ce22b99d81e7175daf2ca5ec37cc1",
+    "description": "Actual CI app frames; sample data; native Skia SOFTWARE; full contact sheet"
+  },
+  "menu-light-sequence.png": {
+    "source_sha256": "1a82c0c6a47b26b5154c288949ad00b119b107748b789b0528509907c2eca5b3",
+    "description": "Actual CI app frames; sample data; native Skia SOFTWARE; full contact sheet"
+  },
+  "menu-dark-sequence.png": {
+    "source_sha256": "1ddfd1ac1f23077d0aacee0a78c47f154efb8ca6e00c6c4cc05f0f3a748daf35",
+    "description": "Actual CI app frames; sample data; native Skia SOFTWARE; full contact sheet"
+  },
+  "paste-sequence.png": {
+    "source_sha256": "055247798e8614e058b306661264b320e39bf2cb6a0a09633c49a458be2d57dd",
+    "description": "Actual CI app frames; sample data; native Skia SOFTWARE; full contact sheet"
+  },
+  "button-dark-detail.gif": {
+    "source_frames": [
+      {
+        "path": "captures/button-dark/00-idle.png",
+        "sha256": "6a416aa2a1cda29e44f508b8e2224e4f344eef7660e943f1b6eb9b0591f8da00"
+      },
+      {
+        "path": "captures/button-dark/01-pressed.png",
+        "sha256": "deee020726c1c7e20fff1d97bc9730b365c2f4430c53ffe597d9372391c78a2e"
+      },
+      {
+        "path": "captures/button-dark/02-long-pull.png",
+        "sha256": "ee0696a50085e99ded2a60e1b59e6e81411ff26fa2274c0190a79fa6539e594c"
+      },
+      {
+        "path": "captures/button-dark/03-long-pull.png",
+        "sha256": "b7a29723efe1a52622a70fc0c65f694d99a2ef32c0398d702dabca83a5017727"
+      },
+      {
+        "path": "captures/button-dark/04-long-pull.png",
+        "sha256": "65ac1fee92407034864a8bc165461ecd544351b892d828e67ec0453f6bdf7f89"
+      },
+      {
+        "path": "captures/button-dark/05-long-pull.png",
+        "sha256": "c8ecefd63266189feb489f93a04eaea9dd7f27aeac93874aaad25ce271bf6903"
+      },
+      {
+        "path": "captures/button-dark/06-long-pull.png",
+        "sha256": "5da2319215594560ba2699b4270a507e4bc30d17263ec66b4df5cd08dbeb6944"
+      },
+      {
+        "path": "captures/button-dark/07-release.png",
+        "sha256": "5da2319215594560ba2699b4270a507e4bc30d17263ec66b4df5cd08dbeb6944"
+      },
+      {
+        "path": "captures/button-dark/08-spring-64ms.png",
+        "sha256": "1012e8cbcf80d6540dc288db6a31f6f183513b4ecdd150296c3daf8e6e26cf12"
+      },
+      {
+        "path": "captures/button-dark/09-spring-192ms.png",
+        "sha256": "3659493149c9accc511e23774df164b2725a4da26cec2a780e5636b285fe2b26"
+      },
+      {
+        "path": "captures/button-dark/10-settled.png",
+        "sha256": "6a416aa2a1cda29e44f508b8e2224e4f344eef7660e943f1b6eb9b0591f8da00"
+      }
+    ],
+    "crop": [
+      0,
+      100,
+      411,
+      460
+    ],
+    "renderer": "Native Skia SOFTWARE; real AppContent/Popup frames",
+    "sampleData": true,
+    "physicalDevice": false,
+    "replay": "Slowed logical frames; not measured phone FPS/video"
+  },
+  "menu-dark-detail.gif": {
+    "source_frames": [
+      {
+        "path": "captures/menu-dark/00-closed.png",
+        "sha256": "600d5d0d0d3bc8c51f464bf967a5a7b73f3bdfda8631a2adfe3d2b212b434913"
+      },
+      {
+        "path": "captures/menu-dark/01-opening.png",
+        "sha256": "7aa174c46a34e533fea6541f577b31799739dca6d7d643526d94cade0e50dffb"
+      },
+      {
+        "path": "captures/menu-dark/02-opening.png",
+        "sha256": "b9ec15af947ce91aa4c116fbd6703820ee5c3fcaa9d37bc1bf0e7e7c516c2828"
+      },
+      {
+        "path": "captures/menu-dark/03-opening.png",
+        "sha256": "30491bdb7ec98baa3a47f68f3377af04275e02e31e565bed960ad7b2a340a5e7"
+      },
+      {
+        "path": "captures/menu-dark/04-opening.png",
+        "sha256": "d74aa76dccdaf4015d6d8a51e146aca278f550d4bdeaa175e5346ed1bbbf4b49"
+      },
+      {
+        "path": "captures/menu-dark/05-opening.png",
+        "sha256": "fed4b61e990abc89cac3ad3c4b6cd6060534eba78b21ad187e7d7bc06ee33494"
+      },
+      {
+        "path": "captures/menu-dark/06-opening.png",
+        "sha256": "0413cd699ddf26e098c0a2bb70b4374d504695b4fc30992362f0dc50d9aeca71"
+      },
+      {
+        "path": "captures/menu-dark/07-opening.png",
+        "sha256": "eef1fa4ade40e00e20680fa7456881c85fc33a5bf088884b27a960683207eac7"
+      },
+      {
+        "path": "captures/menu-dark/08-opening.png",
+        "sha256": "56df390076217c377d2b42698eafdfa152a2423eea5441cd46a6166332b6275f"
+      },
+      {
+        "path": "captures/menu-dark/09-settled-open.png",
+        "sha256": "252686e9b2d0e6ea0c5eba24ce98d713b52bc3e69029d15d8286498b640bc8ad"
+      },
+      {
+        "path": "captures/menu-dark/10-closing.png",
+        "sha256": "21020b7c26a949147461cdee8d42c207ae680a7527e2323b0e53e8e0b55d7766"
+      },
+      {
+        "path": "captures/menu-dark/11-closing.png",
+        "sha256": "30669fe73a38dbf30e5a1b355aecdadaa785425f9738786d0f0cc3835771c083"
+      },
+      {
+        "path": "captures/menu-dark/12-closing.png",
+        "sha256": "ef2fe4338f5010c4a5e7b53121ac37022c936abf2d78714dc760235222c40a62"
+      },
+      {
+        "path": "captures/menu-dark/13-closing.png",
+        "sha256": "6cfaf96b72cfdd5b2b2bbb68788fee18f0bcb2797f365de50f875e7abebca0c7"
+      },
+      {
+        "path": "captures/menu-dark/14-closing.png",
+        "sha256": "55a0b4bb5531afee4a4b5fa0edbc7ddf7e7ca7983a2affa7e11a490370e0685e"
+      },
+      {
+        "path": "captures/menu-dark/15-closing.png",
+        "sha256": "ff2947a150489a1fa5bd0b8ca027a616e61b9562adc510bd6760c6ce65917c3d"
+      },
+      {
+        "path": "captures/menu-dark/16-closing.png",
+        "sha256": "226dea16de5bf6807579f4fb1d55c0dea73f70189340f08788054c6994dbb08a"
+      },
+      {
+        "path": "captures/menu-dark/17-closing-undershoot.png",
+        "sha256": "2fcf852a0615b4c109e33b70535880368eb13bff94c45d69e1413e8de338e0dd"
+      },
+      {
+        "path": "captures/menu-dark/18-closed.png",
+        "sha256": "600d5d0d0d3bc8c51f464bf967a5a7b73f3bdfda8631a2adfe3d2b212b434913"
+      }
+    ],
+    "crop": [
+      0,
+      425,
+      411,
+      850
+    ],
+    "renderer": "Native Skia SOFTWARE; real AppContent/Popup frames",
+    "sampleData": true,
+    "physicalDevice": false,
+    "replay": "Slowed logical frames; not measured phone FPS/video"
+  },
+  "settings-en.png": {
+    "source_sha256": "4410a124851ac09782e3a73e39eaaa21611659db638ac7c7710023ce1c28097e",
+    "renderer": "Actual AppContent; host SOFTWARE",
+    "sampleData": true,
+    "physicalDevice": false
+  },
+  "settings-pt-BR.png": {
+    "source_sha256": "98d6907816b217a7b98a6babf02101b94a7ba5d579d0029909997591f3c8271d",
+    "renderer": "Actual AppContent; host SOFTWARE",
+    "sampleData": true,
+    "physicalDevice": false
+  },
+  "settings-es.png": {
+    "source_sha256": "8d1f9d5c528c9aced16553ced3ca4895d8ebccec94a307a285d81c39019a815b",
+    "renderer": "Actual AppContent; host SOFTWARE",
+    "sampleData": true,
+    "physicalDevice": false
+  },
+  "button-before-after.png": {
+    "before": "minimal/build/github-buttons-morph-067/Ytdlp-G-0.6.7-test1-verification/app/build/reports/glass-067/captures/button-dark/03-diagonal-pull.png",
+    "before_sha256": "a4c5fa83c725e0fa579727c92f09069cc5d18311659fc60de0ad2b7ba72511b7",
+    "after": "minimal/build/github-square-sdf-test2/Ytdlp-G-0.6.7-test2-verification/app/build/reports/square-sdf-test2/captures/button-dark/05-long-pull.png",
+    "after_sha256": "c8ecefd63266189feb489f93a04eaea9dd7f27aeac93874aaad25ce271bf6903",
+    "sameGestureAmplitudeOrTime": false,
+    "note": "Independent actual recorded gestures/phases; qualitative shape comparison, not a latency or identical-input benchmark",
+    "physicalDevice": false
+  },
+  "menu-before-after.png": {
+    "before": "minimal/build/github-buttons-morph-067/Ytdlp-G-0.6.7-test1-verification/app/build/reports/glass-067/captures/menu-dark/03-bridge-middle.png",
+    "before_sha256": "1301edc0f72a4aa8df6838c7016f000abbc60ab9fc10ff0f9ba30c70493d6704",
+    "after": "minimal/build/github-square-sdf-test2/Ytdlp-G-0.6.7-test2-verification/app/build/reports/square-sdf-test2/captures/menu-dark/02-opening.png",
+    "after_sha256": "b9ec15af947ce91aa4c116fbd6703820ee5c3fcaa9d37bc1bf0e7e7c516c2828",
+    "sameGestureAmplitudeOrTime": false,
+    "note": "Independent actual recorded gestures/phases; qualitative shape comparison, not a latency or identical-input benchmark",
+    "physicalDevice": false
+  }
+}

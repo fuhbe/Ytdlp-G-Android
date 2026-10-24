@@ -1,0 +1,16 @@
+{
+  "main": "80a1e93b9470f5b6ecfdab986311f41614510d07",
+  "tag": "df74cb9fde1cf31d42870a3d905b4a99c72fa407",
+  "latest_stable": "v0.6.6",
+  "release_count": 4,
+  "all_existing_release_metadata_and_assets_preserved": true,
+  "all_six_previous_tags_preserved": true,
+  "tags": {
+    "refs/tags/v0.1.0": "52f77308c93b33399b4eb2168a88853e2a2cfc11",
+    "refs/tags/v0.3.0-beta.1": "a5cb4ff4c13fef0694356deb72a3484d6b57e4e4",
+    "refs/tags/v0.6.2": "956bcb36365d46f79e1d9c70e308803468a212d2",
+    "refs/tags/v0.6.4": "30a347f48cbf04ccf0973b3c5a2f6e869ecb81ed",
+    "refs/tags/v0.6.6": "df74cb9fde1cf31d42870a3d905b4a99c72fa407",
+    "refs/tags/v0.6.6-test3": "0aca45f6b60cde42ed483f10fb57a7ae944a4e88"
+  }
+}
