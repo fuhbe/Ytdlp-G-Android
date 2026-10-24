@@ -61,7 +61,7 @@ class SquareLongPullTest {
    compose.runOnIdle {
     assertTrue(entry.motion.touching);assertEquals(d.x,entry.motion.delta.x,.1f);assertEquals(d.y,entry.motion.delta.y,.1f)
     val t=squareButtonTransform(source.size,entry.motion.delta,entry.motion.level,1f)
-    assertTrue("Long pull must go beyond the former 6dp overscan",t.translation.getDistance()>24f)
+    assertTrue("Long finger tracking must keep the visual body anchored",t.translation.getDistance()<=2f)
     assertTrue(t.scaleX>1f || t.scaleY>1f)
    }
    assertEquals(hit,compose.onNodeWithTag("long-pull").fetchSemanticsNode().boundsInRoot)

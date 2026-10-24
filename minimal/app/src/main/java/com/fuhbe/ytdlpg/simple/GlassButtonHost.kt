@@ -1,6 +1,6 @@
-/* Ytdlp-G UI-only observer/paint host for Square-derived buttons.
+/* Ytdlp-G UI-only input/return-lifetime host for Square-derived buttons.
  * Observes the existing Activity dispatch stream; delegates every event unchanged.
- * Does not insert a pointer recognizer above the four approved selectors.
+ * No root paint clone and no recognizer above the four approved selectors.
  */
 package com.fuhbe.ytdlpg.simple
 
@@ -29,11 +29,8 @@ internal class GlassButtonEntry(val motion:ElasticButtonMotion) {
     var origin=Rect.Zero
     var enabled=true
     var attached=true
-    var emphasized=false
     var blockPointerClick=false
-    var padding:PaddingValues=PaddingValues(0.dp)
     val optics=SquareButtonOptics()
-    var content:(@Composable RowScope.()->Unit)? by mutableStateOf(null)
 }
 internal class GlassButtonHostState(val animationScope:kotlinx.coroutines.CoroutineScope?=null) {
     private val entries=linkedSetOf<GlassButtonEntry>()
@@ -124,25 +121,8 @@ private fun Context.activity():Activity? { var c=this;repeat(12) { if(c is Activ
             val entry=host.active
             if(entry!=null)key(entry) {
                 LaunchedEffect(entry) { snapshotFlow { entry.motion.settled }.first { it };host.finish(entry) }
-                val density=LocalDensity.current
-                val rectangle=entry.origin
-                if(rectangle.width>0 && rectangle.height>0)Box(Modifier
-                    .absoluteOffset { IntOffset((rectangle.left-host.root.x).toInt(),(rectangle.top-host.root.y).toInt()) }
-                    .size(with(density){rectangle.width.toDp()},with(density){rectangle.height.toDp()})
-                    .clearAndSetSemantics {}.graphicsLayer { alpha=if(entry.attached || entry.motion.touching)1f else entry.motion.level.coerceIn(0f,1f) }) {
-                    Box(Modifier.matchParentSize().drawWithContent {
-                        val t=squareButtonTransform(size,entry.motion.delta,entry.motion.level,density.density)
-                        val catch=if(entry.motion.touching)Offset.Zero else (entry.bounds.topLeft-entry.origin.topLeft)*(1f-entry.motion.level.coerceIn(0f,1f))
-                        withTransform({ translate(t.translation.x+catch.x,t.translation.y+catch.y);scale(t.scaleX,t.scaleY,center) }) { this@drawWithContent.drawContent() }
-                    }.squareButtonMaterial(entry.motion,entry.emphasized,entry.optics))
-                    Row(Modifier.fillMaxSize().graphicsLayer {
-                        val t=squareButtonTransform(size,entry.motion.delta,entry.motion.level,density.density)
-                        val catch=if(entry.motion.touching)Offset.Zero else (entry.bounds.topLeft-entry.origin.topLeft)*(1f-entry.motion.level.coerceIn(0f,1f))
-                        translationX=t.translation.x+catch.x;translationY=t.translation.y+catch.y // crisp, unscaled glyphs
-                    }.padding(entry.padding),horizontalArrangement=Arrangement.Center,verticalAlignment=Alignment.CenterVertically) {
-                        entry.content?.invoke(this)
-                    }
-                }
+                // Input ownership/return lifetime only. The actual button is
+                // painted exactly once in-place; no cloned root body or label.
             }
         }
     }

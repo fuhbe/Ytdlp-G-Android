@@ -74,7 +74,11 @@ internal val LocalGlassMorphStats=staticCompositionLocalOf<GlassMorphStats?> { n
         origin?.let { glassMorphPlacement(it,viewBounds,options.size,density.density,density.fontScale,rtl) }
     }
     val ready=placement!=null
-    val interactive by remember(state) { derivedStateOf { state.expanded && !state.progress.isRunning && state.progress.value>=.999f } }
+    val interactive by remember(state) { derivedStateOf { state.expanded && state.progress.value>=.86f } }
+    // Capture readiness in composition for both enabled/semantics and alpha.
+    // Render-phase progress must not reveal rows a frame before their input is
+    // enabled. A visible option never waits for the spring's long settling tail.
+    val itemsReady=interactive
     val currentChoose by rememberUpdatedState(choose)
     val currentOptions by rememberUpdatedState(options)
     DisposableEffect(source,state.mounted,state.handoff,ready) {
@@ -133,24 +137,24 @@ internal val LocalGlassMorphStats=staticCompositionLocalOf<GlassMorphStats?> { n
                     }) {
                         GlassQualitySurface(onClick=state::toggle,modifier=Modifier.testTag("glass-quality-trigger"),material=false,content=trigger)
                     }
-                    val block=if(!interactive)Modifier.pointerInput(Unit) { awaitEachGesture {
+                    val block=if(!itemsReady)Modifier.pointerInput(Unit) { awaitEachGesture {
                         awaitFirstDown(false).consume()
                         do { val e=awaitPointerEvent();e.changes.forEach { it.consume() } }while(e.changes.any { it.pressed })
                     } } else Modifier
                     Column(Modifier.at(panel).testTag("glass-quality-panel").then(block)
-                        .graphicsLayer { alpha=glassMorphEase((state.progress.value-.86f)/.14f) }
+                        .graphicsLayer { alpha=if(itemsReady)glassMorphEase((state.progress.value-.86f)/.14f) else 0f }
                         .drawWithContent {
                             val scene=frame()
                             val r=scene.b.rect.translate(-panel.topLeft)
                             val clip=Path().apply { addRoundRect(RoundRect(r,scene.b.radius,scene.b.radius)) }
                             clipPath(clip) { this@drawWithContent.drawContent() }
                         }
-                        .then(if(!interactive)Modifier.clearAndSetSemantics { hideFromAccessibility() } else Modifier)
+                        .then(if(!itemsReady)Modifier.clearAndSetSemantics { hideFromAccessibility() } else Modifier)
                         .verticalScroll(rememberScrollState()).padding(6.dp)) {
                         options.forEach { value -> key(value) {
                             val request=if(value==selected || (selected !in options && value==options.firstOrNull()))Modifier.focusRequester(focus) else Modifier
                             GlassQualitySurface(onClick={ if(interactive && value in currentOptions) { currentChoose(value);state.close() } },
-                                enabled=interactive,modifier=Modifier.testTag("glass-quality-$value").then(request).semantics { this.selected=value==selected;role=Role.RadioButton },material=false) {
+                                enabled=itemsReady,modifier=Modifier.testTag("glass-quality-$value").then(request).semantics { this.selected=value==selected;role=Role.RadioButton },material=false) {
                                 RadioButton(value==selected,onClick=null,modifier=Modifier.size(22.dp));Spacer(Modifier.width(8.dp))
                                 Text(if(value==0)uiText("Best quality") else "${value}p",modifier=Modifier.weight(1f))
                                 if(value==selected)Icon(androidx.compose.material.icons.Icons.Default.Check,null,Modifier.size(20.dp),tint=MaterialTheme.colorScheme.primary)

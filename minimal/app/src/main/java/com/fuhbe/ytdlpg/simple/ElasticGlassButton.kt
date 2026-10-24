@@ -82,16 +82,15 @@ internal class ElasticButtonMotion(private val scope:CoroutineScope,private val 
     SideEffect { stats?.let { it.compositions++ } }
     val host=LocalGlassButtonHost.current
     val localScope=rememberCoroutineScope()
-    // The paint body can outlive a LazyColumn item while a physical finger is
-    // still down. Its return spring belongs to the root host, not that item.
+    // Input tracking can outlive a LazyColumn item while the finger is down.
+    // Return cleanup belongs to the root scope; the body is drawn only in-place.
     val scope=host?.animationScope ?: localScope
     val motion=remember(scope) { ElasticButtonMotion(scope,stats) }
     SideEffect { stats?.motion=motion }
     val entry=remember(motion) { GlassButtonEntry(motion) }
-    SideEffect { entry.enabled=enabled;entry.emphasized=emphasized;entry.padding=contentPadding;entry.content=content }
+    SideEffect { entry.enabled=enabled }
     DisposableEffect(host,entry) { host?.register(entry);onDispose { host?.unregister(entry) } }
     LaunchedEffect(enabled) { if(!enabled)motion.release() }
-    val floating=host?.active===entry
     val density=LocalDensity.current.density
     val interaction=remember { MutableInteractionSource() }
     val pointers=remember { ButtonPointerFlags() }
@@ -169,7 +168,7 @@ internal class ElasticButtonMotion(private val scope:CoroutineScope,private val 
         .onGloballyPositioned { val p=it.positionInWindow();val r=Rect(p,it.size.toSize());if(bounds!=r)bounds=r;entry.bounds=r }
         .clickable(interactionSource=interaction,indication=null,enabled=enabled,role=Role.Button) { if(!entry.blockPointerClick)action() },
         contentAlignment=Alignment.Center) {
-        Box(Modifier.matchParentSize().graphicsLayer { alpha=if(floating)0f else if(enabled)1f else .55f }.drawWithContent {
+        Box(Modifier.matchParentSize().graphicsLayer { alpha=if(enabled)1f else .55f }.drawWithContent {
             val transform=squareButtonTransform(size,motion.delta,motion.level,density)
             withTransform({ translate(transform.translation.x,transform.translation.y);scale(transform.scaleX,transform.scaleY,center) }) {
                 this@drawWithContent.drawContent()
@@ -190,7 +189,7 @@ internal class ElasticButtonMotion(private val scope:CoroutineScope,private val 
             if(motion.level>.001f)drawRect(Brush.radialGradient(listOf(Color.White.copy(alpha=.13f*motion.level),Color.Transparent),
                 center=motion.light,radius=size.minDimension*2f))
         }.squareButtonMaterial(motion,emphasized,entry.optics))
-        Row(Modifier.alpha(if(floating)0f else 1f).padding(contentPadding),verticalAlignment=Alignment.CenterVertically,
+        Row(Modifier.padding(contentPadding),verticalAlignment=Alignment.CenterVertically,
             horizontalArrangement=Arrangement.Center,content=content)
     }
 }

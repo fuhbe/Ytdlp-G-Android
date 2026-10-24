@@ -1,0 +1,24 @@
+{
+  "baseline": "156bff94b27b17dfa12bc3f749137d7d6e30e723",
+  "renderer": "Robolectric/native Skia software; window events, not physical GPU evidence",
+  "results": [
+    {
+      "classname": "com.fuhbe.ytdlpg.simple.AnchoredButtonRegressionTest",
+      "name": "pressingDownloadNeverComposesASecondVisualCopyOfItsContent",
+      "failed": true,
+      "message": "java.lang.AssertionError: One actual content composition, not a hidden original plus a floating clone expected:<1> but was:<2>"
+    },
+    {
+      "classname": "com.fuhbe.ytdlpg.simple.AnchoredButtonRegressionTest",
+      "name": "longPullHasASmallSaturatingExtensionAndAFixedOppositeEdge",
+      "failed": true,
+      "message": "java.lang.AssertionError: The whole button must not travel with a long finger pull"
+    },
+    {
+      "classname": "com.fuhbe.ytdlpg.simple.QualityFirstTapRegressionTest",
+      "name": "aVisible1080OptionAcceptsItsFirstRealTapWhileTheSpringIsStillRunning",
+      "failed": true,
+      "message": "java.lang.AssertionError: The FIRST actual visible-row tap must select expected:<[1080]> but was:<[]>"
+    }
+  ]
+}

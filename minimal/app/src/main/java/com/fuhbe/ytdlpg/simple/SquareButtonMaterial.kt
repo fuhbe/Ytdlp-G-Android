@@ -27,24 +27,22 @@ import com.fuhbe.ytdlpg.simple.buttonsquare.shapes.ContinuousCapsule
 import kotlin.math.*
 
 internal data class SquareButtonTransform(val translation:Offset,val scaleX:Float,val scaleY:Float)
-/** Literal Square LiquidButton matrix, followed by a separate bounded long-pull
- * extension. Applied to decorative rendering, never the semantic/hit rectangle. */
+/** Fixed semantic/layout anchor. Keep Square's single G2 surface and pressure
+ * response, but constrain long pulls to a local extension with tanh resistance.
+ * The opposite edge is invariant throughout a directional pull. Labels never
+ * use this matrix. No spring/coroutine is allocated for pointer samples. */
 internal fun squareButtonTransform(size:Size,offset:Offset,pressure:Float,density:Float):SquareButtonTransform {
     if(size.minDimension<=0 || !offset.x.isFinite() || !offset.y.isFinite())return SquareButtonTransform(Offset.Zero,1f,1f)
-    val width=size.width;val height=size.height
-    val scale=1f+4f*density/height*pressure.coerceIn(0f,1f)
-    val maxOffset=size.minDimension;val initialDerivative=.05f
-    val x=maxOffset*tanh(initialDerivative*offset.x/maxOffset)
-    val y=maxOffset*tanh(initialDerivative*offset.y/maxOffset)
-    val maxDragScale=4f*density/height;val angle=atan2(offset.y,offset.x)
-    val sx=scale+maxDragScale*abs(cos(angle)*offset.x/size.maxDimension)*min(width/height,1f)
-    val sy=scale+maxDragScale*abs(sin(angle)*offset.y/size.maxDimension)*min(height/width,1f)
-    // Extension only: Square's 0.05 derivative is intentionally restrained.
-    // Retain it and add smooth finite travel, rather than a hand-made outline.
-    val reach=min(maxOffset*.8f,48f*density)
-    val extraX=reach*tanh(.20f*offset.x/maxOffset)
-    val extraY=reach*tanh(.20f*offset.y/maxOffset)
-    return SquareButtonTransform(Offset(x+extraX,y+extraY),sx.coerceIn(.9f,1.48f),sy.coerceIn(.9f,1.38f))
+    val unit=density.coerceAtLeast(.01f)
+    val press=pressure.coerceIn(0f,1.1f)*min(unit,size.minDimension*.018f)
+    val reach=min(2f*unit,size.minDimension*.04f)
+    val resistance=(size.minDimension*1.25f).coerceAtLeast(unit)
+    val stretchX=reach*tanh(abs(offset.x)/resistance)
+    val stretchY=reach*tanh(abs(offset.y)/resistance)
+    // Positive pulls hold the left/top edge; negative pulls hold right/bottom.
+    // Maximum silhouette overscan is 2.55dp, independent of screen/drag length.
+    return SquareButtonTransform(Offset(sign(offset.x)*stretchX*.5f,sign(offset.y)*stretchY*.5f),
+        1f+(press+stretchX)/size.width,1f+(-press+stretchY)/size.height)
 }
 
 @RequiresApi(33) internal class SquareButtonHighlightShader {

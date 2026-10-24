@@ -11,8 +11,8 @@ android {
         applicationId = "com.fuhbe.ytdlpg.minimal"
         minSdk = 26
         targetSdk = 35
-        versionCode = 72
-        versionName = "0.6.7-test2"
+        versionCode = 73
+        versionName = "0.6.7-test3"
         ndk { abiFilters += (project.findProperty("abis")?.toString() ?: "arm64-v8a").split(",") }
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
