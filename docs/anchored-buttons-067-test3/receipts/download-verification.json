@@ -1,0 +1,50 @@
+{
+  "anchored_button_and_first_tap_frames_verified": 46,
+  "source_commit": "044f15a936b1c4640beec0c60b3903fd51fb71d9",
+  "run_id": 40124836150,
+  "artifacts": [
+    {
+      "id": 12573685609,
+      "name": "Ytdlp-G-0.6.7-test3-verification",
+      "sha256": "36444c573cb263692d1f3f39def834d2e1608f78eac4b6c1e94465a88ff09f77",
+      "api_digest_matched": true,
+      "crc_verified": true,
+      "expires_at": "2027-01-22T19:20:22Z"
+    },
+    {
+      "id": 12573565698,
+      "name": "Ytdlp-G-0.6.7-test3-device-tests",
+      "sha256": "66aac51f7748ec12ee8c3f559877a2498488ff6fe183158f1b042f3933982f2e",
+      "api_digest_matched": true,
+      "crc_verified": true,
+      "expires_at": "2027-01-22T19:20:22Z"
+    },
+    {
+      "id": 12573435805,
+      "name": "Ytdlp-G-0.6.7-Test3-Anchored-Buttons",
+      "sha256": "2d144e38d9bfe4386a3fa1e3664582c381326ea97a83028e0a1699e7cc2a2bd9",
+      "api_digest_matched": true,
+      "crc_verified": true,
+      "expires_at": "2027-01-22T19:20:22Z"
+    }
+  ],
+  "apk_sha256": "b698c8ad34bf72bb5cc5fe8a53f684ff82c2c05979eaa46b2a76f7928233e396",
+  "source_sha256": "adff60bb1efd2dac9d9f02a69f9d84640bcca44299439a4c67587aa7dc554e97",
+  "certificate_sha256": "472bf7be999fafa4356285e3a58d71766eebe6ddc279e55d0ddec071563383a0",
+  "signature_verified": true,
+  "matching_instrumentation_certificate": true,
+  "version_verified": true,
+  "corresponding_minimal_source_files_compared": 218,
+  "baseline_payloads_identical": 20,
+  "native_libraries_unchanged": 7,
+  "tests": 281,
+  "passed": 279,
+  "skipped": 2,
+  "failed": 0,
+  "test2_case_identities_preserved": 269,
+  "actual_software_frames_verified": 62,
+  "actual_language_captures": 6,
+  "physical_device_execution": false,
+  "emulator_execution": false,
+  "gpu_pixels_or_frame_performance_verified": false
+}

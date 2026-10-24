@@ -1,0 +1,220 @@
+{
+  "actions-en-dark.png": {
+    "source": "gallery/actions-en-dark.png",
+    "sha256": "26c70a08dd57e6844fc35b7af138314f0324511d61eef2b8cb4c48c34af99f8e",
+    "actualApp": true,
+    "software": true
+  },
+  "actions-es-light.png": {
+    "source": "gallery/actions-es-light.png",
+    "sha256": "136bdc7c0cbf33d848f3532a811932655ec41697cb8c49941dc513b724b4de21",
+    "actualApp": true,
+    "software": true
+  },
+  "actions-pt-BR-light.png": {
+    "source": "gallery/actions-pt-BR-light.png",
+    "sha256": "f496a27953fc6f4ed82eaf53f63d064c9389a16ba620b1f5b3c3fd8f75106a44",
+    "actualApp": true,
+    "software": true
+  },
+  "quality-en-dark.png": {
+    "source": "gallery/quality-en-dark.png",
+    "sha256": "7cf54e12baeb5f18f87779d9b904694a747941ac266eca1a739c7f6e27a872dc",
+    "actualApp": true,
+    "software": true
+  },
+  "quality-pt-BR-light.png": {
+    "source": "gallery/quality-pt-BR-light.png",
+    "sha256": "cae99f527ab1548dab55a0b7fbb1e2e51fda677a6ad0fe6090195f5bf0579f2d",
+    "actualApp": true,
+    "software": true
+  },
+  "actions-pt-BR-light-detail.gif": {
+    "source_frames": [
+      {
+        "path": "captures/actions-pt-BR-light/0-00-idle.png",
+        "sha256": "ff54dc6c686b8f46dce8fa96f41ef835080c1c325c333ca76433eef909bfe6d4"
+      },
+      {
+        "path": "captures/actions-pt-BR-light/0-01-press.png",
+        "sha256": "d39a98a6add847dab6c5041f37be8cad8fe2023d6a79e4ae3dcf345a2602a68f"
+      },
+      {
+        "path": "captures/actions-pt-BR-light/0-02-long-horizontal.png",
+        "sha256": "4d50bfede69a29a2d8c67252de1dbaf0f8b4a60a5b6e4f1807f78781982bff70"
+      },
+      {
+        "path": "captures/actions-pt-BR-light/0-03-release.png",
+        "sha256": "cf8b51a617ac0ba8c7e4763d6d04c3cd3c6351e0012a8e86ae60d1e9e15f2f6a"
+      },
+      {
+        "path": "captures/actions-pt-BR-light/0-04-return.png",
+        "sha256": "0824c22677c80d8bd2ce50b342a596c7bbf6ad600b6235bc6a3678f18d8272c2"
+      },
+      {
+        "path": "captures/actions-pt-BR-light/0-05-settled.png",
+        "sha256": "ff54dc6c686b8f46dce8fa96f41ef835080c1c325c333ca76433eef909bfe6d4"
+      },
+      {
+        "path": "captures/actions-pt-BR-light/1-00-idle.png",
+        "sha256": "ff54dc6c686b8f46dce8fa96f41ef835080c1c325c333ca76433eef909bfe6d4"
+      },
+      {
+        "path": "captures/actions-pt-BR-light/1-01-press.png",
+        "sha256": "ce08ab03710531b7584fb177fb38cc7407e5a44fab6c102725118de6689e462f"
+      },
+      {
+        "path": "captures/actions-pt-BR-light/1-02-long-horizontal.png",
+        "sha256": "0e01ea82203b959f73c338b5b056da007c5a369a7d0eed33bd8f8a76413d6cb9"
+      },
+      {
+        "path": "captures/actions-pt-BR-light/1-03-release.png",
+        "sha256": "144b38b1a6c26c213b38fe2677d985ab01481502057db0a2c86db4c19268afcb"
+      },
+      {
+        "path": "captures/actions-pt-BR-light/1-04-return.png",
+        "sha256": "5e37233459dedc582c5ad43a8423252835f64d382380575e7a162d96e3133b78"
+      },
+      {
+        "path": "captures/actions-pt-BR-light/1-05-settled.png",
+        "sha256": "ff54dc6c686b8f46dce8fa96f41ef835080c1c325c333ca76433eef909bfe6d4"
+      }
+    ],
+    "crop": [
+      0,
+      630,
+      411,
+      900
+    ],
+    "replay": "Genuine logical frames; slowed, quantized; not phone FPS",
+    "physicalDevice": false
+  },
+  "quality-pt-BR-light-detail.gif": {
+    "source_frames": [
+      {
+        "path": "captures/quality-pt-BR-light/00-closed.png",
+        "sha256": "ff54dc6c686b8f46dce8fa96f41ef835080c1c325c333ca76433eef909bfe6d4"
+      },
+      {
+        "path": "captures/quality-pt-BR-light/01-visible-spring-running.png",
+        "sha256": "af6448108e57a27a4a64d7065c5789e8a59b97066c19b98610d44db70ed14e69"
+      },
+      {
+        "path": "captures/quality-pt-BR-light/02-first-tap-selected.png",
+        "sha256": "d20b5eb3f99e73ec97c7edbbed299fdaf768b90ebd394e05e2ae498c0f8d744d"
+      },
+      {
+        "path": "captures/quality-pt-BR-light/03-reverse-closing.png",
+        "sha256": "4a6238bd311cee611b1ac5f3acaa08dccfc86f6ae5772988c5687e508e57b620"
+      },
+      {
+        "path": "captures/quality-pt-BR-light/04-closed-1080.png",
+        "sha256": "47569a6ad039aa15c54e9735839d1e13f382f756ca842cd3b4ea81ee21781300"
+      }
+    ],
+    "crop": [
+      0,
+      430,
+      411,
+      840
+    ],
+    "replay": "Genuine logical frames; slowed, quantized; not phone FPS",
+    "physicalDevice": false
+  },
+  "download-idle.png": {
+    "source": "captures/actions-pt-BR-light/1-00-idle.png",
+    "sha256": "ff54dc6c686b8f46dce8fa96f41ef835080c1c325c333ca76433eef909bfe6d4",
+    "state": {
+      "version": "0.6.7-test3",
+      "sampleData": true,
+      "physicalDevice": false,
+      "gpuExecution": false,
+      "renderer": "Actual AppContent/Popup windows; Robolectric native Skia SOFTWARE",
+      "selectedHeight": 720,
+      "menuProgress": 0,
+      "menuSpringRunning": false,
+      "menuExpanded": false,
+      "menuMounted": false
+    }
+  },
+  "download-held.png": {
+    "source": "captures/actions-pt-BR-light/1-02-long-horizontal.png",
+    "sha256": "0e01ea82203b959f73c338b5b056da007c5a369a7d0eed33bd8f8a76413d6cb9",
+    "state": {
+      "version": "0.6.7-test3",
+      "sampleData": true,
+      "physicalDevice": false,
+      "gpuExecution": false,
+      "renderer": "Actual AppContent/Popup windows; Robolectric native Skia SOFTWARE",
+      "selectedHeight": 720,
+      "menuProgress": 0,
+      "menuSpringRunning": false,
+      "menuExpanded": false,
+      "menuMounted": false
+    }
+  },
+  "download-returned.png": {
+    "source": "captures/actions-pt-BR-light/1-05-settled.png",
+    "sha256": "ff54dc6c686b8f46dce8fa96f41ef835080c1c325c333ca76433eef909bfe6d4",
+    "state": {
+      "version": "0.6.7-test3",
+      "sampleData": true,
+      "physicalDevice": false,
+      "gpuExecution": false,
+      "renderer": "Actual AppContent/Popup windows; Robolectric native Skia SOFTWARE",
+      "selectedHeight": 720,
+      "menuProgress": 0,
+      "menuSpringRunning": false,
+      "menuExpanded": false,
+      "menuMounted": false
+    }
+  },
+  "quality-visible.png": {
+    "source": "captures/quality-pt-BR-light/01-visible-spring-running.png",
+    "sha256": "af6448108e57a27a4a64d7065c5789e8a59b97066c19b98610d44db70ed14e69",
+    "state": {
+      "version": "0.6.7-test3",
+      "sampleData": true,
+      "physicalDevice": false,
+      "gpuExecution": false,
+      "renderer": "Actual AppContent/Popup windows; Robolectric native Skia SOFTWARE",
+      "selectedHeight": 720,
+      "menuProgress": 1.000578,
+      "menuSpringRunning": true,
+      "menuExpanded": true,
+      "menuMounted": true
+    }
+  },
+  "quality-first-tap.png": {
+    "source": "captures/quality-pt-BR-light/02-first-tap-selected.png",
+    "sha256": "d20b5eb3f99e73ec97c7edbbed299fdaf768b90ebd394e05e2ae498c0f8d744d",
+    "state": {
+      "version": "0.6.7-test3",
+      "sampleData": true,
+      "physicalDevice": false,
+      "gpuExecution": false,
+      "renderer": "Actual AppContent/Popup windows; Robolectric native Skia SOFTWARE",
+      "selectedHeight": 1080,
+      "menuProgress": 1.0212127,
+      "menuSpringRunning": true,
+      "menuExpanded": false,
+      "menuMounted": true
+    }
+  },
+  "quality-1080-selected.png": {
+    "source": "captures/quality-pt-BR-light/04-closed-1080.png",
+    "sha256": "47569a6ad039aa15c54e9735839d1e13f382f756ca842cd3b4ea81ee21781300",
+    "state": {
+      "version": "0.6.7-test3",
+      "sampleData": true,
+      "physicalDevice": false,
+      "gpuExecution": false,
+      "renderer": "Actual AppContent/Popup windows; Robolectric native Skia SOFTWARE",
+      "selectedHeight": 1080,
+      "menuProgress": 0,
+      "menuSpringRunning": false,
+      "menuExpanded": false,
+      "menuMounted": false
+    }
+  }
+}

@@ -1,0 +1,29 @@
+{
+  "baseline": "156bff94b27b17dfa12bc3f749137d7d6e30e723",
+  "compiled_commit": "044f15a936b1c4640beec0c60b3903fd51fb71d9",
+  "files": [
+    ".github/workflows/experimental-067-test3.yml",
+    "docs/anchored-buttons-067-test3/BASELINE.json",
+    "docs/anchored-buttons-067-test3/BASELINE_PAYLOADS.json",
+    "docs/anchored-buttons-067-test3/BASELINE_TESTS.json",
+    "docs/anchored-buttons-067-test3/DELIVERY.md",
+    "docs/anchored-buttons-067-test3/PROVENANCE.md",
+    "docs/anchored-buttons-067-test3/README.md",
+    "docs/anchored-buttons-067-test3/REPRODUCTION.json",
+    "docs/anchored-buttons-067-test3/TESTING.md",
+    "docs/anchored-buttons-067-test3/capture_tools.py",
+    "docs/anchored-buttons-067-test3/package_test.py",
+    "docs/anchored-buttons-067-test3/verify_delivery.py",
+    "docs/anchored-buttons-067-test3/verify_scope.py",
+    "minimal/app/build.gradle.kts",
+    "minimal/app/src/main/java/com/fuhbe/ytdlpg/simple/ElasticGlassButton.kt",
+    "minimal/app/src/main/java/com/fuhbe/ytdlpg/simple/GlassButtonHost.kt",
+    "minimal/app/src/main/java/com/fuhbe/ytdlpg/simple/GlassMorphMenu.kt",
+    "minimal/app/src/main/java/com/fuhbe/ytdlpg/simple/SquareButtonMaterial.kt",
+    "minimal/app/src/test/java/com/fuhbe/ytdlpg/simple/AnchoredButtonRegressionTest.kt",
+    "minimal/app/src/test/java/com/fuhbe/ytdlpg/simple/QualityFirstTapRegressionTest.kt",
+    "minimal/app/src/test/java/com/fuhbe/ytdlpg/simple/SquareLongPullTest.kt",
+    "minimal/app/src/test/java/com/fuhbe/ytdlpg/simple/StableReleaseCaptureTest.kt",
+    "minimal/app/src/test/java/com/fuhbe/ytdlpg/simple/Test3CaptureTest.kt"
+  ]
+}
