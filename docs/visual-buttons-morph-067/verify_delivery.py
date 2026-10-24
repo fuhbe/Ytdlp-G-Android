@@ -40,7 +40,7 @@ scope=json.loads((M/'build/experimental-067-scope.json').read_text());assert sco
 button=json.loads((M/'app/build/reports/glass-067/button-motion.json').read_text())
 assert button['extraCompositions']==button['extraSourceRecords']==button['extraReadbacks']==0
 morph=json.loads((M/'app/build/reports/glass-067/morph-source.json').read_text());assert morph['extraSourceRecords']==morph['releasedSourceUsers']==morph['cpuBitmapReadbacks']==0
-captures=M/'app/build/reports/glass-067/captures';images={}
+captures=M/'app/build/reports/glass-067/captures';images={};contrast={}
 from PIL import Image
 for group in ['button-light','button-dark','menu-light','menu-dark']:
  expected=8 if group.startswith('button') else 9
@@ -51,7 +51,15 @@ for group in ['button-light','button-dark','menu-light','menu-dark']:
   metadata=json.loads(p.with_suffix('.json').read_text());assert metadata['sampleData'] and not metadata['physicalDevice'];states.append(metadata)
   images[f'{group}/{p.name}']=dict(sha256=digest(p),**metadata)
  assert len({digest(p) for p in files})>=4,group
- if group.startswith('menu'):assert any(s['neckConnected'] for s in states) and any(s['progress']==1 for s in states)
+ if group.startswith('menu'):
+  assert any(s['neckConnected'] for s in states) and any(s['progress']==1 for s in states)
+  panel=json.loads((captures/group/'05-open.json').read_text())['panel']
+  with Image.open(captures/group/'05-open.png') as im:bg=im.getpixel((int(panel[2]-14),int(panel[1]+18)))[:3]
+  fg=(246,250,255) if group.endswith('dark') else (18,50,79)
+  def luminance(rgb):
+   c=[v/255 for v in rgb];c=[v/12.92 if v<=.04045 else ((v+.055)/1.055)**2.4 for v in c];return sum(a*b for a,b in zip(c,[.2126,.7152,.0722]))
+  a,b=sorted([luminance(bg),luminance(fg)]);ratio=(b+.05)/(a+.05);assert ratio>=4.5,(group,ratio)
+  contrast[group]=dict(sampled_background_rgb=bg,foreground_rgb=fg,ratio=ratio,scope='One actual rendered panel-background sample; not an app-wide accessibility certification')
 (captures/'PROVENANCE.json').write_text(json.dumps(images,indent=2)+'\n')
 source=os.environ.get('GITHUB_SHA',subprocess.check_output(['git','rev-parse','HEAD'],cwd=R,text=True).strip())
 result=dict(version='0.6.7-test1',version_code=71,experimental=True,source_commit=source,source_run=os.environ.get('GITHUB_RUN_ID'),
@@ -60,7 +68,7 @@ result=dict(version='0.6.7-test1',version_code=71,experimental=True,source_commi
  signing_continuity_with_stable=certificate=='27c34fcf7e5660c549071df3536a9033e7cd643e415ad530785e1bfc38487c91',
  signing_mode=os.environ.get('YTDLPG_SIGNING_MODE','local-default'),tests=len(cases),passed=len(cases)-sum(cases.values()),skipped=sum(cases.values()),failed=0,
  approved_cases_preserved=204,scope=scope,stable_payloads_verified=len(payload['files']),button_motion=button,morph_source=morph,
- genuine_software_app_frames=len(images),physical_device_execution=False,emulator_execution=False,device_tests='COMPILED ONLY',gpu_fps_claim=False,
+ sampled_menu_contrast=contrast,genuine_software_app_frames=len(images),physical_device_execution=False,emulator_execution=False,device_tests='COMPILED ONLY',gpu_fps_claim=False,
  optical_limits='Generic liquid neck: captured-screen blur/rim only. Pinned AGSL lens supports rounded shapes only. API31/32 new buttons reuse cached mesh when available; advanced GPU optics require physical-device acceptance.')
 p=M/'build/experimental-067-delivery.json';p.write_text(json.dumps(result,indent=2)+'\n')
 (M/'build/experimental-067/VERIFIED.json').write_text(json.dumps(result,indent=2)+'\n');print(json.dumps(result))

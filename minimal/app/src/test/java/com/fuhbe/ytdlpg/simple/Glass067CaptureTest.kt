@@ -8,6 +8,7 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.test.*
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import org.json.JSONObject
+import org.json.JSONArray
 import org.junit.Assert.*
 import org.junit.Rule
 import org.junit.Test
@@ -37,7 +38,14 @@ class Glass067CaptureTest {
             }
         }
         compose.setContent { CompositionLocalProvider(LocalElasticButtonStats provides buttons,LocalGlassMorphStats provides menu) { AppContent(model) } }
-        compose.waitForIdle();compose.mainClock.autoAdvance=false;return model
+        compose.waitForIdle()
+        // Warm actual graphics-layer/glyph capture just as the stable capture
+        // fixture does, before freezing the animation clock for logical frames.
+        repeat(2) {
+            compose.runOnIdle { val v=compose.activity.window.decorView;v.draw(Canvas(Bitmap.createBitmap(v.width,v.height,Bitmap.Config.ARGB_8888))) }
+            compose.waitForIdle()
+        }
+        compose.mainClock.autoAdvance=false;return model
     }
     private fun frame(group:String,name:String) {
         compose.runOnIdle {
@@ -54,7 +62,7 @@ class Glass067CaptureTest {
             val p=menu.state?.progress?.value ?: 0f
             File(folder,"$name.json").writeText(JSONObject().put("version",BuildConfig.VERSION_NAME).put("sampleData",true)
                 .put("physicalDevice",false).put("renderer","Actual Compose windows; Robolectric native Skia software")
-                .put("progress",p).put("neckConnected",menu.placement?.let { glassMorphFrame(it,p,1f).connected } ?: false)
+                .put("panel",menu.placement?.panel?.let { JSONArray(listOf(it.left,it.top,it.right,it.bottom)) }).put("progress",p).put("neckConnected",menu.placement?.let { glassMorphFrame(it,p,1f).connected } ?: false)
                 .put("buttonPressure",buttons.motion?.level ?: 0f).toString(2))
         }
     }

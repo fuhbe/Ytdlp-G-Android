@@ -8,6 +8,7 @@ package com.fuhbe.ytdlpg.simple
 import android.graphics.Rect as AndroidRect
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.spring
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.awaitEachGesture
 import androidx.compose.foundation.gestures.awaitFirstDown
@@ -117,7 +118,14 @@ internal val LocalGlassMorphStats=staticCompositionLocalOf<GlassMorphStats?> { n
                     drawPath(path,Brush.linearGradient(listOf(Color.White.copy(alpha=.75f),Color.White.copy(alpha=.12f),Color.White.copy(alpha=.5f))),style=Stroke(1.dp.toPx()))
                     stats?.let { it.frames++ }
                 }.liquidGlass(RoundedCornerShape(0.dp),source=backdrop))
-                if(rendering!=GlassRendering.TINT) {
+                if(rendering==GlassRendering.TINT) {
+                    // Without GPU blur, underlying labels must not compete with
+                    // the new menu. Retain translucent glass, but raise only the
+                    // final panel's contrast; never tint the whole screen.
+                    val fallback=MaterialTheme.colorScheme.surface.copy(alpha=.86f)
+                    Box(Modifier.at(panel).graphicsLayer { alpha=glassMorphEase((state.progress.value-.82f)/.18f) }
+                        .background(fallback,RoundedCornerShape(24.dp)))
+                } else {
                     Box(Modifier.at(panel).graphicsLayer { alpha=glassMorphEase((state.progress.value-.82f)/.18f) }
                         .liquidGlass(RoundedCornerShape(24.dp),prominent=true,source=backdrop))
                 }
