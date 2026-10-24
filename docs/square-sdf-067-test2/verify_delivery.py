@@ -12,8 +12,8 @@ for p in (M/'app/build/test-results/testGithubDebugUnitTest').glob('TEST-*.xml')
   key=(t.attrib['classname'],t.attrib['name']);assert key not in cases;cases[key]=t.find('skipped') is not None
 baseline=json.loads((H/'BASELINE_TESTS.json').read_text());assert len(baseline)==241
 for t in baseline:assert cases[t['classname'],t['name']]==t['skipped'],t
-assert len(cases)>=268 and sum(cases.values())==2,(len(cases),sum(cases.values()))
-for cls,count in [('SquareSdfCaptureTest',5),('SquareLongPullTest',5),('MetaballPortTest',6),('PasteGlassRegressionTest',3),('MorphSafetyTest',2),('WindowSelectorIsolationTest',1),('MetaballCacheTest',1),('AppLanguageTest',3),('ButtonConcurrentPointerTest',1)]:assert sum(c.endswith('.'+cls) for c,_ in cases)==count,(cls,count)
+assert len(cases)>=269 and sum(cases.values())==2,(len(cases),sum(cases.values()))
+for cls,count in [('SquareSdfCaptureTest',5),('SquareLongPullTest',5),('MetaballPortTest',6),('PasteGlassRegressionTest',3),('MorphSafetyTest',2),('WindowSelectorIsolationTest',1),('MetaballCacheTest',1),('AppLanguageTest',3),('ButtonConcurrentPointerTest',2)]:assert sum(c.endswith('.'+cls) for c,_ in cases)==count,(cls,count)
 def digest(p):return hashlib.file_digest(p.open('rb'),'sha256').hexdigest()
 sdk=Path(os.environ['ANDROID_HOME'])/'build-tools/36.0.0';apk=M/'build/distribution/Ytdlp-G.apk'
 def cert(p):

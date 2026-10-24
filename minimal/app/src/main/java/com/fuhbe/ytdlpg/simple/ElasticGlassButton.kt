@@ -80,9 +80,13 @@ internal class ElasticButtonMotion(private val scope:CoroutineScope,private val 
     val action by rememberUpdatedState(onClick)
     val stats=LocalElasticButtonStats.current
     SideEffect { stats?.let { it.compositions++ } }
-    val scope=rememberCoroutineScope();val motion=remember(scope) { ElasticButtonMotion(scope,stats) }
-    SideEffect { stats?.motion=motion }
     val host=LocalGlassButtonHost.current
+    val localScope=rememberCoroutineScope()
+    // The paint body can outlive a LazyColumn item while a physical finger is
+    // still down. Its return spring belongs to the root host, not that item.
+    val scope=host?.animationScope ?: localScope
+    val motion=remember(scope) { ElasticButtonMotion(scope,stats) }
+    SideEffect { stats?.motion=motion }
     val entry=remember(motion) { GlassButtonEntry(motion) }
     SideEffect { entry.enabled=enabled;entry.emphasized=emphasized;entry.padding=contentPadding;entry.content=content }
     DisposableEffect(host,entry) { host?.register(entry);onDispose { host?.unregister(entry) } }
@@ -93,8 +97,8 @@ internal class ElasticButtonMotion(private val scope:CoroutineScope,private val 
     val pointers=remember { ButtonPointerFlags() }
     LaunchedEffect(interaction) {
         interaction.interactions.collect { event -> when(event) {
-            is PressInteraction.Press -> if(!pointers.physical) { pointers.keyboard=true;motion.press(Offset.Zero) }
-            is PressInteraction.Release,is PressInteraction.Cancel -> if(pointers.keyboard) { pointers.keyboard=false;motion.release() }
+            is PressInteraction.Press -> if(!pointers.physical && host?.ownsWindow(entry)!=true) { pointers.keyboard=true;motion.press(Offset.Zero) }
+            is PressInteraction.Release,is PressInteraction.Cancel -> if(pointers.keyboard) { pointers.keyboard=false;if(host?.ownsWindow(entry)!=true)motion.release() }
             else -> Unit
         } }
     }
@@ -141,12 +145,12 @@ internal class ElasticButtonMotion(private val scope:CoroutineScope,private val 
                 while(true) {
                     val event=awaitPointerEvent(PointerEventPass.Initial)
                     val change=event.changes.firstOrNull { it.id==down.id } ?: break
-                    if(event.changes.any { it.id!=down.id && it.pressed }) { invalid=true;motion.release() }
+                    if(event.changes.any { it.id!=down.id && it.pressed }) { invalid=true;if(host?.ownsWindow(entry)!=true)motion.release() }
                     val point=change.position
                     if((point-down.position).getDistance()>viewConfiguration.touchSlop)invalid=true
                     if(change.changedToUpIgnoreConsumed()) {
                         if(invalid || host?.rejectAdditionalPointers==true || point.x<0 || point.y<0 || point.x>size.width || point.y>size.height)change.consume()
-                        motion.release()
+                        if(host?.ownsWindow(entry)!=true)motion.release()
                         if(event.changes.none { it.pressed })break
                     } else if(change.pressed) { if(host?.ownsWindow(entry)!=true && host?.rejectAdditionalPointers!=true)motion.move(point,down.position) }
                     else break

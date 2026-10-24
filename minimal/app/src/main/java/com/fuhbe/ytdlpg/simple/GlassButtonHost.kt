@@ -35,7 +35,7 @@ internal class GlassButtonEntry(val motion:ElasticButtonMotion) {
     val optics=SquareButtonOptics()
     var content:(@Composable RowScope.()->Unit)? by mutableStateOf(null)
 }
-internal class GlassButtonHostState {
+internal class GlassButtonHostState(val animationScope:kotlinx.coroutines.CoroutineScope?=null) {
     private val entries=linkedSetOf<GlassButtonEntry>()
     var active by mutableStateOf<GlassButtonEntry?>(null);private set
     var root=Offset.Zero
@@ -99,7 +99,8 @@ internal val LocalGlassButtonHost=staticCompositionLocalOf<GlassButtonHostState?
 private fun Context.activity():Activity? { var c=this;repeat(12) { if(c is Activity)return c as Activity;if(c is ContextWrapper)c=(c as ContextWrapper).baseContext else return null };return null }
 
 @Composable internal fun GlassButtonHost(content:@Composable ()->Unit) {
-    val host=remember { GlassButtonHostState() };val view=LocalView.current;val context=LocalContext.current
+    val animationScope=rememberCoroutineScope()
+    val host=remember(animationScope) { GlassButtonHostState(animationScope) };val view=LocalView.current;val context=LocalContext.current
     val window=remember(context) { context.activity()?.window }
     val slop=LocalViewConfiguration.current.touchSlop
     SideEffect { host.slop=slop }

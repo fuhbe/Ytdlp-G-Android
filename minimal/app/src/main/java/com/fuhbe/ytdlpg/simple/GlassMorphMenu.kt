@@ -1,7 +1,8 @@
 /* New transition geometry on the pinned Square/Backdrop material integration.
  * The original Square/catalog source and GPL-3.0/Apache-2.0 notices remain in
- * minimal/vendor/square/. Arbitrary necks use blur/rim; the pinned AGSL lens
- * supports CornerBasedShape only, so the neck is not presented as an AGSL lens.
+ * minimal/vendor/square/. The pinned lens supports CornerBasedShape only.
+ * Arbitrary necks use the additional SDF-gradient shader in
+ * MetaballGlassSurface on API33+, or honest contour/blur/rim on earlier APIs.
  */
 package com.fuhbe.ytdlpg.simple
 
