@@ -171,14 +171,11 @@ private val Shape = RoundedCornerShape(23.dp)
     }
 }
 @Composable private fun ActionButton(label: String, icon: ImageVector, enabled: Boolean = true, onClick: () -> Unit) {
-    val interaction = remember { MutableInteractionSource() }
-    val pressed by interaction.collectIsPressedAsState()
-    val scale by animateFloatAsState(if (pressed) .98f else 1f, androidx.compose.animation.core.spring(.65f, 500f), label = "Button feedback")
-    Surface(onClick = onClick, enabled = enabled, interactionSource = interaction, color = Color.Transparent, shape = RoundedCornerShape(22.dp), modifier = Modifier.fillMaxWidth().heightIn(min = 52.dp).graphicsLayer { scaleX = scale; scaleY = 2f-scale }.liquidGlass(RoundedCornerShape(24.dp), prominent = true, selected = enabled, interaction = { ((1f-scale)/.02f).coerceIn(0f,1f) })) {
-        Row(Modifier.padding(13.dp), horizontalArrangement = Arrangement.Center, verticalAlignment = Alignment.CenterVertically) {
-            Icon(icon, null, tint = if (enabled) Color.White else MaterialTheme.colorScheme.onSurface, modifier = Modifier.size(24.dp)); Spacer(Modifier.width(10.dp))
-            Text(label, color = if (enabled) Color.White else MaterialTheme.colorScheme.onSurface, fontWeight = FontWeight.SemiBold, fontSize = 16.sp)
-        }
+    GlassButton(onClick=onClick,enabled=enabled,emphasized=true,
+        modifier=Modifier.fillMaxWidth().heightIn(min=52.dp),contentPadding=PaddingValues(13.dp)) {
+        val foreground=MaterialTheme.colorScheme.onSurface.copy(alpha=if(enabled) 1f else .65f)
+        Icon(icon,null,tint=foreground,modifier=Modifier.size(24.dp));Spacer(Modifier.width(10.dp))
+        Text(label,color=foreground,fontWeight=FontWeight.SemiBold,fontSize=16.sp)
     }
 }
 @Composable private fun Segments(labels: List<String>, icons: List<ImageVector>, selected: Int, onSelected: (Int) -> Unit) {
@@ -226,7 +223,7 @@ private val Shape = RoundedCornerShape(23.dp)
                 OutlinedTextField(model.url, { model.url = it; if (inspection != null) model.clear() },
                     placeholder = { Text("Paste one or more YouTube links", fontSize = 13.sp) },
                     leadingIcon = { Icon(Icons.Default.Link, null, Modifier.size(20.dp)) },
-                    trailingIcon = { IconButton(onClick = {
+                    trailingIcon = { GlassIconButton(onClick = {
                         val clip = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
                         model.clear(); model.url = clip.primaryClip?.getItemAt(0)?.coerceToText(context)?.toString().orEmpty()
                     }) { Icon(Icons.Default.ContentPaste, "Paste link", Modifier.size(20.dp)) } },
@@ -328,7 +325,7 @@ private val Shape = RoundedCornerShape(23.dp)
     }
     GlassCard {
         Heading("Destination folder")
-        Surface(onClick = choose, color = MaterialTheme.colorScheme.surface.copy(alpha = .3f), shape = RoundedCornerShape(16.dp), modifier = Modifier.fillMaxWidth().heightIn(min = 56.dp)) {
+        GlassButton(onClick = choose, modifier = Modifier.fillMaxWidth().heightIn(min = 56.dp), contentPadding = PaddingValues(0.dp)) {
             Row(Modifier.padding(12.dp), verticalAlignment = Alignment.CenterVertically) {
                 Icon(Icons.Default.FolderOpen, null); Spacer(Modifier.width(12.dp))
                 Column(Modifier.weight(1f)) {
@@ -442,7 +439,7 @@ private val Shape = RoundedCornerShape(23.dp)
             GlassCard {
                 Heading("Download engine")
                 Text("yt-dlp ${Store.preferences(context).getString("engine-version", "2026.10.21")}\nPython, FFmpeg and QuickJS included.", fontSize = 13.sp)
-                TextButton(onClick = model::updateEngine, enabled = !model.updating) { Text(if (model.updating) "Updating…" else "Check and update yt-dlp") }
+                GlassButton(onClick = model::updateEngine, enabled = !model.updating) { Text(if (model.updating) "Updating…" else "Check and update yt-dlp") }
                 TextButton(onClick = model::copyDiagnostics) { Text("Copy diagnostics") }
                 if (model.updating) LinearProgressIndicator(Modifier.fillMaxWidth())
             }

@@ -1,0 +1,18 @@
+[
+  {
+    "before": "@Composable private fun ActionButton(label: String, icon: ImageVector, enabled: Boolean = true, onClick: () -> Unit) {\n    val interaction = remember { MutableInteractionSource() }\n    val pressed by interaction.collectIsPressedAsState()\n    val scale by animateFloatAsState(if (pressed) .98f else 1f, androidx.compose.animation.core.spring(.65f, 500f), label = \"Button feedback\")\n    Surface(onClick = onClick, enabled = enabled, interactionSource = interaction, color = Color.Transparent, shape = RoundedCornerShape(22.dp), modifier = Modifier.fillMaxWidth().heightIn(min = 52.dp).graphicsLayer { scaleX = scale; scaleY = 2f-scale }.liquidGlass(RoundedCornerShape(24.dp), prominent = true, selected = enabled, interaction = { ((1f-scale)/.02f).coerceIn(0f,1f) })) {\n        Row(Modifier.padding(13.dp), horizontalArrangement = Arrangement.Center, verticalAlignment = Alignment.CenterVertically) {\n            Icon(icon, null, tint = if (enabled) Color.White else MaterialTheme.colorScheme.onSurface, modifier = Modifier.size(24.dp)); Spacer(Modifier.width(10.dp))\n            Text(label, color = if (enabled) Color.White else MaterialTheme.colorScheme.onSurface, fontWeight = FontWeight.SemiBold, fontSize = 16.sp)\n        }\n    }\n}\n",
+    "after": "@Composable private fun ActionButton(label: String, icon: ImageVector, enabled: Boolean = true, onClick: () -> Unit) {\n    GlassButton(onClick=onClick,enabled=enabled,emphasized=true,\n        modifier=Modifier.fillMaxWidth().heightIn(min=52.dp),contentPadding=PaddingValues(13.dp)) {\n        val foreground=MaterialTheme.colorScheme.onSurface.copy(alpha=if(enabled) 1f else .65f)\n        Icon(icon,null,tint=foreground,modifier=Modifier.size(24.dp));Spacer(Modifier.width(10.dp))\n        Text(label,color=foreground,fontWeight=FontWeight.SemiBold,fontSize=16.sp)\n    }\n}\n"
+  },
+  {
+    "before": "Surface(onClick = choose, color = MaterialTheme.colorScheme.surface.copy(alpha = .3f), shape = RoundedCornerShape(16.dp), modifier = Modifier.fillMaxWidth().heightIn(min = 56.dp)) {",
+    "after": "GlassButton(onClick = choose, modifier = Modifier.fillMaxWidth().heightIn(min = 56.dp), contentPadding = PaddingValues(0.dp)) {"
+  },
+  {
+    "before": "TextButton(onClick = model::updateEngine, enabled = !model.updating)",
+    "after": "GlassButton(onClick = model::updateEngine, enabled = !model.updating)"
+  },
+  {
+    "before": "trailingIcon = { IconButton(onClick = {",
+    "after": "trailingIcon = { GlassIconButton(onClick = {"
+  }
+]

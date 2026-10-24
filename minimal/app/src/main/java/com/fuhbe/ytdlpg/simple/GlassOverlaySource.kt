@@ -13,6 +13,8 @@ import com.kyant.backdrop.Backdrop
 internal class GlassOverlaySource(val backdrop:GlassContentBackdrop) {
     var users by mutableIntStateOf(0)
     var ready by mutableStateOf(false)
+    var frozenUsers by mutableIntStateOf(0)
+    var records=0
 }
 internal val LocalGlassOverlaySource=staticCompositionLocalOf<GlassOverlaySource?> { null }
 
@@ -26,11 +28,13 @@ internal val LocalGlassOverlaySource=staticCompositionLocalOf<GlassOverlaySource
     val capture=if(enabled) Modifier.onGloballyPositioned { overlay.backdrop.coordinates=it }
         .drawWithContent {
             try {
-                layer.record {
+                if(!overlay.ready || overlay.frozenUsers==0) { layer.record {
                     if(wallpaper!=null) with(wallpaper) { drawBackdrop(this@drawWithContent,overlay.backdrop.coordinates,null) }
                     this@drawWithContent.drawContent()
                 }
+                overlay.records++
                 if(!overlay.ready) overlay.ready=true
+                }
             } catch (_:RuntimeException) {
                 rejected=true;overlay.ready=false
                 android.util.Log.w("YtdlpG-Glass","Overlay source unavailable; compatible glass retained")

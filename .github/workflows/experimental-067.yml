@@ -1,0 +1,107 @@
+name: Build experimental Ytdlp-G 0.6.7-test1 (buttons and morph)
+on:
+  push:
+    branches: [feature/liquid-glass-buttons-morph-067]
+    paths: ['minimal/**', 'docs/visual-buttons-morph-067/**', '.github/workflows/experimental-067.yml']
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: experimental-067-build-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: '21'
+          cache: gradle
+          cache-dependency-path: |
+            minimal/**/*.gradle.kts
+            minimal/gradle.properties
+      - name: Verify the approved implementation is preserved
+        run: python3 docs/visual-buttons-morph-067/verify_scope.py
+      - name: Prepare optional owner signing without exposing private material
+        env:
+          OWNER_KEYSTORE_BASE64: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
+          OWNER_STORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
+          OWNER_KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
+          OWNER_KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }}
+        run: |
+          python3 - <<'PY'
+          import base64,os
+          from pathlib import Path
+          values=[os.environ.get(n,'') for n in ['OWNER_KEYSTORE_BASE64','OWNER_STORE_PASSWORD','OWNER_KEY_ALIAS','OWNER_KEY_PASSWORD']]
+          if any(values) and not all(values):raise SystemExit('Incomplete owner signing configuration; no fallback was used.')
+          with open(os.environ['GITHUB_ENV'],'a') as output:
+              if all(values):
+                  path=Path(os.environ['RUNNER_TEMP'])/'ytdlpg-experimental.keystore'
+                  path.write_bytes(base64.b64decode(values[0],validate=True));path.chmod(0o600)
+                  for name,value in [('YTDLPG_KEYSTORE_PATH',str(path)),('YTDLPG_KEYSTORE_PASSWORD',values[1]),('YTDLPG_KEY_ALIAS',values[2]),('YTDLPG_KEY_PASSWORD',values[3])]:
+                      if '\n' in value or '\r' in value:raise SystemExit('Signing environment values must be single-line.')
+                      output.write(name+'='+value+'\n')
+                  output.write('YTDLPG_SIGNING_MODE=owner-configured\n')
+                  print('Owner-provided release signing is configured; private material will not be published.')
+              else:
+                  output.write('YTDLPG_SIGNING_MODE=ci-default\n')
+                  print('No owner signing credentials configured; recording the actual default certificate without claiming key continuity.')
+          PY
+      - name: Install SDK and unchanged media verification tools
+        run: |
+          sdk_root="${ANDROID_HOME:-/usr/local/lib/android/sdk}"
+          sdkmanager_bin="$(find "$sdk_root/cmdline-tools" -maxdepth 3 -type f -name sdkmanager | head -n 1)"
+          "$sdkmanager_bin" 'platforms;android-36' 'build-tools;36.0.0'
+          echo "ANDROID_HOME=$sdk_root" >> "$GITHUB_ENV"
+          python3 scripts/prepare_smoke_ffmpeg.py "$PWD/.smoke-bin"
+          echo "$PWD/.smoke-bin" >> "$GITHUB_PATH"
+          python3 -m pip install 'Pillow==11.3.0'
+      - name: Build optimized experimental ARM64 APK; run regression suite and genuine software captures
+        run: bash minimal/gradlew -p minimal :app:assembleGithubRelease :app:testGithubDebugUnitTest :app:assembleGithubReleaseAndroidTest --no-daemon --max-workers=1 --warning-mode=none
+      - name: Run unchanged real-media fixture checks
+        run: |
+          python3 minimal/smoke.py
+          python3 minimal/verify_mp4.py minimal/app/build/generated/runtime/res/raw/ytdlp
+      - name: Encode actual frame sequences and preserve historical galleries
+        run: python3 docs/visual-buttons-morph-067/render_captures.py
+      - name: Package and verify the experimental build only
+        run: |
+          python3 docs/visual-buttons-morph-067/verify_scope.py
+          python3 minimal/package.py
+          python3 docs/visual-buttons-morph-067/package_test.py
+          python3 minimal/verify.py minimal/build/distribution/Ytdlp-G.apk
+          python3 docs/visual-buttons-morph-067/verify_delivery.py
+          python3 minimal/dex_bootstrap.py minimal/build/distribution/Ytdlp-G.apk --report minimal/build/dex-bootstrap.json
+          python3 minimal/regression_zip.py minimal/build/distribution/Ytdlp-G.apk
+      - uses: actions/upload-artifact@v4
+        with:
+          name: Ytdlp-G-0.6.7-Test1-Buttons-Morph
+          path: minimal/build/experimental-067/
+          if-no-files-found: error
+      - uses: actions/upload-artifact@v4
+        with:
+          name: Ytdlp-G-0.6.7-test1-device-tests
+          path: minimal/build/device-tests/
+          if-no-files-found: error
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: Ytdlp-G-0.6.7-test1-verification
+          path: |
+            minimal/app/build/reports/
+            minimal/app/build/test-results/
+            minimal/app/build/outputs/mapping/githubRelease/
+            minimal/build/source-manifest.json
+            minimal/build/host-smoke.json
+            minimal/build/dex-bootstrap.json
+            minimal/build/zip-bootstrap-regression.json
+            minimal/build/experimental-067-*.json
+          if-no-files-found: warn
+      - name: Remove temporary owner signing material
+        if: always()
+        run: rm -f "$RUNNER_TEMP/ytdlpg-experimental.keystore"

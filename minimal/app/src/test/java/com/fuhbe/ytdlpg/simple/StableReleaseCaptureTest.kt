@@ -28,7 +28,7 @@ class StableReleaseCaptureTest {
         "Sample channel",thumb="android.resource://${BuildConfig.APPLICATION_ID}/${R.drawable.glass_wallpaper_light}",
         duration=(180+i*24).toLong(),heights=listOf(2160,1440,1080,720))
     private fun capture(screen:String,dark:Boolean) {
-        assertEquals("0.6.6",BuildConfig.VERSION_NAME)
+        assertEquals("0.6.7-test1",BuildConfig.VERSION_NAME)
         val app=RuntimeEnvironment.getApplication()
         val model=AppModel(app).apply { theme=if(dark) "dark" else "light" }
         val items=(1..3).map(::sample)
@@ -75,7 +75,7 @@ class StableReleaseCaptureTest {
             "settings"->compose.onAllNodesWithText("Appearance").assertCountEquals(1)
             "about"->{
                 compose.onNode(hasScrollToNodeAction()).performScrollToNode(hasText("Licenses and source code"))
-                compose.onNodeWithText("Ytdlp-G 0.6.6").assertIsDisplayed()
+                compose.onNodeWithText("Ytdlp-G 0.6.7-test1").assertIsDisplayed()
             }
         }
         compose.waitForIdle()

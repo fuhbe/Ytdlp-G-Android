@@ -1,0 +1,25 @@
+{
+  "stable_apk_sha256": "d9020bc5bbf7aa415349f05df3d04912b25b2eaf904588cd1326fd0b4c6ae888",
+  "files": {
+    "lib/arm64-v8a/libandroidx.graphics.path.so": "41e9a793c43a0f4fddb19e33f346bace464f30f888ba7b9eaf96294ea115bfb6",
+    "lib/arm64-v8a/libffmpeg.so": "c48e52c8a367e71203897835a310fd3c678e2e27e5cbdd8cbaa305a83f924648",
+    "lib/arm64-v8a/libffmpeg.zip.so": "3e4dd8424f2ab3ca741ac37e121fac2efb4c3426948e16ace1ef9a1ffb482930",
+    "lib/arm64-v8a/libffprobe.so": "26f7d8765a2dfdea5104b3d6d689f2efdb3bc087f789f56d521c54921c2e75f5",
+    "lib/arm64-v8a/libpython.so": "4f8d78ede7fc26e96e99342dd83ce42d32c9b4d0806bc9a99ff7151396269b25",
+    "lib/arm64-v8a/libpython.zip.so": "0a1dcd0f69744a93536c96d15f26c646f66ae8634cf28d1c24a373ee94b0710f",
+    "lib/arm64-v8a/libqjs.so": "a0fe160a8cd76eec34132f945664856e96687d701e3b1ff28dff44ea1fad13bc",
+    "assets/licenses/Apache-2.0.txt": "8c6db340475136df3c1201d458fa5755698eace76e510471ecc9d857d6083dac",
+    "assets/licenses/Backdrop-APACHE-2.0.txt": "4b9f7e7c2821a5a1822a6cf1e4a34e877bba48a99b9bba1f03e5e2eccf6dec56",
+    "assets/licenses/Backdrop-NOTICE.txt": "2e65a9766b3d4b5bb519fe2c23fb6435953611d07db99f21813bcb6ee9891bad",
+    "assets/licenses/GPL-3.0.txt": "e57f1c320b8cf8798a7d2ff83a6f9e06a33a03585f6e065fea97f1d86db84052",
+    "assets/licenses/Python.txt": "6c4cb3ac7183d140222e754bbb81ae02c67a1cbe30352077358bca4b6c0f732a",
+    "assets/licenses/Square-GPL-3.0.txt": "3972dc9744f6499f0f9b2dbf76696f2ae7ad8af9b23dde66d6af86c9dfb36986",
+    "assets/licenses/Square-NOTICE.txt": "e87ed83406b342f33685d3389b3f70b995681183e7c1d928a17fc429832f0a7f",
+    "assets/licenses/Square-catalog-APACHE-2.0.txt": "4b9f7e7c2821a5a1822a6cf1e4a34e877bba48a99b9bba1f03e5e2eccf6dec56",
+    "assets/licenses/YTDLnis-GPL-3.0.txt": "3972dc9744f6499f0f9b2dbf76696f2ae7ad8af9b23dde66d6af86c9dfb36986",
+    "assets/licenses/YTDLnis-NOTICE.txt": "d0efe4647463477cbe3859478ab5a95966e1ac706c1a58236c01d845a85c3938",
+    "assets/licenses/quickjs.txt": "943bbb5996e1d1a64936b2d0950ecc0f389947140658317da77ea16c70c9585f",
+    "assets/licenses/yt-dlp-ejs.txt": "dc488880ee9df747d73d81922d96cc40d9316f607532f4942ac15a53125cf2af",
+    "assets/licenses/yt-dlp.txt": "6a90b88421a0d9b090e121daa11b3c6d55eed5eeb3281a2fcc454d6a28b5547c"
+  }
+}
