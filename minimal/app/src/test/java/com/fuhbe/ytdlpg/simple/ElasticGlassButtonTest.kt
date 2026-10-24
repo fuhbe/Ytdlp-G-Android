@@ -115,6 +115,18 @@ class ElasticGlassButtonTest {
         button().performTouchInput { up() };assertEquals(0,calls);assertEquals(springs+1,stats.returnSprings)
         File("build/reports/glass-067/button-motion.json").apply { parentFile.mkdirs() }.writeText("{\"samples\":60,\"extraCompositions\":${stats.compositions-compositions},\"extraSourceRecords\":${stats.sourceRecords-records},\"extraReadbacks\":${stats.readbacks-reads},\"returnSpringsOnRelease\":1,\"hostSoftwareOnly\":true,\"meshCaptureUnavailable\":${stats.captureUnavailable}}")
     }
+    @Test @Config(qualifiers="w411dp-h891dp-xxhdpi") fun phoneDensityActionButtonCanSampleItsCachedBackground() {
+        show(sampled=true)
+        repeat(2) {
+            compose.runOnIdle { val v=compose.activity.window.decorView;v.draw(Canvas(Bitmap.createBitmap(v.width,v.height,Bitmap.Config.ARGB_8888))) }
+            compose.waitForIdle()
+        }
+        button().performTouchInput { down(center) }
+        compose.waitUntil(5000) { stats.readbacks>0 || stats.captureUnavailable }
+        assertFalse("Native software fixture must support the cached texture",stats.captureUnavailable)
+        assertEquals("A wide xxhdpi button must not silently bypass the mesh cache",1,stats.readbacks)
+        button().performTouchInput { moveBy(Offset(90f,0f));up() };assertEquals(0,calls)
+    }
     @Test fun realRenderedDarkOutlineChangesWithoutDuplicateLabels() {
         show(dark=true);compose.mainClock.autoAdvance=false
         fun frame(name:String):Bitmap {

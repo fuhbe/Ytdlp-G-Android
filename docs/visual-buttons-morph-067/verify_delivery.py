@@ -12,7 +12,7 @@ for p in (M/'app/build/test-results/testGithubDebugUnitTest').glob('TEST-*.xml')
   cases[key]=t.find('skipped') is not None
 baseline=json.loads((H/'BASELINE_TESTS.json').read_text());assert len(baseline)==204
 for t in baseline:assert cases[(t['class'],t['name'])]==t['skipped'],t
-assert len(cases)>=240 and sum(cases.values())==2,(len(cases),sum(cases.values()))
+assert len(cases)>=241 and sum(cases.values())==2,(len(cases),sum(cases.values()))
 assert sum(c.endswith('.Glass067CaptureTest') for c,_ in cases)==4
 apk=M/'build/distribution/Ytdlp-G.apk';sdk=Path(os.environ['ANDROID_HOME'])/'build-tools/36.0.0'
 def digest(p):return hashlib.file_digest(p.open('rb'),'sha256').hexdigest()

@@ -123,7 +123,7 @@ internal fun elasticButtonPath(size:Size,level:Float,delta:Offset,light:Offset,p
             if(!mesh || cache.rejected || cache.recorded==null || cache.sampled===cache.current)continue
             try {
                 // Once per background revision/press, never per MOVE or spring frame.
-                if(backgroundLayer.size.width.toLong()*backgroundLayer.size.height>100_000L)continue
+                if(backgroundLayer.size.width.toLong()*backgroundLayer.size.height>2_000_000L)continue
                 val token=cache.recorded
                 val snapshot=backgroundLayer.toImageBitmap()
                 val bitmap=kotlinx.coroutines.withContext(kotlinx.coroutines.Dispatchers.Default) {
