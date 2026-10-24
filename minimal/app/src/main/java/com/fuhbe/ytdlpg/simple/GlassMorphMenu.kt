@@ -40,6 +40,7 @@ internal class GlassMorphMenuState {
     var handoff by mutableStateOf(false);private set
     fun handoff() { handoff=true }
     val progress=Animatable(0f)
+    val resolver=MetaballResolver()
     fun toggle() { if(!mounted) { mounted=true;expanded=true } else expanded=!expanded }
     fun close() { expanded=false }
     fun unmount() { if(!expanded) { mounted=false;handoff=false } }
@@ -49,6 +50,8 @@ internal class GlassMorphStats {
     var state:GlassMorphMenuState?=null
     var placement:GlassMorphPlacement?=null
     var source:GlassOverlaySource?=null
+    var scene:MetaballScene?=null
+    var windowOrigin=Offset.Zero
 }
 internal val LocalGlassMorphStats=staticCompositionLocalOf<GlassMorphStats?> { null }
 
@@ -78,14 +81,19 @@ internal val LocalGlassMorphStats=staticCompositionLocalOf<GlassMorphStats?> { n
         if(acquired) { source.users++;source.frozenUsers++;source.ready=false }
         onDispose { if(acquired) { source.users=(source.users-1).coerceAtLeast(0);source.frozenUsers=(source.frozenUsers-1).coerceAtLeast(0) } }
     }
-    LaunchedEffect(state.expanded,state.mounted,ready) {
+    val measured=origin!=null && viewBounds.width>0 && viewBounds.height>0
+    LaunchedEffect(state.expanded,state.mounted,ready,measured,options.isEmpty()) {
         if(!state.mounted)return@LaunchedEffect
         if(!ready) {
-            if(state.handoff || !state.expanded) { state.close();state.progress.snapTo(0f);state.unmount() }
+            if(state.handoff || !state.expanded || measured || options.isEmpty()) { state.close();state.progress.snapTo(0f);state.unmount() }
             return@LaunchedEffect
         }
         state.handoff()
-        state.progress.animateTo(if(state.expanded)1f else 0f,spring(.84f,480f,.001f))
+        val velocity=state.progress.velocity
+        state.progress.animateTo(if(state.expanded)1f else 0f,
+            spring(if(state.expanded)LiquidMorphPhysics.OPEN_DAMPING_RATIO else LiquidMorphPhysics.CLOSE_DAMPING_RATIO,
+                if(state.expanded)LiquidMorphPhysics.OPEN_STIFFNESS else LiquidMorphPhysics.CLOSE_STIFFNESS,.001f),
+            initialVelocity=if(!state.expanded && kotlin.math.abs(velocity)<.05f)LiquidMorphPhysics.CLOSE_VELOCITY else velocity)
         if(!state.expanded)state.unmount()
     }
     val focus=remember { FocusRequester() }
@@ -97,6 +105,7 @@ internal val LocalGlassMorphStats=staticCompositionLocalOf<GlassMorphStats?> { n
         Box(Modifier.fillMaxSize().testTag("glass-morph-window").onGloballyPositioned { coords ->
             val location=coords.localToScreen(Offset.Zero)
             if(location.x.isFinite() && location.y.isFinite() && rootScreen!=location)rootScreen=location
+            stats?.windowOrigin=location
             val frame=AndroidRect();view.getWindowVisibleDisplayFrame(frame)
             val full=Rect(Offset.Zero,coords.size.toSize())
             val visible=if(frame.width()>0 && frame.height()>0)Rect(frame.left-location.x,frame.top-location.y,frame.right-location.x,frame.bottom-location.y).intersect(full) else full
@@ -108,29 +117,19 @@ internal val LocalGlassMorphStats=staticCompositionLocalOf<GlassMorphStats?> { n
                 SideEffect { stats?.let { it.placement=placement;it.source=source } }
                 val backdrop=if(source?.ready==true)source.backdrop else wallpaper
                 val o=placement.origin;val panel=placement.panel
-                val union=Rect(kotlin.math.min(o.left,panel.left),kotlin.math.min(o.top,panel.top),kotlin.math.max(o.right,panel.right),kotlin.math.max(o.bottom,panel.bottom)).inflate(with(density) { 3.dp.toPx() })
+                val union=Rect(kotlin.math.min(o.left,panel.left),kotlin.math.min(o.top,panel.top),kotlin.math.max(o.right,panel.right),kotlin.math.max(o.bottom,panel.bottom))
+                    .inflate(with(density){56.dp.toPx()}).intersect(placement.viewport)
                 fun Modifier.at(rect:Rect)=absoluteOffset { IntOffset(rect.left.toInt(),rect.top.toInt()) }
                     .size(with(density){rect.width.toDp()},with(density){rect.height.toDp()})
-                Box(Modifier.at(union).drawWithContent {
-                    val p=state.progress.value.coerceIn(0f,1f)
-                    val path=glassMorphPath(placement,p,density.density).apply { translate(-union.topLeft) }
-                    clipPath(path) { this@drawWithContent.drawContent() }
-                    drawPath(path,Brush.linearGradient(listOf(Color.White.copy(alpha=.75f),Color.White.copy(alpha=.12f),Color.White.copy(alpha=.5f))),style=Stroke(1.dp.toPx()))
-                    stats?.let { it.frames++ }
-                }.liquidGlass(RoundedCornerShape(0.dp),source=backdrop))
-                if(rendering==GlassRendering.TINT) {
-                    // Without GPU blur, underlying labels must not compete with
-                    // the new menu. Retain translucent glass, but raise only the
-                    // final panel's contrast; never tint the whole screen.
-                    val fallback=MaterialTheme.colorScheme.surface.copy(alpha=.86f)
-                    Box(Modifier.at(panel).graphicsLayer { alpha=glassMorphEase((state.progress.value-.82f)/.18f) }
-                        .background(fallback,RoundedCornerShape(24.dp)))
-                } else {
-                    Box(Modifier.at(panel).graphicsLayer { alpha=glassMorphEase((state.progress.value-.82f)/.18f) }
-                        .liquidGlass(RoundedCornerShape(24.dp),prominent=true,source=backdrop))
-                }
+                val frame=remember(placement,state,density) { {
+                    state.resolver.resolve(placement,state.progress.value,density.density,!state.expanded).also { stats?.scene=it }
+                } }
+                MetaballGlassSurface(Modifier.at(union),union,backdrop,frame)
                 CompositionLocalProvider(LocalRippleConfiguration provides null) {
-                    Box(Modifier.at(o).testTag("glass-morph-origin")) {
+                    Box(Modifier.at(o).testTag("glass-morph-origin").graphicsLayer {
+                        val f=frame();translationX=f.a.rect.center.x-o.center.x;translationY=f.a.rect.center.y-o.center.y
+                        alpha=(1f-state.progress.value.coerceIn(0f,1f)/.16f).coerceIn(0f,1f)
+                    }) {
                         GlassQualitySurface(onClick=state::toggle,modifier=Modifier.testTag("glass-quality-trigger"),material=false,content=trigger)
                     }
                     val block=if(!interactive)Modifier.pointerInput(Unit) { awaitEachGesture {
@@ -138,11 +137,11 @@ internal val LocalGlassMorphStats=staticCompositionLocalOf<GlassMorphStats?> { n
                         do { val e=awaitPointerEvent();e.changes.forEach { it.consume() } }while(e.changes.any { it.pressed })
                     } } else Modifier
                     Column(Modifier.at(panel).testTag("glass-quality-panel").then(block)
-                        .graphicsLayer { alpha=glassMorphEase((state.progress.value-.58f)/.42f) }
+                        .graphicsLayer { alpha=glassMorphEase((state.progress.value-.86f)/.14f) }
                         .drawWithContent {
-                            val frame=glassMorphFrame(placement,state.progress.value,density.density)
-                            val r=frame.panel.translate(-panel.topLeft)
-                            val clip=Path().apply { addRoundRect(RoundRect(r,24.dp.toPx(),24.dp.toPx())) }
+                            val scene=frame()
+                            val r=scene.b.rect.translate(-panel.topLeft)
+                            val clip=Path().apply { addRoundRect(RoundRect(r,scene.b.radius,scene.b.radius)) }
                             clipPath(clip) { this@drawWithContent.drawContent() }
                         }
                         .then(if(!interactive)Modifier.clearAndSetSemantics { hideFromAccessibility() } else Modifier)
@@ -152,7 +151,7 @@ internal val LocalGlassMorphStats=staticCompositionLocalOf<GlassMorphStats?> { n
                             GlassQualitySurface(onClick={ if(interactive && value in currentOptions) { currentChoose(value);state.close() } },
                                 enabled=interactive,modifier=Modifier.testTag("glass-quality-$value").then(request).semantics { this.selected=value==selected;role=Role.RadioButton },material=false) {
                                 RadioButton(value==selected,onClick=null,modifier=Modifier.size(22.dp));Spacer(Modifier.width(8.dp))
-                                Text(if(value==0)"Best quality" else "${value}p",modifier=Modifier.weight(1f))
+                                Text(if(value==0)uiText("Best quality") else "${value}p",modifier=Modifier.weight(1f))
                                 if(value==selected)Icon(androidx.compose.material.icons.Icons.Default.Check,null,Modifier.size(20.dp),tint=MaterialTheme.colorScheme.primary)
                             }
                         } }

@@ -24,6 +24,8 @@ internal val LocalGlassOverlaySource=staticCompositionLocalOf<GlassOverlaySource
     val layer=rememberGraphicsLayer()
     val overlay=remember(layer) { GlassOverlaySource(GlassContentBackdrop(layer)) }
     var rejected by remember { mutableStateOf(false) }
+    val dark=LocalGlassDark.current
+    DisposableEffect(dark,rendering) { overlay.ready=false;onDispose {} }
     val enabled=overlay.users>0 && rendering!=GlassRendering.TINT && !rejected
     val capture=if(enabled) Modifier.onGloballyPositioned { overlay.backdrop.coordinates=it }
         .drawWithContent {

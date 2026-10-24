@@ -26,23 +26,27 @@ class GlassMorphGeometryTest {
     assertTrue(p.panel.width<=268.01f)
    }
  }
+ // Historical case IDs retained for traceability; new specification requires
+ // Blob A to vanish, rather than the old two persistent bodies/Bezier bridge.
  @Test fun actualRasterHasAConnectedThinNeckThenTwoSeparatedBodies() {
   val p=glassMorphPlacement(Rect(20f,100f,380f,154f),Rect(0f,0f,411f,891f),5,1f,1f,false)!!
-  val f=glassMorphFrame(p,.45f,1f)
-  val image=Bitmap.createBitmap(411,891,Bitmap.Config.ARGB_8888)
-  Canvas(image).drawPath(glassMorphPath(p,.45f,1f).asAndroidPath(),Paint().apply { color=android.graphics.Color.WHITE })
-  val x=f.panel.center.x.toInt();val y=((f.origin.bottom+f.panel.top)*.5f).toInt()
-  assertTrue(android.graphics.Color.alpha(image.getPixel(x,y))>200)
-  assertEquals(0,android.graphics.Color.alpha(image.getPixel((x+60).coerceAtMost(410),y)))
-  image.eraseColor(0);Canvas(image).drawPath(glassMorphPath(p,1f,1f).asAndroidPath(),Paint().apply { color=android.graphics.Color.WHITE })
-  assertEquals(0,android.graphics.Color.alpha(image.getPixel(x,((p.origin.bottom+p.panel.top)*.5f).toInt())))
+  val contour=MetaballContour();var fused=0
+  for(t in listOf(.05f,.1f,.2f,.3f)) {
+   val scene=metaballScene(p,t,1f);val image=Bitmap.createBitmap(411,891,Bitmap.Config.ARGB_8888)
+   Canvas(image).drawPath(contour.update(scene,p.viewport,1f).asAndroidPath(),Paint(Paint.ANTI_ALIAS_FLAG).apply { color=android.graphics.Color.WHITE })
+   for(y in 80..450)for(x in 10..400 step 3)if(blobDistance(x+.5f,y+.5f,scene.a)>.5f && blobDistance(x+.5f,y+.5f,scene.b)>.5f && scene.distance(x+.5f,y+.5f)<-2f) {
+    assertTrue(android.graphics.Color.alpha(image.getPixel(x,y))>128);fused++
+   }
+  }
+  assertTrue(fused>15)
+  val settled=metaballScene(p,1f,1f);assertFalse(settled.a.visible);assertTrue(settled.distance(379f,127f)>0f)
  }
  @Test fun silhouetteIsNotAnAffineScaleOfTheOriginAndNeckTapersContinuously() {
   val p=glassMorphPlacement(Rect(20f,100f,380f,154f),Rect(0f,0f,411f,891f),5,1f,1f,false)!!
   val first=glassMorphPath(p,0f,1f).getBounds();val middle=glassMorphPath(p,.45f,1f).getBounds()
   assertEquals(p.origin,first);assertTrue(middle.height>first.height*2)
-  assertTrue(glassMorphFrame(p,.89f,1f).neckWidth<glassMorphFrame(p,.80f,1f).neckWidth)
-  assertTrue(glassMorphFrame(p,.90f,1f).neckWidth<.01f)
+  assertTrue(metaballScene(p,.3f,1f).a.rect.width<metaballScene(p,.1f,1f).a.rect.width)
+  assertFalse(metaballScene(p,.4f,1f).a.visible)
  }
  @Test fun invalidOrWhollyClippedAnchorsCannotStrandAMenu() {
   val view=Rect(0f,0f,320f,480f)

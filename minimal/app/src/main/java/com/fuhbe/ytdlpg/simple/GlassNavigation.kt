@@ -46,12 +46,13 @@ internal fun glassDockTarget(position: Offset, size: IntSize): Int? =
     active:Boolean, action:()->Unit, modifier:Modifier) {
     // Selection color is interpolated in the shared draw phase, including the lens.
     val color=MaterialTheme.colorScheme.onSurface
-    val semantics=Modifier.semantics { selected=active;role=Role.Tab;contentDescription=description }
+    val localizedDescription=uiText(description)
+    val semantics=Modifier.semantics { selected=active;role=Role.Tab;contentDescription=localizedDescription }
     val body:@Composable ()->Unit={
         Column(Modifier.fillMaxWidth().padding(horizontal=3.dp,vertical=8.dp),
             horizontalAlignment=Alignment.CenterHorizontally,verticalArrangement=Arrangement.spacedBy(3.dp)) {
             Icon(icon,null,Modifier.size(22.dp),tint=color)
-            Text(label,fontSize=10.sp,fontWeight=FontWeight.SemiBold,color=color)
+            Text(uiText(label),fontSize=10.sp,fontWeight=FontWeight.SemiBold,color=color)
         }
     }
     if(active) Box(modifier.heightIn(min=56.dp).then(semantics),contentAlignment=Alignment.Center) { body() }

@@ -55,10 +55,10 @@ import androidx.compose.ui.unit.sp
 @Composable private fun RowScope.GlassQualityTriggerContent(selected:Int,angle:()->Float) {
     Icon(Icons.Default.HighQuality,null,Modifier.size(23.dp));Spacer(Modifier.width(12.dp))
     Column(Modifier.weight(1f)) {
-        Text(if(selected==0) "Best quality" else "${selected}p",fontWeight=FontWeight.SemiBold)
-        Text(if(selected==0) "Up to 4K, when available" else "Up to the selected resolution",fontSize=12.sp,color=MaterialTheme.colorScheme.onSurfaceVariant)
+        Text(if(selected==0) uiText("Best quality") else "${selected}p",fontWeight=FontWeight.SemiBold)
+        Text(if(selected==0) uiText("Up to 4K, when available") else uiText("Up to the selected resolution"),fontSize=12.sp,color=MaterialTheme.colorScheme.onSurfaceVariant)
     }
-    Icon(Icons.Default.ExpandMore,"Choose quality",Modifier.graphicsLayer { rotationZ=angle() })
+    Icon(Icons.Default.ExpandMore,uiText("Choose quality"),Modifier.graphicsLayer { rotationZ=angle() })
 }
 
 /** Fit beside the existing trigger, prefer below then above, clamp to window.

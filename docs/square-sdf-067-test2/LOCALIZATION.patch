@@ -1,0 +1,380 @@
+--- visual-baseline/MainActivity.kt
++++ localized/MainActivity.kt
+@@ -124,6 +124,7 @@
+     BackHandler(model.area != "home" || model.inspection?.playlist == true) {
+         if (model.area != "home") model.area = "home" else model.clear()
+     }
++    AppLanguageProvider {
+     GlassTheme(dark) {
+         GlassContentLayer { capture, dockBackdrop ->
+         GlassButtonHost {
+@@ -131,7 +132,7 @@
+         Column(Modifier.fillMaxHeight().widthIn(max = 760.dp).fillMaxWidth().padding(horizontal = 12.dp).padding(bottom = with(density) { dockHeight.toDp() }).then(capture)) {
+             Row(Modifier.fillMaxWidth().padding(vertical = 6.dp), verticalAlignment = Alignment.CenterVertically) {
+                 if (model.area == "home" && model.inspection?.playlist == true) {
+-                    IconButton(onClick = { if (model.area != "home") model.area = "home" else model.clear() }) { Icon(Icons.AutoMirrored.Filled.ArrowBack, "Back") }
++                    IconButton(onClick = { if (model.area != "home") model.area = "home" else model.clear() }) { Icon(Icons.AutoMirrored.Filled.ArrowBack, uiText("Back")) }
+                 } else {
+                     Box(Modifier.size(38.dp).clip(RoundedCornerShape(12.dp)).background(Brush.verticalGradient(listOf(Color(0xFF56B7FF), Blue))), contentAlignment = Alignment.Center) { Icon(Icons.Default.Download, null, tint = Color.White, modifier = Modifier.size(25.dp)) }
+                     Spacer(Modifier.width(10.dp))
+@@ -159,16 +160,18 @@
+     }
+ }
+ 
++}
++
+ @Composable private fun Heading(text: String, secondary: String = "") {
+     if (LocalDensity.current.fontScale > 1.3f) {
+         Column(Modifier.fillMaxWidth().padding(vertical = 3.dp)) {
+-            Text(text, fontWeight = FontWeight.SemiBold, fontSize = 14.sp)
++            Text(uiText(text), fontWeight = FontWeight.SemiBold, fontSize = 14.sp)
+             if (secondary.isNotBlank()) Text(secondary, style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+         }
+         return
+     }
+     Row(Modifier.fillMaxWidth().padding(vertical = 3.dp), verticalAlignment = Alignment.CenterVertically) {
+-        Text(text, fontWeight = FontWeight.SemiBold, modifier = Modifier.weight(1f), fontSize = 14.sp)
++        Text(uiText(text), fontWeight = FontWeight.SemiBold, modifier = Modifier.weight(1f), fontSize = 14.sp)
+         if (secondary.isNotBlank()) Text(secondary, style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+     }
+ }
+@@ -177,7 +180,7 @@
+         modifier=Modifier.fillMaxWidth().heightIn(min=52.dp),contentPadding=PaddingValues(13.dp)) {
+         val foreground=MaterialTheme.colorScheme.onSurface.copy(alpha=if(enabled) 1f else .65f)
+         Icon(icon,null,tint=foreground,modifier=Modifier.size(24.dp));Spacer(Modifier.width(10.dp))
+-        Text(label,color=foreground,fontWeight=FontWeight.SemiBold,fontSize=16.sp)
++        Text(uiText(label),color=foreground,fontWeight=FontWeight.SemiBold,fontSize=16.sp)
+     }
+ }
+ @Composable private fun Segments(labels: List<String>, icons: List<ImageVector>, selected: Int, onSelected: (Int) -> Unit) {
+@@ -188,7 +191,7 @@
+                 Row(Modifier.padding(horizontal = 10.dp, vertical = 12.dp), horizontalArrangement = Arrangement.Center, verticalAlignment = Alignment.CenterVertically) {
+                     Icon(icons[index], null, modifier = Modifier.size(20.dp), tint = MaterialTheme.colorScheme.onSurface)
+                     Spacer(Modifier.width(6.dp))
+-                    Text(label, fontSize = 14.sp, fontWeight = FontWeight.SemiBold, color = MaterialTheme.colorScheme.onSurface)
++                    Text(uiText(label), fontSize = 14.sp, fontWeight = FontWeight.SemiBold, color = MaterialTheme.colorScheme.onSurface)
+                 }
+             }
+         }
+@@ -223,20 +226,20 @@
+             GlassCard {
+                 Heading("Video link")
+                 OutlinedTextField(model.url, { model.url = it; if (inspection != null) model.clear() },
+-                    placeholder = { Text("Paste one or more YouTube links", fontSize = 13.sp) },
++                    placeholder = { Text(uiText("Paste one or more YouTube links"), fontSize = 13.sp) },
+                     leadingIcon = { Icon(Icons.Default.Link, null, Modifier.size(20.dp)) },
+                     trailingIcon = { GlassIconButton(modifier = Modifier.padding(end = 8.dp, top = 4.dp, bottom = 4.dp).size(48.dp), onClick = {
+                         val clip = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+                         model.clear(); model.url = clip.primaryClip?.getItemAt(0)?.coerceToText(context)?.toString().orEmpty()
+-                    }) { Icon(Icons.Default.ContentPaste, "Paste link", Modifier.size(20.dp)) } },
++                    }) { Icon(Icons.Default.ContentPaste, uiText("Paste link"), Modifier.size(20.dp)) } },
+                     modifier = Modifier.fillMaxWidth().padding(vertical = 8.dp), shape = RoundedCornerShape(16.dp), maxLines = 4,
+                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Uri, imeAction = ImeAction.Go),
+                     keyboardActions = KeyboardActions(onGo = { focus.clearFocus(); model.analyze() }))
+-                if (inspection == null) ActionButton(if (model.busy) "Analyzing…" else "Analyze link", Icons.Default.AutoAwesome, !model.busy && model.url.isNotBlank()) { focus.clearFocus(); model.analyze() }
++                if (inspection == null) ActionButton(if (model.busy) uiText("Analyzing…") else uiText("Analyze link"), Icons.Default.AutoAwesome, !model.busy && model.url.isNotBlank()) { focus.clearFocus(); model.analyze() }
+                 if (model.busy) {
+                     LinearProgressIndicator(Modifier.fillMaxWidth().padding(top = 12.dp))
+                     Text(model.status, fontSize = 12.sp, modifier = Modifier.padding(top = 8.dp))
+-                    TextButton(onClick = { model.clear() }) { Text("Cancel analysis") }
++                    TextButton(onClick = { model.clear() }) { Text(uiText("Cancel analysis")) }
+                 }
+             }
+         }
+@@ -244,19 +247,19 @@
+         if (inspection != null) {
+             item {
+                 GlassCard {
+-                    if (playlist) Text("Playlist detected", color = MaterialTheme.colorScheme.onSurfaceVariant, fontSize = 12.sp, modifier = Modifier.padding(bottom = 8.dp))
++                    if (playlist) Text(uiText("Playlist detected"), color = MaterialTheme.colorScheme.onSurfaceVariant, fontSize = 12.sp, modifier = Modifier.padding(bottom = 8.dp))
+                     else Heading("Video preview")
+                     val preview = inspection.items.first().let { if (playlist) it.copy(title = inspection.title) else it }
+-                    Preview(preview, if (playlist) "${inspection.items.size} videos • ${duration(inspection.items.sumOf { it.duration })}" else duration(preview.duration), true)
++                    Preview(preview, if (playlist) uiText("%1\$d videos • %2\$s", inspection.items.size, duration(inspection.items.sumOf { it.duration })) else duration(preview.duration), true)
+                 }
+             }
+             if (playlist) {
+                 item {
+-                    Heading("Playlist videos", "${model.selected.size} of ${inspection.items.size} selected")
++                    Heading("Playlist videos", uiText("%1\$d of %2\$d selected", model.selected.size, inspection.items.size))
+                     TextButton(onClick = {
+                         model.selected = if (model.selected.size == inspection.items.count { it.available }) emptySet() else inspection.items.filter { it.available }.map { it.id }.toSet()
+                         model.choice = Policy.choice(model.choice, model.selected.size)
+-                    }) { Text(if (model.selected.size == inspection.items.count { it.available }) "Clear selection" else "Select all") }
++                    }) { Text(if (model.selected.size == inspection.items.count { it.available }) uiText("Clear selection") else uiText("Select all")) }
+                 }
+                 if (!showAll) item {
+                     GlassCard {
+@@ -268,13 +271,13 @@
+                 } else items(inspection.items, key = { it.id }) { media ->
+                     GlassCard { PlaylistRow(media, model) }
+                 }
+-                if (inspection.items.size > 4) item { TextButton(onClick = { showAll = !showAll }) { Text(if (showAll) "Show less" else "Show all ${inspection.items.size} videos") } }
++                if (inspection.items.size > 4) item { TextButton(onClick = { showAll = !showAll }) { Text(if (showAll) uiText("Show less") else uiText("Show all %1\$d videos", inspection.items.size)) } }
+             }
+             item {
+                 GlassCard {
+                     Heading("Format")
+                     Segments(listOf("MP3", "MP4"), listOf(Icons.Default.MusicNote, Icons.Default.SmartDisplay), if (model.choice.mp3) 0 else 1) { model.choice = model.choice.copy(mp3 = it == 0) }
+-                    if (model.choice.mp3) Text("Converts the best audio source to high-quality VBR MP3. Quality depends on the source.", fontSize = 12.sp, color = MaterialTheme.colorScheme.onSurfaceVariant, modifier = Modifier.padding(top = 9.dp))
++                    if (model.choice.mp3) Text(uiText("Converts the best audio source to high-quality VBR MP3. Quality depends on the source."), fontSize = 12.sp, color = MaterialTheme.colorScheme.onSurfaceVariant, modifier = Modifier.padding(top = 9.dp))
+                 }
+             }
+             if (!model.choice.mp3) item { QualityCard(inspection, model.choice.height) { model.choice = model.choice.copy(height = it) } }
+@@ -282,22 +285,23 @@
+             if (Policy.zipAllowed(model.selected.size)) item {
+                 GlassCard {
+                     Heading("Download mode")
+-                    Segments(listOf("Normal", "ZIP"), listOf(Icons.Default.Download, Icons.Default.FolderZip), if (model.choice.zip) 1 else 0) { model.choice = model.choice.copy(zip = it == 1) }
+-                    Text("ZIP combines the selected files. Temporary originals remain until completed copies are cleared.", fontSize = 12.sp, color = MaterialTheme.colorScheme.onSurfaceVariant, modifier = Modifier.padding(top = 8.dp))
+-                }
+-            }
+-            item { ActionButton(if (model.queuing) "Starting…" else if (playlist) "Download playlist" else "Download", Icons.Default.Download, model.selected.isNotEmpty() && !model.queuing, download) }
++                    Segments(listOf(uiText("Normal"), "ZIP"), listOf(Icons.Default.Download, Icons.Default.FolderZip), if (model.choice.zip) 1 else 0) { model.choice = model.choice.copy(zip = it == 1) }
++                    Text(uiText("ZIP combines the selected files. Temporary originals remain until completed copies are cleared."), fontSize = 12.sp, color = MaterialTheme.colorScheme.onSurfaceVariant, modifier = Modifier.padding(top = 8.dp))
++                }
++            }
++            item { ActionButton(if (model.queuing) uiText("Starting…") else if (playlist) uiText("Download playlist") else uiText("Download"), Icons.Default.Download, model.selected.isNotEmpty() && !model.queuing, download) }
+         }
+         if (inspection == null && !model.busy) item {
+-            Text("Videos and playlists as MP3 or MP4. Paste multiple links, one per line.\n\nDownload only content you have permission to save.", color = MaterialTheme.colorScheme.onSurfaceVariant, fontSize = 13.sp, modifier = Modifier.padding(10.dp))
++            Text(uiText("Videos and playlists as MP3 or MP4. Paste multiple links, one per line.\n\nDownload only content you have permission to save."), color = MaterialTheme.colorScheme.onSurfaceVariant, fontSize = 13.sp, modifier = Modifier.padding(10.dp))
+         }
+     }
+ }
+ 
+ @Composable private fun PlaylistRow(media: Media, model: AppModel) {
++    val selectionDescription = uiText("Select %1\$s", media.title)
+     Row(Modifier.fillMaxWidth().clickable(enabled = media.available) { model.select(media.id) }.padding(vertical = 7.dp), verticalAlignment = Alignment.CenterVertically) {
+         Checkbox(media.id in model.selected, { model.select(media.id) }, enabled = media.available,
+-            modifier = Modifier.semantics { contentDescription = "Select ${media.title}" })
++            modifier = Modifier.semantics { contentDescription = selectionDescription })
+         Box(Modifier.size(62.dp, 55.dp).clip(RoundedCornerShape(9.dp)).background(MaterialTheme.colorScheme.surfaceVariant)) {
+             Icon(Icons.Default.Landscape, null, Modifier.align(Alignment.Center), tint = MaterialTheme.colorScheme.onSurfaceVariant)
+             AsyncImage(media.thumb, null, Modifier.fillMaxSize(), contentScale = ContentScale.Crop)
+@@ -307,7 +311,7 @@
+         Spacer(Modifier.width(10.dp))
+         Column(Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(3.dp)) {
+             Text(media.title, fontSize = 14.sp, fontWeight = FontWeight.SemiBold)
+-            Text(if (media.available) media.author else "Unavailable", fontSize = 12.sp, color = MaterialTheme.colorScheme.onSurfaceVariant)
++            Text(if (media.available) media.author else uiText("Unavailable"), fontSize = 12.sp, color = MaterialTheme.colorScheme.onSurfaceVariant)
+         }
+     }
+ }
+@@ -316,8 +320,8 @@
+     GlassCard {
+         Heading("Video quality")
+         GlassQualityPicker(listOf(0) + inspection.heights, selected, choose)
+-        Text(if (inspection.playlist) "Resolutions found in the reference video. Items use the best available resolution up to your choice, without upscaling."
+-            else "Available resolutions only. Video and audio are combined; incompatible codecs are converted to MP4.", fontSize = 12.sp, color = MaterialTheme.colorScheme.onSurfaceVariant, modifier = Modifier.padding(top = 7.dp))
++        Text(if (inspection.playlist) uiText("Resolutions found in the reference video. Items use the best available resolution up to your choice, without upscaling.")
++            else uiText("Available resolutions only. Video and audio are combined; incompatible codecs are converted to MP4."), fontSize = 12.sp, color = MaterialTheme.colorScheme.onSurfaceVariant, modifier = Modifier.padding(top = 7.dp))
+     }
+ }
+ @Composable private fun DestinationCard(folder: String, choose: () -> Unit) {
+@@ -331,10 +335,10 @@
+             Row(Modifier.padding(12.dp), verticalAlignment = Alignment.CenterVertically) {
+                 Icon(Icons.Default.FolderOpen, null); Spacer(Modifier.width(12.dp))
+                 Column(Modifier.weight(1f)) {
+-                    Text("Save to", fontSize = 13.sp, fontWeight = FontWeight.SemiBold)
+-                    Text(label, fontSize = 12.sp, color = MaterialTheme.colorScheme.onSurfaceVariant)
+-                }
+-                Icon(Icons.Default.ChevronRight, "Change folder")
++                    Text(uiText("Save to"), fontSize = 13.sp, fontWeight = FontWeight.SemiBold)
++                    Text(uiText(label), fontSize = 12.sp, color = MaterialTheme.colorScheme.onSurfaceVariant)
++                }
++                Icon(Icons.Default.ChevronRight, uiText("Change folder"))
+             }
+         }
+     }
+@@ -351,10 +355,10 @@
+     val ongoing = jobs.filter { it.state !in setOf("DONE", "WARNING") }
+     val completed = jobs.filter { it.state in setOf("DONE", "WARNING") }
+     Column(Modifier.fillMaxWidth()) {
+-        Segments(listOf("Downloads (${ongoing.size})", "Completed"), listOf(Icons.Default.Downloading, Icons.Default.CheckCircle), if (completedTab) 1 else 0) { completedTab = it == 1 }
++        Segments(listOf(uiText("Downloads (%1\$d)", ongoing.size), uiText("Completed")), listOf(Icons.Default.Downloading, Icons.Default.CheckCircle), if (completedTab) 1 else 0) { completedTab = it == 1 }
+         LazyColumn(Modifier.fillMaxWidth().padding(top = 12.dp), verticalArrangement = Arrangement.spacedBy(13.dp), contentPadding = PaddingValues(bottom = 24.dp)) {
+             val visible = if (completedTab) completed else jobs
+-            if (visible.isEmpty()) item { GlassCard { Text(if (completedTab) "No completed downloads." else "Your downloads will appear here.") } }
++            if (visible.isEmpty()) item { GlassCard { Text(if (completedTab) uiText("No completed downloads.") else uiText("Your downloads will appear here.")) } }
+             items(visible, key = { it.id }) { job ->
+                 GlassCard {
+                     val finished = job.state in setOf("DONE", "WARNING")
+@@ -363,7 +367,7 @@
+                     val activeIndex = records.firstOrNull { it.state == "RUNNING" }?.position ?: job.current.coerceAtMost(job.items.lastIndex)
+                     val current = job.items.getOrNull(activeIndex) ?: job.items.first()
+                     Preview(current.copy(title = if (job.items.size > 1) job.title else current.title),
+-                        "${if (job.choice.mp3) "MP3 • best source" else "MP4"}${if (job.items.size > 1) " • ${job.current} of ${job.items.size}" else ""}${if (job.choice.zip) " • ZIP" else ""}")
++                        "${if (job.choice.mp3) uiText("MP3 • best source") else "MP4"}${if (job.items.size > 1) uiText(" • %1\$d of %2\$d", job.current, job.items.size) else ""}${if (job.choice.zip) " • ZIP" else ""}")
+                     val progress by animateFloatAsState(job.progress, label = "Progresso real")
+                     Row(Modifier.padding(top = 13.dp), verticalAlignment = Alignment.CenterVertically) {
+                         if (job.state == "RUNNING" && job.indeterminate) LinearProgressIndicator(modifier = Modifier.weight(1f).height(6.dp).clip(RoundedCornerShape(4.dp)), color = Blue, trackColor = MaterialTheme.colorScheme.onSurface.copy(alpha = .1f))
+@@ -372,23 +376,23 @@
+                         if (!(job.state == "RUNNING" && job.indeterminate)) Text("${(job.progress * 100).toInt()}%", fontSize = 12.sp, fontWeight = FontWeight.SemiBold)
+                     }
+                     Text(job.phase, fontSize = 12.sp, color = MaterialTheme.colorScheme.onSurfaceVariant, modifier = Modifier.padding(top = 8.dp))
+-                    if (job.speed > 0 && job.state == "RUNNING") Text("${bytes(job.speed)}/s" + if (job.eta > 0) " • ${duration(job.eta)} at this stage" else "",
++                    if (job.speed > 0 && job.state == "RUNNING") Text("${bytes(job.speed)}/s" + if (job.eta > 0) uiText(" • %1\$s at this stage", duration(job.eta)) else "",
+                         fontSize = 12.sp, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                     if (job.optimization.isNotBlank() && job.state == "RUNNING") Text(job.optimization, fontSize = 11.sp, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                     if (job.error.isNotBlank()) Text(job.error, color = MaterialTheme.colorScheme.error, fontSize = 12.sp, modifier = Modifier.padding(top = 7.dp))
+                     Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.End, verticalAlignment = Alignment.CenterVertically) {
+-                        Text(when (job.state) { "DONE" -> "Completed"; "WARNING" -> "Completed with warnings"; "PAUSED" -> "Paused"; "CANCELLED" -> "Cancelled"; "ERROR" -> "Error"; "QUEUED" -> "Queued"; else -> "Downloading" },
++                        Text(when (job.state) { "DONE" -> uiText("Completed"); "WARNING" -> uiText("Completed with warnings"); "PAUSED" -> uiText("Paused"); "CANCELLED" -> uiText("Cancelled"); "ERROR" -> uiText("Error"); "QUEUED" -> uiText("Queued"); else -> uiText("Downloading") },
+                             color = if (finished) Color(0xFF82F0C6) else MaterialTheme.colorScheme.primary, fontSize = 12.sp, modifier = Modifier.weight(1f))
+-                        if (job.state in listOf("RUNNING", "QUEUED")) IconButton(onClick = { control(job.id, "pause") }) { Icon(Icons.Default.Pause, "Pause ${job.title}") }
+-                        if (job.state in listOf("PAUSED", "CANCELLED") || (job.state == "ERROR" && (records.any { it.state in setOf("PENDING", "RUNNING") || it.retryable } || job.files.isNotEmpty()))) IconButton(onClick = { control(job.id, "resume") }) { Icon(if (job.state == "PAUSED") Icons.Default.PlayArrow else Icons.Default.Refresh, "Resume ${job.title}") }
++                        if (job.state in listOf("RUNNING", "QUEUED")) IconButton(onClick = { control(job.id, "pause") }) { Icon(Icons.Default.Pause, uiText("Pause %1\$s", job.title)) }
++                        if (job.state in listOf("PAUSED", "CANCELLED") || (job.state == "ERROR" && (records.any { it.state in setOf("PENDING", "RUNNING") || it.retryable } || job.files.isNotEmpty()))) IconButton(onClick = { control(job.id, "resume") }) { Icon(if (job.state == "PAUSED") Icons.Default.PlayArrow else Icons.Default.Refresh, uiText("Resume %1\$s", job.title)) }
+                         if (finished) IconButton(onClick = {
+                             if (job.archiveUri.isNotBlank()) openFile(context, Uri.parse(job.archiveUri), "application/zip")
+                             else if (job.files.size == 1) openFile(context, Storage.openUri(context, job.files.first()), if (job.choice.mp3) "audio/mpeg" else "video/mp4")
+                             else opened = job
+-                        }) { Icon(Icons.Default.FolderOpen, "Open files for ${job.title}") }
+-                        else if (job.state != "CANCELLED") IconButton(onClick = { control(job.id, "cancel") }) { Icon(Icons.Default.Close, "Cancel ${job.title}") }
+-                    }
+-                    if (missed.isNotEmpty()) TextButton(onClick = { failures = job }) { Text("Review unsuccessful items (${missed.size})") }
++                        }) { Icon(Icons.Default.FolderOpen, uiText("Open files for %1\$s", job.title)) }
++                        else if (job.state != "CANCELLED") IconButton(onClick = { control(job.id, "cancel") }) { Icon(Icons.Default.Close, uiText("Cancel %1\$s", job.title)) }
++                    }
++                    if (missed.isNotEmpty()) TextButton(onClick = { failures = job }) { Text(uiText("Review unsuccessful items (%1\$d)", missed.size)) }
+                     if (finished) {
+                         Text("${bytes(job.files.sumOf { it.bytes })}${job.files.firstOrNull()?.height?.takeIf { it > 0 }?.let { " • ${it}p" }.orEmpty()}", fontSize = 12.sp, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                     }
+@@ -400,39 +404,40 @@
+         val job = jobs.firstOrNull { it.id == selected.id } ?: selected
+         val records = BatchRunner.records(job).filter { it.state in setOf("FAILED", "SKIPPED") }
+         val eligible = records.count { it.retryable }
+-        AlertDialog(onDismissRequest = { failures = null }, title = { Text("Unsuccessful items (${records.size})") }, text = {
++        AlertDialog(onDismissRequest = { failures = null }, title = { Text(uiText("Unsuccessful items (%1\$d)", records.size)) }, text = {
+             LazyColumn(verticalArrangement = Arrangement.spacedBy(12.dp)) {
+                 item { Text(BatchRunner.summary(job), fontSize = 13.sp) }
+                 items(records, key = { it.position }) { record ->
+                     Column {
+                         Text("${record.position + 1}. ${job.items[record.position].title}", fontWeight = FontWeight.SemiBold, fontSize = 14.sp)
+                         Text(record.reason, fontSize = 12.sp)
+-                        if (record.retryable) Text("Can be retried", fontSize = 11.sp, color = MaterialTheme.colorScheme.primary)
++                        if (record.retryable) Text(uiText("Can be retried"), fontSize = 11.sp, color = MaterialTheme.colorScheme.primary)
+                     }
+                 }
+             }
+         }, confirmButton = {
+-            if (eligible > 0 && job.state in setOf("WARNING", "ERROR")) TextButton(onClick = { control(job.id, "retry"); failures = null }) { Text("Retry ($eligible)") }
+-            else TextButton(onClick = { failures = null }) { Text("Close") }
+-        }, dismissButton = { if (eligible > 0 && job.state in setOf("WARNING", "ERROR")) TextButton(onClick = { failures = null }) { Text("Close") } })
+-    }
+-    opened?.let { job -> AlertDialog(onDismissRequest = { opened = null }, title = { Text("Completed files") }, text = {
++            if (eligible > 0 && job.state in setOf("WARNING", "ERROR")) TextButton(onClick = { control(job.id, "retry"); failures = null }) { Text(uiText("Retry (%1\$d)", eligible)) }
++            else TextButton(onClick = { failures = null }) { Text(uiText("Close")) }
++        }, dismissButton = { if (eligible > 0 && job.state in setOf("WARNING", "ERROR")) TextButton(onClick = { failures = null }) { Text(uiText("Close")) } })
++    }
++    opened?.let { job -> AlertDialog(onDismissRequest = { opened = null }, title = { Text(uiText("Completed files")) }, text = {
+         LazyColumn { items(job.files) { file -> TextButton(onClick = { openFile(context, Storage.openUri(context, file), if (job.choice.mp3) "audio/mpeg" else "video/mp4") }) { Text(file.title) } } }
+-    }, confirmButton = { TextButton(onClick = { opened = null }) { Text("Close") } }) }
++    }, confirmButton = { TextButton(onClick = { opened = null }) { Text(uiText("Close")) } }) }
+ }
+ 
+ @Composable private fun SettingsScreen(model: AppModel, folder: () -> Unit) {
+     var licenses by remember { mutableStateOf(false) }
+     val context = LocalContext.current
+     LazyColumn(Modifier.fillMaxWidth(), verticalArrangement = Arrangement.spacedBy(12.dp), contentPadding = PaddingValues(bottom = 24.dp)) {
+-        item { Text("Settings", fontSize = 22.sp, fontWeight = FontWeight.Bold, modifier = Modifier.padding(vertical = 10.dp)) }
++        item { Text(uiText("Settings"), fontSize = 22.sp, fontWeight = FontWeight.Bold, modifier = Modifier.padding(vertical = 10.dp)) }
++        item { LanguageSettingsCard() }
+         item { DestinationCard(model.folder, folder) }
+         item {
+             GlassCard {
+                 Heading("Appearance")
+                 listOf("system" to "System default", "light" to "Light", "dark" to "Dark").forEach { (value, label) ->
+                     Row(Modifier.fillMaxWidth().clickable(role = Role.RadioButton) { model.setAppearance(value) }.padding(vertical = 2.dp), verticalAlignment = Alignment.CenterVertically) {
+-                        RadioButton(model.theme == value, { model.setAppearance(value) }); Text(label)
++                        RadioButton(model.theme == value, { model.setAppearance(value) }); Text(uiText(label))
+                     }
+                 }
+             }
+@@ -440,17 +445,17 @@
+         item {
+             GlassCard {
+                 Heading("Download engine")
+-                Text("yt-dlp ${Store.preferences(context).getString("engine-version", "2026.10.21")}\nPython, FFmpeg and QuickJS included.", fontSize = 13.sp)
+-                GlassButton(onClick = model::updateEngine, enabled = !model.updating) { Text(if (model.updating) "Updating…" else "Check and update yt-dlp") }
+-                TextButton(onClick = model::copyDiagnostics) { Text("Copy diagnostics") }
++                Text(uiText("yt-dlp %1\$s\nPython, FFmpeg and QuickJS included.", Store.preferences(context).getString("engine-version", "2026.10.21").orEmpty()), fontSize = 13.sp)
++                GlassButton(onClick = model::updateEngine, enabled = !model.updating) { Text(if (model.updating) uiText("Updating…") else uiText("Check and update yt-dlp")) }
++                TextButton(onClick = model::copyDiagnostics) { Text(uiText("Copy diagnostics")) }
+                 if (model.updating) LinearProgressIndicator(Modifier.fillMaxWidth())
+             }
+         }
+         item {
+             GlassCard {
+                 Heading("Temporary storage")
+-                Text("Paused downloads retain partial data. ZIP originals remain in the app. Clearing removes only temporary copies of completed, exported downloads.", fontSize = 13.sp, color = MaterialTheme.colorScheme.onSurfaceVariant)
+-                TextButton(onClick = model::cleanCompleted) { Text("Clear completed temporary files") }
++                Text(uiText("Paused downloads retain partial data. ZIP originals remain in the app. Clearing removes only temporary copies of completed, exported downloads."), fontSize = 13.sp, color = MaterialTheme.colorScheme.onSurfaceVariant)
++                TextButton(onClick = model::cleanCompleted) { Text(uiText("Clear completed temporary files")) }
+             }
+         }
+         if (model.error.isNotBlank()) item { ErrorCard(model.error) }
+@@ -458,18 +463,18 @@
+         item {
+             GlassCard {
+                 Heading("Ytdlp-G ${BuildConfig.VERSION_NAME}")
+-                Text("A simple interface for videos, music and playlists. Execution core from YTDLnis by Deniscerri and contributors, under GPLv3.", fontSize = 13.sp)
+-                TextButton(onClick = { licenses = true }) { Text("Licenses and source code") }
+-            }
+-        }
+-    }
+-    if (licenses) AlertDialog(onDismissRequest = { licenses = false }, title = { Text("Open source") }, text = {
++                Text(uiText("A simple interface for videos, music and playlists. Execution core from YTDLnis by Deniscerri and contributors, under GPLv3."), fontSize = 13.sp)
++                TextButton(onClick = { licenses = true }) { Text(uiText("Licenses and source code")) }
++            }
++        }
++    }
++    if (licenses) AlertDialog(onDismissRequest = { licenses = false }, title = { Text(uiText("Open source")) }, text = {
+         Column(Modifier.verticalScroll(rememberScrollState())) {
+             Text("Ytdlp-G: GPLv3. Core based on YTDLnis, © Deniscerri and contributors. yt-dlp: Unlicense; EJS: ISC; Python: PSF; QuickJS: MIT; FFmpeg includes GPL components. License texts are bundled in the APK and corresponding source accompanies the release. Backdrop 1.0.3, © 2025 Kyant, under Apache 2.0. Visual components adapted from Square/Convx (2026, GPLv3) and the Backdrop catalog (Apache 2.0).", fontSize = 13.sp)
+-            TextButton(onClick = { openFile(context, Uri.parse("https://github.com/fuhbe/Ytdlp-G-Android"), null) }) { Text("Ytdlp-G source") }
+-            TextButton(onClick = { openFile(context, Uri.parse("https://github.com/deniscerri/ytdlnis"), null) }) { Text("YTDLnis project") }
+-        }
+-    }, confirmButton = { TextButton(onClick = { licenses = false }) { Text("Close") } })
++            TextButton(onClick = { openFile(context, Uri.parse("https://github.com/fuhbe/Ytdlp-G-Android"), null) }) { Text(uiText("Ytdlp-G source")) }
++            TextButton(onClick = { openFile(context, Uri.parse("https://github.com/deniscerri/ytdlnis"), null) }) { Text(uiText("YTDLnis project")) }
++        }
++    }, confirmButton = { TextButton(onClick = { licenses = false }) { Text(uiText("Close")) } })
+ }
+ 
+ private fun openFile(context: Context, uri: Uri, mime: String?) {
+--- visual-baseline/GlassNavigation.kt
++++ localized/GlassNavigation.kt
+@@ -46,12 +46,13 @@
+     active:Boolean, action:()->Unit, modifier:Modifier) {
+     // Selection color is interpolated in the shared draw phase, including the lens.
+     val color=MaterialTheme.colorScheme.onSurface
+-    val semantics=Modifier.semantics { selected=active;role=Role.Tab;contentDescription=description }
++    val localizedDescription=uiText(description)
++    val semantics=Modifier.semantics { selected=active;role=Role.Tab;contentDescription=localizedDescription }
+     val body:@Composable ()->Unit={
+         Column(Modifier.fillMaxWidth().padding(horizontal=3.dp,vertical=8.dp),
+             horizontalAlignment=Alignment.CenterHorizontally,verticalArrangement=Arrangement.spacedBy(3.dp)) {
+             Icon(icon,null,Modifier.size(22.dp),tint=color)
+-            Text(label,fontSize=10.sp,fontWeight=FontWeight.SemiBold,color=color)
++            Text(uiText(label),fontSize=10.sp,fontWeight=FontWeight.SemiBold,color=color)
+         }
+     }
+     if(active) Box(modifier.heightIn(min=56.dp).then(semantics),contentAlignment=Alignment.Center) { body() }
+--- visual-baseline/GlassQualityPicker.kt
++++ localized/GlassQualityPicker.kt
+@@ -55,10 +55,10 @@
+ @Composable private fun RowScope.GlassQualityTriggerContent(selected:Int,angle:()->Float) {
+     Icon(Icons.Default.HighQuality,null,Modifier.size(23.dp));Spacer(Modifier.width(12.dp))
+     Column(Modifier.weight(1f)) {
+-        Text(if(selected==0) "Best quality" else "${selected}p",fontWeight=FontWeight.SemiBold)
+-        Text(if(selected==0) "Up to 4K, when available" else "Up to the selected resolution",fontSize=12.sp,color=MaterialTheme.colorScheme.onSurfaceVariant)
++        Text(if(selected==0) uiText("Best quality") else "${selected}p",fontWeight=FontWeight.SemiBold)
++        Text(if(selected==0) uiText("Up to 4K, when available") else uiText("Up to the selected resolution"),fontSize=12.sp,color=MaterialTheme.colorScheme.onSurfaceVariant)
+     }
+-    Icon(Icons.Default.ExpandMore,"Choose quality",Modifier.graphicsLayer { rotationZ=angle() })
++    Icon(Icons.Default.ExpandMore,uiText("Choose quality"),Modifier.graphicsLayer { rotationZ=angle() })
+ }
+ 
+ /** Fit beside the existing trigger, prefer below then above, clamp to window.

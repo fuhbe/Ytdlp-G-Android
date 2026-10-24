@@ -1,0 +1,16 @@
+{
+  "repository": "https://github.com/sdegenaar/liquid_glass_widgets",
+  "commit": "5d2859796ef0f6964e2fdf25962b033eede27814",
+  "files": {
+    "THIRD_PARTY_NOTICES": "83ec5503aba833e3857e6912696598724d294680d971ced3e2e57dfddebd7a3c",
+    "LICENSE": "bd51c3772db92289b777325bbb19583f10d7fece48b956667db0b826237c46a0",
+    "shaders/liquid_glass_render.frag": "c7feecd4af4a7db094ee5a6b354ac5bffd3727e7e4e2972044cb37ab3e6907ac",
+    "shaders/liquid_glass_geometry_blended.frag": "1c9462b9911bea5d7aeb5cf864696a2b942b604033cf22a2f7a3f0d9e3b6a51b",
+    "shaders/sdf.glsl": "7f62a88f3e2c4674d0bd05f5207446ae780f66aa11c2891d740c61e06f76f865",
+    "lib/utils/glass_morph_controller.dart": "98c5e71d9c33d77b1e2b47da1ccedf13111ca811a3006fc4febbc4d0a0b32980",
+    "lib/utils/liquid_morph_physics.dart": "63f6c5bee30bd0d23747d15b58eda6e2552b5f18b27e36a3429706dafaff1e86",
+    "lib/src/engine/ATTRIBUTION.md": "1902d98adcdc4075b43ee881ca7eb5952d86cdd4a948597159a7632baf7b53d1",
+    "lib/src/engine/LICENSE": "0bd917d4e97bfda6eff40087cf1e3f968605f634a70c45daaea5bae374b1e062",
+    "lib/widgets/overlays/shared/glass_menu_internal.dart": "0714f4f6c4e5d420f25361d7c89178554dfae3877f4a0cbbe77ffebb9a30e22f"
+  }
+}

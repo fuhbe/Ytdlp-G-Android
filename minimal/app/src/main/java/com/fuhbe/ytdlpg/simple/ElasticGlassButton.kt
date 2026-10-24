@@ -27,6 +27,11 @@ import androidx.compose.ui.input.pointer.*
 import androidx.compose.ui.layout.layout
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.layout.positionInWindow
+import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.draw.clip
+import com.fuhbe.ytdlpg.simple.buttonsquare.shapes.ContinuousCapsule
+import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.graphics.drawscope.withTransform
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.unit.*
 import kotlinx.coroutines.CoroutineScope
@@ -53,42 +58,20 @@ internal class ElasticButtonMotion(private val scope:CoroutineScope,private val 
     var delta by mutableStateOf(Offset.Zero);private set
     var light by mutableStateOf(Offset.Zero);private set
     var touching=false;private set
+    var settled by mutableStateOf(true);private set
+    private var pressPoint=Offset.Zero
     private var returning:Job?=null
     private val decay=Animatable(0f)
-    private val settle=spring<Float>(.62f,480f,.001f)
-    fun press(point:Offset) { returning?.cancel();touching=true;delta=Offset.Zero;light=point;level=1f }
+    private val settle=spring<Float>(.5f,300f,.001f)
+    fun press(point:Offset) { returning?.cancel();touching=true;settled=false;pressPoint=point;delta=Offset.Zero;light=point;level=1f }
     fun move(point:Offset,origin:Offset) { if(touching && point.x.isFinite() && point.y.isFinite()) { delta=point-origin;light=point } }
     fun release() {
         if(!touching)return
         touching=false;returning?.cancel();stats?.let { it.returnSprings++ }
-        val start=level
-        returning=scope.launch { decay.snapTo(start);decay.animateTo(0f,settle) { level=value.coerceIn(0f,1.1f) };level=0f }
+        val start=level;val pull=delta
+        returning=scope.launch { decay.snapTo(1f);decay.animateTo(0f,settle) { level=(start*value).coerceIn(0f,1.1f);delta=pull*value;light=pressPoint+delta };level=0f;delta=Offset.Zero;settled=true }
     }
 }
-/** A rounded body whose long/short edges develop a bounded local bulge. It is
- * painted within a fixed hit target; labels and semantics are never transformed. */
-internal fun elasticButtonPath(size:Size,level:Float,delta:Offset,light:Offset,path:Path,overscan:Float=0f):Path {
-    path.reset();if(!size.width.isFinite() || !size.height.isFinite() || size.width<=0 || size.height<=0)return path
-    val p=if(level.isFinite()) level.coerceIn(0f,1.1f) else 0f;val inset=if(overscan>0f)overscan else (size.minDimension*.06f).coerceAtLeast(.5f)
-    val dx=(tanh(delta.x/(size.width*.22f+1f))*inset*.95f*p).toFloat()
-    val dy=(tanh(delta.y/(size.height*.65f+1f))*inset*.95f*p).toFloat()
-    val l=inset+inset*.08f*p;val r=size.width-inset-inset*.08f*p
-    val t=inset+size.height*.018f*p;val b=size.height-inset-size.height*.018f*p
-    val radius=((b-t)*.44f).coerceAtMost((r-l)*.5f)
-    val cx=light.x.coerceIn(l+radius,r-radius)
-    // One continuous outline, with edge curvature rather than glyph scaling.
-    path.moveTo(l+radius,t)
-    path.cubicTo(cx,t+min(0f,dy),cx,t+min(0f,dy),r-radius,t)
-    path.quadraticTo(r+max(0f,dx),t,r+max(0f,dx),t+radius)
-    path.cubicTo(r+max(0f,dx),t+radius,r+max(0f,dx),b-radius,r,b-radius)
-    path.quadraticTo(r+max(0f,dx),b,r-radius,b)
-    path.cubicTo(cx,b+max(0f,dy),cx,b+max(0f,dy),l+radius,b)
-    path.quadraticTo(l+min(0f,dx),b,l+min(0f,dx),b-radius)
-    path.cubicTo(l+min(0f,dx),b-radius,l+min(0f,dx),t+radius,l,t+radius)
-    path.quadraticTo(l+min(0f,dx),t,l+radius,t);path.close()
-    return path
-}
-
 @Composable internal fun GlassButton(
     onClick:()->Unit,modifier:Modifier=Modifier,enabled:Boolean=true,emphasized:Boolean=false,
     contentPadding:PaddingValues=PaddingValues(horizontal=12.dp,vertical=8.dp),
@@ -99,7 +82,13 @@ internal fun elasticButtonPath(size:Size,level:Float,delta:Offset,light:Offset,p
     SideEffect { stats?.let { it.compositions++ } }
     val scope=rememberCoroutineScope();val motion=remember(scope) { ElasticButtonMotion(scope,stats) }
     SideEffect { stats?.motion=motion }
-    val overscan=with(androidx.compose.ui.platform.LocalDensity.current) { 6.dp.roundToPx() }
+    val host=LocalGlassButtonHost.current
+    val entry=remember(motion) { GlassButtonEntry(motion) }
+    SideEffect { entry.enabled=enabled;entry.emphasized=emphasized;entry.padding=contentPadding;entry.content=content }
+    DisposableEffect(host,entry) { host?.register(entry);onDispose { host?.unregister(entry) } }
+    LaunchedEffect(enabled) { if(!enabled)motion.release() }
+    val floating=host?.active===entry
+    val density=LocalDensity.current.density
     val interaction=remember { MutableInteractionSource() }
     val pointers=remember { ButtonPointerFlags() }
     LaunchedEffect(interaction) {
@@ -141,9 +130,13 @@ internal fun elasticButtonPath(size:Size,level:Float,delta:Offset,light:Offset,p
     val observer=if(enabled) Modifier.pointerInput(motion,enabled) {
         awaitEachGesture {
             val down=awaitFirstDown(false,pass=PointerEventPass.Initial)
-            pointers.physical=true;pointers.keyboard=false;motion.press(down.position)
+            pointers.physical=true;pointers.keyboard=false
+            if(host?.ownsWindow(entry)!=true && host?.rejectAdditionalPointers!=true) {
+                host?.beginLocal(entry,down.position)
+                motion.press(down.position)
+            }
             if(mesh)requests.trySend(Unit)
-            var invalid=false
+            var invalid=host?.rejectAdditionalPointers==true
             try {
                 while(true) {
                     val event=awaitPointerEvent(PointerEventPass.Initial)
@@ -152,37 +145,32 @@ internal fun elasticButtonPath(size:Size,level:Float,delta:Offset,light:Offset,p
                     val point=change.position
                     if((point-down.position).getDistance()>viewConfiguration.touchSlop)invalid=true
                     if(change.changedToUpIgnoreConsumed()) {
-                        if(invalid || point.x<0 || point.y<0 || point.x>size.width || point.y>size.height)change.consume()
+                        if(invalid || host?.rejectAdditionalPointers==true || point.x<0 || point.y<0 || point.x>size.width || point.y>size.height)change.consume()
                         motion.release()
                         if(event.changes.none { it.pressed })break
-                    } else if(change.pressed)motion.move(point,down.position)
+                    } else if(change.pressed) { if(host?.ownsWindow(entry)!=true && host?.rejectAdditionalPointers!=true)motion.move(point,down.position) }
                     else break
                     // Observe ancestor scroll arbitration. Never consume MOVE.
                     val last=awaitPointerEvent(PointerEventPass.Final).changes.firstOrNull { it.id==down.id }
                     if(last!=null && last.pressed && last.position!=last.previousPosition && last.isConsumed) {
-                        invalid=true;motion.release()
+                        invalid=true // Scroll invalidates a click, not the visual stream.
                     }
                     if(invalid && event.changes.none { it.pressed })break
                 }
-            } finally { pointers.physical=false;motion.release() }
+            } finally { pointers.physical=false;if(host?.ownsWindow(entry)!=true)motion.release() }
         }
     } else Modifier
-    val path=remember { Path() }
-    val shade=if(emphasized) Color(0xFF1479E8).copy(alpha=if(dark) .26f else .18f) else Color.Transparent
+    val shape=remember { ContinuousCapsule() }
     Box(modifier.heightIn(min=48.dp).then(observer)
-        .onGloballyPositioned { val p=it.positionInWindow();val r=Rect(p,it.size.toSize());if(bounds!=r)bounds=r }
-        .clickable(interactionSource=interaction,indication=null,enabled=enabled,role=Role.Button) { action() },
+        .onGloballyPositioned { val p=it.positionInWindow();val r=Rect(p,it.size.toSize());if(bounds!=r)bounds=r;entry.bounds=r }
+        .clickable(interactionSource=interaction,indication=null,enabled=enabled,role=Role.Button) { if(!entry.blockPointerClick)action() },
         contentAlignment=Alignment.Center) {
-        Box(Modifier.matchParentSize().layout { measurable,constraints ->
-            val child=measurable.measure(Constraints.fixed(constraints.maxWidth+overscan*2,constraints.maxHeight+overscan*2))
-            layout(constraints.maxWidth,constraints.maxHeight) { child.place(-overscan,-overscan) }
-        }.graphicsLayer { alpha=if(enabled) 1f else .55f }.drawWithContent {
-            val outline=elasticButtonPath(size,motion.level,motion.delta,motion.light+Offset(overscan.toFloat(),overscan.toFloat()),path,overscan.toFloat())
-            clipPath(outline) { this@drawWithContent.drawContent() }
-            drawPath(outline,Brush.radialGradient(listOf(Color.White.copy(alpha=.85f),Color.White.copy(alpha=.10f),Color.White.copy(alpha=.42f)),
-                center=if(motion.level>.01f) motion.light+Offset(overscan.toFloat(),overscan.toFloat()) else Offset(size.width*.25f,0f),radius=size.width*.65f+size.height),
-                style=Stroke((.85f+motion.level*.5f).dp.toPx()))
-        }.drawWithContent {
+        Box(Modifier.matchParentSize().graphicsLayer { alpha=if(floating)0f else if(enabled)1f else .55f }.drawWithContent {
+            val transform=squareButtonTransform(size,motion.delta,motion.level,density)
+            withTransform({ translate(transform.translation.x,transform.translation.y);scale(transform.scaleX,transform.scaleY,center) }) {
+                this@drawWithContent.drawContent()
+            }
+        }.clip(shape).drawWithContent {
             if(mesh && !cache.rejected) {
                 if(cache.recorded!==revision && !motion.touching) {
                     backgroundLayer.record { this@drawWithContent.drawContent() };cache.recorded=revision;cache.bitmap=null
@@ -195,11 +183,10 @@ internal fun elasticButtonPath(size:Size,level:Float,delta:Offset,light:Offset,p
                     catch(_:RuntimeException) { cache.rejected=true }
                 }
             } else drawContent()
-            drawRect(shade)
             if(motion.level>.001f)drawRect(Brush.radialGradient(listOf(Color.White.copy(alpha=.13f*motion.level),Color.Transparent),
-                center=motion.light+Offset(overscan.toFloat(),overscan.toFloat()),radius=size.minDimension*2f))
-        }.liquidGlass(RoundedCornerShape(24.dp),prominent=true))
-        Row(Modifier.padding(contentPadding),verticalAlignment=Alignment.CenterVertically,
+                center=motion.light,radius=size.minDimension*2f))
+        }.squareButtonMaterial(motion,emphasized,entry.optics))
+        Row(Modifier.alpha(if(floating)0f else 1f).padding(contentPadding),verticalAlignment=Alignment.CenterVertically,
             horizontalArrangement=Arrangement.Center,content=content)
     }
 }

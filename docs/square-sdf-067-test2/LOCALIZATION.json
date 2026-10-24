@@ -1,0 +1,553 @@
+{
+  "authorization": "Owner requested English, Brazilian Portuguese and Spanish in settings with Liquid Glass; downloads unchanged",
+  "files": {
+    "MainActivity.kt": {
+      "before_sha256": "3e3cd25f1015b8c48694c07675d764ad65a9891248f028e921d16c6211697c6b",
+      "operations": [
+        {
+          "start": 126,
+          "end": 126,
+          "before": [],
+          "after": [
+            "    AppLanguageProvider {\n"
+          ]
+        },
+        {
+          "start": 133,
+          "end": 134,
+          "before": [
+            "                    IconButton(onClick = { if (model.area != \"home\") model.area = \"home\" else model.clear() }) { Icon(Icons.AutoMirrored.Filled.ArrowBack, \"Back\") }\n"
+          ],
+          "after": [
+            "                    IconButton(onClick = { if (model.area != \"home\") model.area = \"home\" else model.clear() }) { Icon(Icons.AutoMirrored.Filled.ArrowBack, uiText(\"Back\")) }\n"
+          ]
+        },
+        {
+          "start": 161,
+          "end": 161,
+          "before": [],
+          "after": [
+            "}\n",
+            "\n"
+          ]
+        },
+        {
+          "start": 164,
+          "end": 165,
+          "before": [
+            "            Text(text, fontWeight = FontWeight.SemiBold, fontSize = 14.sp)\n"
+          ],
+          "after": [
+            "            Text(uiText(text), fontWeight = FontWeight.SemiBold, fontSize = 14.sp)\n"
+          ]
+        },
+        {
+          "start": 170,
+          "end": 171,
+          "before": [
+            "        Text(text, fontWeight = FontWeight.SemiBold, modifier = Modifier.weight(1f), fontSize = 14.sp)\n"
+          ],
+          "after": [
+            "        Text(uiText(text), fontWeight = FontWeight.SemiBold, modifier = Modifier.weight(1f), fontSize = 14.sp)\n"
+          ]
+        },
+        {
+          "start": 179,
+          "end": 180,
+          "before": [
+            "        Text(label,color=foreground,fontWeight=FontWeight.SemiBold,fontSize=16.sp)\n"
+          ],
+          "after": [
+            "        Text(uiText(label),color=foreground,fontWeight=FontWeight.SemiBold,fontSize=16.sp)\n"
+          ]
+        },
+        {
+          "start": 190,
+          "end": 191,
+          "before": [
+            "                    Text(label, fontSize = 14.sp, fontWeight = FontWeight.SemiBold, color = MaterialTheme.colorScheme.onSurface)\n"
+          ],
+          "after": [
+            "                    Text(uiText(label), fontSize = 14.sp, fontWeight = FontWeight.SemiBold, color = MaterialTheme.colorScheme.onSurface)\n"
+          ]
+        },
+        {
+          "start": 225,
+          "end": 226,
+          "before": [
+            "                    placeholder = { Text(\"Paste one or more YouTube links\", fontSize = 13.sp) },\n"
+          ],
+          "after": [
+            "                    placeholder = { Text(uiText(\"Paste one or more YouTube links\"), fontSize = 13.sp) },\n"
+          ]
+        },
+        {
+          "start": 230,
+          "end": 231,
+          "before": [
+            "                    }) { Icon(Icons.Default.ContentPaste, \"Paste link\", Modifier.size(20.dp)) } },\n"
+          ],
+          "after": [
+            "                    }) { Icon(Icons.Default.ContentPaste, uiText(\"Paste link\"), Modifier.size(20.dp)) } },\n"
+          ]
+        },
+        {
+          "start": 234,
+          "end": 235,
+          "before": [
+            "                if (inspection == null) ActionButton(if (model.busy) \"Analyzing…\" else \"Analyze link\", Icons.Default.AutoAwesome, !model.busy && model.url.isNotBlank()) { focus.clearFocus(); model.analyze() }\n"
+          ],
+          "after": [
+            "                if (inspection == null) ActionButton(if (model.busy) uiText(\"Analyzing…\") else uiText(\"Analyze link\"), Icons.Default.AutoAwesome, !model.busy && model.url.isNotBlank()) { focus.clearFocus(); model.analyze() }\n"
+          ]
+        },
+        {
+          "start": 238,
+          "end": 239,
+          "before": [
+            "                    TextButton(onClick = { model.clear() }) { Text(\"Cancel analysis\") }\n"
+          ],
+          "after": [
+            "                    TextButton(onClick = { model.clear() }) { Text(uiText(\"Cancel analysis\")) }\n"
+          ]
+        },
+        {
+          "start": 246,
+          "end": 247,
+          "before": [
+            "                    if (playlist) Text(\"Playlist detected\", color = MaterialTheme.colorScheme.onSurfaceVariant, fontSize = 12.sp, modifier = Modifier.padding(bottom = 8.dp))\n"
+          ],
+          "after": [
+            "                    if (playlist) Text(uiText(\"Playlist detected\"), color = MaterialTheme.colorScheme.onSurfaceVariant, fontSize = 12.sp, modifier = Modifier.padding(bottom = 8.dp))\n"
+          ]
+        },
+        {
+          "start": 249,
+          "end": 250,
+          "before": [
+            "                    Preview(preview, if (playlist) \"${inspection.items.size} videos • ${duration(inspection.items.sumOf { it.duration })}\" else duration(preview.duration), true)\n"
+          ],
+          "after": [
+            "                    Preview(preview, if (playlist) uiText(\"%1\\$d videos • %2\\$s\", inspection.items.size, duration(inspection.items.sumOf { it.duration })) else duration(preview.duration), true)\n"
+          ]
+        },
+        {
+          "start": 254,
+          "end": 255,
+          "before": [
+            "                    Heading(\"Playlist videos\", \"${model.selected.size} of ${inspection.items.size} selected\")\n"
+          ],
+          "after": [
+            "                    Heading(\"Playlist videos\", uiText(\"%1\\$d of %2\\$d selected\", model.selected.size, inspection.items.size))\n"
+          ]
+        },
+        {
+          "start": 258,
+          "end": 259,
+          "before": [
+            "                    }) { Text(if (model.selected.size == inspection.items.count { it.available }) \"Clear selection\" else \"Select all\") }\n"
+          ],
+          "after": [
+            "                    }) { Text(if (model.selected.size == inspection.items.count { it.available }) uiText(\"Clear selection\") else uiText(\"Select all\")) }\n"
+          ]
+        },
+        {
+          "start": 270,
+          "end": 271,
+          "before": [
+            "                if (inspection.items.size > 4) item { TextButton(onClick = { showAll = !showAll }) { Text(if (showAll) \"Show less\" else \"Show all ${inspection.items.size} videos\") } }\n"
+          ],
+          "after": [
+            "                if (inspection.items.size > 4) item { TextButton(onClick = { showAll = !showAll }) { Text(if (showAll) uiText(\"Show less\") else uiText(\"Show all %1\\$d videos\", inspection.items.size)) } }\n"
+          ]
+        },
+        {
+          "start": 276,
+          "end": 277,
+          "before": [
+            "                    if (model.choice.mp3) Text(\"Converts the best audio source to high-quality VBR MP3. Quality depends on the source.\", fontSize = 12.sp, color = MaterialTheme.colorScheme.onSurfaceVariant, modifier = Modifier.padding(top = 9.dp))\n"
+          ],
+          "after": [
+            "                    if (model.choice.mp3) Text(uiText(\"Converts the best audio source to high-quality VBR MP3. Quality depends on the source.\"), fontSize = 12.sp, color = MaterialTheme.colorScheme.onSurfaceVariant, modifier = Modifier.padding(top = 9.dp))\n"
+          ]
+        },
+        {
+          "start": 284,
+          "end": 286,
+          "before": [
+            "                    Segments(listOf(\"Normal\", \"ZIP\"), listOf(Icons.Default.Download, Icons.Default.FolderZip), if (model.choice.zip) 1 else 0) { model.choice = model.choice.copy(zip = it == 1) }\n",
+            "                    Text(\"ZIP combines the selected files. Temporary originals remain until completed copies are cleared.\", fontSize = 12.sp, color = MaterialTheme.colorScheme.onSurfaceVariant, modifier = Modifier.padding(top = 8.dp))\n"
+          ],
+          "after": [
+            "                    Segments(listOf(uiText(\"Normal\"), \"ZIP\"), listOf(Icons.Default.Download, Icons.Default.FolderZip), if (model.choice.zip) 1 else 0) { model.choice = model.choice.copy(zip = it == 1) }\n",
+            "                    Text(uiText(\"ZIP combines the selected files. Temporary originals remain until completed copies are cleared.\"), fontSize = 12.sp, color = MaterialTheme.colorScheme.onSurfaceVariant, modifier = Modifier.padding(top = 8.dp))\n"
+          ]
+        },
+        {
+          "start": 288,
+          "end": 289,
+          "before": [
+            "            item { ActionButton(if (model.queuing) \"Starting…\" else if (playlist) \"Download playlist\" else \"Download\", Icons.Default.Download, model.selected.isNotEmpty() && !model.queuing, download) }\n"
+          ],
+          "after": [
+            "            item { ActionButton(if (model.queuing) uiText(\"Starting…\") else if (playlist) uiText(\"Download playlist\") else uiText(\"Download\"), Icons.Default.Download, model.selected.isNotEmpty() && !model.queuing, download) }\n"
+          ]
+        },
+        {
+          "start": 291,
+          "end": 292,
+          "before": [
+            "            Text(\"Videos and playlists as MP3 or MP4. Paste multiple links, one per line.\\n\\nDownload only content you have permission to save.\", color = MaterialTheme.colorScheme.onSurfaceVariant, fontSize = 13.sp, modifier = Modifier.padding(10.dp))\n"
+          ],
+          "after": [
+            "            Text(uiText(\"Videos and playlists as MP3 or MP4. Paste multiple links, one per line.\\n\\nDownload only content you have permission to save.\"), color = MaterialTheme.colorScheme.onSurfaceVariant, fontSize = 13.sp, modifier = Modifier.padding(10.dp))\n"
+          ]
+        },
+        {
+          "start": 297,
+          "end": 297,
+          "before": [],
+          "after": [
+            "    val selectionDescription = uiText(\"Select %1\\$s\", media.title)\n"
+          ]
+        },
+        {
+          "start": 299,
+          "end": 300,
+          "before": [
+            "            modifier = Modifier.semantics { contentDescription = \"Select ${media.title}\" })\n"
+          ],
+          "after": [
+            "            modifier = Modifier.semantics { contentDescription = selectionDescription })\n"
+          ]
+        },
+        {
+          "start": 309,
+          "end": 310,
+          "before": [
+            "            Text(if (media.available) media.author else \"Unavailable\", fontSize = 12.sp, color = MaterialTheme.colorScheme.onSurfaceVariant)\n"
+          ],
+          "after": [
+            "            Text(if (media.available) media.author else uiText(\"Unavailable\"), fontSize = 12.sp, color = MaterialTheme.colorScheme.onSurfaceVariant)\n"
+          ]
+        },
+        {
+          "start": 318,
+          "end": 320,
+          "before": [
+            "        Text(if (inspection.playlist) \"Resolutions found in the reference video. Items use the best available resolution up to your choice, without upscaling.\"\n",
+            "            else \"Available resolutions only. Video and audio are combined; incompatible codecs are converted to MP4.\", fontSize = 12.sp, color = MaterialTheme.colorScheme.onSurfaceVariant, modifier = Modifier.padding(top = 7.dp))\n"
+          ],
+          "after": [
+            "        Text(if (inspection.playlist) uiText(\"Resolutions found in the reference video. Items use the best available resolution up to your choice, without upscaling.\")\n",
+            "            else uiText(\"Available resolutions only. Video and audio are combined; incompatible codecs are converted to MP4.\"), fontSize = 12.sp, color = MaterialTheme.colorScheme.onSurfaceVariant, modifier = Modifier.padding(top = 7.dp))\n"
+          ]
+        },
+        {
+          "start": 333,
+          "end": 335,
+          "before": [
+            "                    Text(\"Save to\", fontSize = 13.sp, fontWeight = FontWeight.SemiBold)\n",
+            "                    Text(label, fontSize = 12.sp, color = MaterialTheme.colorScheme.onSurfaceVariant)\n"
+          ],
+          "after": [
+            "                    Text(uiText(\"Save to\"), fontSize = 13.sp, fontWeight = FontWeight.SemiBold)\n",
+            "                    Text(uiText(label), fontSize = 12.sp, color = MaterialTheme.colorScheme.onSurfaceVariant)\n"
+          ]
+        },
+        {
+          "start": 336,
+          "end": 337,
+          "before": [
+            "                Icon(Icons.Default.ChevronRight, \"Change folder\")\n"
+          ],
+          "after": [
+            "                Icon(Icons.Default.ChevronRight, uiText(\"Change folder\"))\n"
+          ]
+        },
+        {
+          "start": 353,
+          "end": 354,
+          "before": [
+            "        Segments(listOf(\"Downloads (${ongoing.size})\", \"Completed\"), listOf(Icons.Default.Downloading, Icons.Default.CheckCircle), if (completedTab) 1 else 0) { completedTab = it == 1 }\n"
+          ],
+          "after": [
+            "        Segments(listOf(uiText(\"Downloads (%1\\$d)\", ongoing.size), uiText(\"Completed\")), listOf(Icons.Default.Downloading, Icons.Default.CheckCircle), if (completedTab) 1 else 0) { completedTab = it == 1 }\n"
+          ]
+        },
+        {
+          "start": 356,
+          "end": 357,
+          "before": [
+            "            if (visible.isEmpty()) item { GlassCard { Text(if (completedTab) \"No completed downloads.\" else \"Your downloads will appear here.\") } }\n"
+          ],
+          "after": [
+            "            if (visible.isEmpty()) item { GlassCard { Text(if (completedTab) uiText(\"No completed downloads.\") else uiText(\"Your downloads will appear here.\")) } }\n"
+          ]
+        },
+        {
+          "start": 365,
+          "end": 366,
+          "before": [
+            "                        \"${if (job.choice.mp3) \"MP3 • best source\" else \"MP4\"}${if (job.items.size > 1) \" • ${job.current} of ${job.items.size}\" else \"\"}${if (job.choice.zip) \" • ZIP\" else \"\"}\")\n"
+          ],
+          "after": [
+            "                        \"${if (job.choice.mp3) uiText(\"MP3 • best source\") else \"MP4\"}${if (job.items.size > 1) uiText(\" • %1\\$d of %2\\$d\", job.current, job.items.size) else \"\"}${if (job.choice.zip) \" • ZIP\" else \"\"}\")\n"
+          ]
+        },
+        {
+          "start": 374,
+          "end": 375,
+          "before": [
+            "                    if (job.speed > 0 && job.state == \"RUNNING\") Text(\"${bytes(job.speed)}/s\" + if (job.eta > 0) \" • ${duration(job.eta)} at this stage\" else \"\",\n"
+          ],
+          "after": [
+            "                    if (job.speed > 0 && job.state == \"RUNNING\") Text(\"${bytes(job.speed)}/s\" + if (job.eta > 0) uiText(\" • %1\\$s at this stage\", duration(job.eta)) else \"\",\n"
+          ]
+        },
+        {
+          "start": 379,
+          "end": 380,
+          "before": [
+            "                        Text(when (job.state) { \"DONE\" -> \"Completed\"; \"WARNING\" -> \"Completed with warnings\"; \"PAUSED\" -> \"Paused\"; \"CANCELLED\" -> \"Cancelled\"; \"ERROR\" -> \"Error\"; \"QUEUED\" -> \"Queued\"; else -> \"Downloading\" },\n"
+          ],
+          "after": [
+            "                        Text(when (job.state) { \"DONE\" -> uiText(\"Completed\"); \"WARNING\" -> uiText(\"Completed with warnings\"); \"PAUSED\" -> uiText(\"Paused\"); \"CANCELLED\" -> uiText(\"Cancelled\"); \"ERROR\" -> uiText(\"Error\"); \"QUEUED\" -> uiText(\"Queued\"); else -> uiText(\"Downloading\") },\n"
+          ]
+        },
+        {
+          "start": 381,
+          "end": 383,
+          "before": [
+            "                        if (job.state in listOf(\"RUNNING\", \"QUEUED\")) IconButton(onClick = { control(job.id, \"pause\") }) { Icon(Icons.Default.Pause, \"Pause ${job.title}\") }\n",
+            "                        if (job.state in listOf(\"PAUSED\", \"CANCELLED\") || (job.state == \"ERROR\" && (records.any { it.state in setOf(\"PENDING\", \"RUNNING\") || it.retryable } || job.files.isNotEmpty()))) IconButton(onClick = { control(job.id, \"resume\") }) { Icon(if (job.state == \"PAUSED\") Icons.Default.PlayArrow else Icons.Default.Refresh, \"Resume ${job.title}\") }\n"
+          ],
+          "after": [
+            "                        if (job.state in listOf(\"RUNNING\", \"QUEUED\")) IconButton(onClick = { control(job.id, \"pause\") }) { Icon(Icons.Default.Pause, uiText(\"Pause %1\\$s\", job.title)) }\n",
+            "                        if (job.state in listOf(\"PAUSED\", \"CANCELLED\") || (job.state == \"ERROR\" && (records.any { it.state in setOf(\"PENDING\", \"RUNNING\") || it.retryable } || job.files.isNotEmpty()))) IconButton(onClick = { control(job.id, \"resume\") }) { Icon(if (job.state == \"PAUSED\") Icons.Default.PlayArrow else Icons.Default.Refresh, uiText(\"Resume %1\\$s\", job.title)) }\n"
+          ]
+        },
+        {
+          "start": 387,
+          "end": 389,
+          "before": [
+            "                        }) { Icon(Icons.Default.FolderOpen, \"Open files for ${job.title}\") }\n",
+            "                        else if (job.state != \"CANCELLED\") IconButton(onClick = { control(job.id, \"cancel\") }) { Icon(Icons.Default.Close, \"Cancel ${job.title}\") }\n"
+          ],
+          "after": [
+            "                        }) { Icon(Icons.Default.FolderOpen, uiText(\"Open files for %1\\$s\", job.title)) }\n",
+            "                        else if (job.state != \"CANCELLED\") IconButton(onClick = { control(job.id, \"cancel\") }) { Icon(Icons.Default.Close, uiText(\"Cancel %1\\$s\", job.title)) }\n"
+          ]
+        },
+        {
+          "start": 390,
+          "end": 391,
+          "before": [
+            "                    if (missed.isNotEmpty()) TextButton(onClick = { failures = job }) { Text(\"Review unsuccessful items (${missed.size})\") }\n"
+          ],
+          "after": [
+            "                    if (missed.isNotEmpty()) TextButton(onClick = { failures = job }) { Text(uiText(\"Review unsuccessful items (%1\\$d)\", missed.size)) }\n"
+          ]
+        },
+        {
+          "start": 402,
+          "end": 403,
+          "before": [
+            "        AlertDialog(onDismissRequest = { failures = null }, title = { Text(\"Unsuccessful items (${records.size})\") }, text = {\n"
+          ],
+          "after": [
+            "        AlertDialog(onDismissRequest = { failures = null }, title = { Text(uiText(\"Unsuccessful items (%1\\$d)\", records.size)) }, text = {\n"
+          ]
+        },
+        {
+          "start": 409,
+          "end": 410,
+          "before": [
+            "                        if (record.retryable) Text(\"Can be retried\", fontSize = 11.sp, color = MaterialTheme.colorScheme.primary)\n"
+          ],
+          "after": [
+            "                        if (record.retryable) Text(uiText(\"Can be retried\"), fontSize = 11.sp, color = MaterialTheme.colorScheme.primary)\n"
+          ]
+        },
+        {
+          "start": 414,
+          "end": 417,
+          "before": [
+            "            if (eligible > 0 && job.state in setOf(\"WARNING\", \"ERROR\")) TextButton(onClick = { control(job.id, \"retry\"); failures = null }) { Text(\"Retry ($eligible)\") }\n",
+            "            else TextButton(onClick = { failures = null }) { Text(\"Close\") }\n",
+            "        }, dismissButton = { if (eligible > 0 && job.state in setOf(\"WARNING\", \"ERROR\")) TextButton(onClick = { failures = null }) { Text(\"Close\") } })\n"
+          ],
+          "after": [
+            "            if (eligible > 0 && job.state in setOf(\"WARNING\", \"ERROR\")) TextButton(onClick = { control(job.id, \"retry\"); failures = null }) { Text(uiText(\"Retry (%1\\$d)\", eligible)) }\n",
+            "            else TextButton(onClick = { failures = null }) { Text(uiText(\"Close\")) }\n",
+            "        }, dismissButton = { if (eligible > 0 && job.state in setOf(\"WARNING\", \"ERROR\")) TextButton(onClick = { failures = null }) { Text(uiText(\"Close\")) } })\n"
+          ]
+        },
+        {
+          "start": 418,
+          "end": 419,
+          "before": [
+            "    opened?.let { job -> AlertDialog(onDismissRequest = { opened = null }, title = { Text(\"Completed files\") }, text = {\n"
+          ],
+          "after": [
+            "    opened?.let { job -> AlertDialog(onDismissRequest = { opened = null }, title = { Text(uiText(\"Completed files\")) }, text = {\n"
+          ]
+        },
+        {
+          "start": 420,
+          "end": 421,
+          "before": [
+            "    }, confirmButton = { TextButton(onClick = { opened = null }) { Text(\"Close\") } }) }\n"
+          ],
+          "after": [
+            "    }, confirmButton = { TextButton(onClick = { opened = null }) { Text(uiText(\"Close\")) } }) }\n"
+          ]
+        },
+        {
+          "start": 427,
+          "end": 428,
+          "before": [
+            "        item { Text(\"Settings\", fontSize = 22.sp, fontWeight = FontWeight.Bold, modifier = Modifier.padding(vertical = 10.dp)) }\n"
+          ],
+          "after": [
+            "        item { Text(uiText(\"Settings\"), fontSize = 22.sp, fontWeight = FontWeight.Bold, modifier = Modifier.padding(vertical = 10.dp)) }\n",
+            "        item { LanguageSettingsCard() }\n"
+          ]
+        },
+        {
+          "start": 434,
+          "end": 435,
+          "before": [
+            "                        RadioButton(model.theme == value, { model.setAppearance(value) }); Text(label)\n"
+          ],
+          "after": [
+            "                        RadioButton(model.theme == value, { model.setAppearance(value) }); Text(uiText(label))\n"
+          ]
+        },
+        {
+          "start": 442,
+          "end": 445,
+          "before": [
+            "                Text(\"yt-dlp ${Store.preferences(context).getString(\"engine-version\", \"2026.10.21\")}\\nPython, FFmpeg and QuickJS included.\", fontSize = 13.sp)\n",
+            "                GlassButton(onClick = model::updateEngine, enabled = !model.updating) { Text(if (model.updating) \"Updating…\" else \"Check and update yt-dlp\") }\n",
+            "                TextButton(onClick = model::copyDiagnostics) { Text(\"Copy diagnostics\") }\n"
+          ],
+          "after": [
+            "                Text(uiText(\"yt-dlp %1\\$s\\nPython, FFmpeg and QuickJS included.\", Store.preferences(context).getString(\"engine-version\", \"2026.10.21\").orEmpty()), fontSize = 13.sp)\n",
+            "                GlassButton(onClick = model::updateEngine, enabled = !model.updating) { Text(if (model.updating) uiText(\"Updating…\") else uiText(\"Check and update yt-dlp\")) }\n",
+            "                TextButton(onClick = model::copyDiagnostics) { Text(uiText(\"Copy diagnostics\")) }\n"
+          ]
+        },
+        {
+          "start": 451,
+          "end": 453,
+          "before": [
+            "                Text(\"Paused downloads retain partial data. ZIP originals remain in the app. Clearing removes only temporary copies of completed, exported downloads.\", fontSize = 13.sp, color = MaterialTheme.colorScheme.onSurfaceVariant)\n",
+            "                TextButton(onClick = model::cleanCompleted) { Text(\"Clear completed temporary files\") }\n"
+          ],
+          "after": [
+            "                Text(uiText(\"Paused downloads retain partial data. ZIP originals remain in the app. Clearing removes only temporary copies of completed, exported downloads.\"), fontSize = 13.sp, color = MaterialTheme.colorScheme.onSurfaceVariant)\n",
+            "                TextButton(onClick = model::cleanCompleted) { Text(uiText(\"Clear completed temporary files\")) }\n"
+          ]
+        },
+        {
+          "start": 460,
+          "end": 462,
+          "before": [
+            "                Text(\"A simple interface for videos, music and playlists. Execution core from YTDLnis by Deniscerri and contributors, under GPLv3.\", fontSize = 13.sp)\n",
+            "                TextButton(onClick = { licenses = true }) { Text(\"Licenses and source code\") }\n"
+          ],
+          "after": [
+            "                Text(uiText(\"A simple interface for videos, music and playlists. Execution core from YTDLnis by Deniscerri and contributors, under GPLv3.\"), fontSize = 13.sp)\n",
+            "                TextButton(onClick = { licenses = true }) { Text(uiText(\"Licenses and source code\")) }\n"
+          ]
+        },
+        {
+          "start": 465,
+          "end": 466,
+          "before": [
+            "    if (licenses) AlertDialog(onDismissRequest = { licenses = false }, title = { Text(\"Open source\") }, text = {\n"
+          ],
+          "after": [
+            "    if (licenses) AlertDialog(onDismissRequest = { licenses = false }, title = { Text(uiText(\"Open source\")) }, text = {\n"
+          ]
+        },
+        {
+          "start": 468,
+          "end": 470,
+          "before": [
+            "            TextButton(onClick = { openFile(context, Uri.parse(\"https://github.com/fuhbe/Ytdlp-G-Android\"), null) }) { Text(\"Ytdlp-G source\") }\n",
+            "            TextButton(onClick = { openFile(context, Uri.parse(\"https://github.com/deniscerri/ytdlnis\"), null) }) { Text(\"YTDLnis project\") }\n"
+          ],
+          "after": [
+            "            TextButton(onClick = { openFile(context, Uri.parse(\"https://github.com/fuhbe/Ytdlp-G-Android\"), null) }) { Text(uiText(\"Ytdlp-G source\")) }\n",
+            "            TextButton(onClick = { openFile(context, Uri.parse(\"https://github.com/deniscerri/ytdlnis\"), null) }) { Text(uiText(\"YTDLnis project\")) }\n"
+          ]
+        },
+        {
+          "start": 471,
+          "end": 472,
+          "before": [
+            "    }, confirmButton = { TextButton(onClick = { licenses = false }) { Text(\"Close\") } })\n"
+          ],
+          "after": [
+            "    }, confirmButton = { TextButton(onClick = { licenses = false }) { Text(uiText(\"Close\")) } })\n"
+          ]
+        }
+      ]
+    },
+    "GlassNavigation.kt": {
+      "before_sha256": "97fccbf60b64a99ff8c1d34cf4f7fbf2d873654446129403893011432e053295",
+      "operations": [
+        {
+          "start": 48,
+          "end": 49,
+          "before": [
+            "    val semantics=Modifier.semantics { selected=active;role=Role.Tab;contentDescription=description }\n"
+          ],
+          "after": [
+            "    val localizedDescription=uiText(description)\n",
+            "    val semantics=Modifier.semantics { selected=active;role=Role.Tab;contentDescription=localizedDescription }\n"
+          ]
+        },
+        {
+          "start": 53,
+          "end": 54,
+          "before": [
+            "            Text(label,fontSize=10.sp,fontWeight=FontWeight.SemiBold,color=color)\n"
+          ],
+          "after": [
+            "            Text(uiText(label),fontSize=10.sp,fontWeight=FontWeight.SemiBold,color=color)\n"
+          ]
+        }
+      ]
+    },
+    "GlassQualityPicker.kt": {
+      "before_sha256": "e95cdf91a92ed359bec67072665a3d95aec48f95bde646343d19b1ab9f4f24b6",
+      "operations": [
+        {
+          "start": 57,
+          "end": 59,
+          "before": [
+            "        Text(if(selected==0) \"Best quality\" else \"${selected}p\",fontWeight=FontWeight.SemiBold)\n",
+            "        Text(if(selected==0) \"Up to 4K, when available\" else \"Up to the selected resolution\",fontSize=12.sp,color=MaterialTheme.colorScheme.onSurfaceVariant)\n"
+          ],
+          "after": [
+            "        Text(if(selected==0) uiText(\"Best quality\") else \"${selected}p\",fontWeight=FontWeight.SemiBold)\n",
+            "        Text(if(selected==0) uiText(\"Up to 4K, when available\") else uiText(\"Up to the selected resolution\"),fontSize=12.sp,color=MaterialTheme.colorScheme.onSurfaceVariant)\n"
+          ]
+        },
+        {
+          "start": 60,
+          "end": 61,
+          "before": [
+            "    Icon(Icons.Default.ExpandMore,\"Choose quality\",Modifier.graphicsLayer { rotationZ=angle() })\n"
+          ],
+          "after": [
+            "    Icon(Icons.Default.ExpandMore,uiText(\"Choose quality\"),Modifier.graphicsLayer { rotationZ=angle() })\n"
+          ]
+        }
+      ]
+    }
+  }
+}

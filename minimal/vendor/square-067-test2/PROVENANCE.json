@@ -1,0 +1,26 @@
+{
+  "repository": "https://github.com/Lelonio/Square",
+  "commit": "5df51684eec348e283126836449d9ac4aa62541e",
+  "files": {
+    "LiquidToggle.kt": "85603c70c1dcee88e1a8cbf5e6510d38e10c0ae5a7b301aba2dfbe23b0bde847",
+    "InteractiveHighlight.kt": "011296615a976ac434dd244ad4533f7ef1083c15d990adcc82fde792e1a409f1",
+    "GlassEffect.kt": "a4a43b825bb692244651d64a0f4c69c2c82f32d61995883cfa0eb0dadf5303f5",
+    "LiquidBottomTabs.kt": "8132104e1cb3f3165374342ee13b2058e67ef51bc98d69ea416b81e218e5eaa2",
+    "LiquidButton.kt": "6507c1721bb7e42a9d5629ea0488c5b2df2749dca390f5c290567d6454f29264",
+    "DampedDragAnimation.kt": "a19f86a94143a4c43e88b8632ed6996a0125becd12fdbcfcb72ee1c7ee18cada",
+    "shapes/Continuity.kt": "d44673f48b7e349c30c86811b8a9987a310d5fa7d699b499284e8705cc8daab3",
+    "shapes/MathUtils.kt": "66767f3c919ed3da9e09b1791d220760380bd469fadb79cac0eb33bab5f451d8",
+    "shapes/ContinuousRoundedRectangle.kt": "ec20cb1977a4aa47c155d29cef74352fb995030845c396ce15e4215b18f8f5ac",
+    "shapes/AdvancedContinuity.kt": "304e96d7f384c5781bfd5255f1ecf9a6861c9ac0fb2cba2532fc94df15ea1c39",
+    "shapes/LerpContinuousRoundedRectangle.kt": "c8014f9aa0b5c93af7ea97bc8b09304380b2325ab992192c53aab66661055950",
+    "shapes/core/Point.kt": "8020c163c221fb67ed001e9ee1bc3154f34ef33b4e367c09c4595a585217f310",
+    "shapes/core/CubicBezier.kt": "a0ff9bd7fcf704e4c5845a54dd893f04bb83f3e17ab83cc164e20db0afafeb8f",
+    "shapes/path/PathSegment.kt": "1b535411c1e0e92c9d70baebbc9731fb853dab9174413ae12607d97023543c36",
+    "shapes/path/PathSegmentsBuilder.kt": "0c9d113de5fc128b20ba1dc9ca049c970599142324ac58d8a70271e10d94df64",
+    "shapes/path/PathSegments.kt": "8505b8331b51ca0c0330160c786921c773eaaa8a705b46433f45c00771bc1f70",
+    "shapes/continuities/G2ContinuityProfile.kt": "c32b4d77daed802f9fa6992268a2ae6b15a5520aeffcb4726ea43bfc4ca3d8ed",
+    "shapes/continuities/G2Continuity.kt": "09699ea6c6aebd80f09638852567ca425d9cf0fcbd61a22e16d74ca66b14d722",
+    "shapes/continuities/G0Continuity.kt": "8edff312fc88dc3e10f273dd6e1263b3fd1beade514cbc6fa9fce2c00b3b634a",
+    "shapes/continuities/G1Continuity.kt": "95a00507fef6d279e6f70c25f1a0fc505fef5cb2fde36ce5bd33f387bf3ad131"
+  }
+}

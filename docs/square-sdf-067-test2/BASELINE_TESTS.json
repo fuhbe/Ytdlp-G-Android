@@ -1,0 +1,1207 @@
+[
+  {
+    "classname": "com.deniscerri.ytdl.core.stream.StreamReaderTest",
+    "name": "unboundedMalformedLinesAreRejectedWithoutUnboundedPermanentLogs",
+    "skipped": false
+  },
+  {
+    "classname": "com.deniscerri.ytdl.core.stream.StreamReaderTest",
+    "name": "callbackFailureDoesNotAbandonAPipeAndDeadlockItsWriter",
+    "skipped": false
+  },
+  {
+    "classname": "com.deniscerri.ytdl.core.stream.StreamReaderTest",
+    "name": "guardedCallbackStopsTheActualWriterAndDrainsItsPipe",
+    "skipped": false
+  },
+  {
+    "classname": "com.deniscerri.ytdl.core.stream.StreamReaderTest",
+    "name": "splitUtf8AndTheFinalLineWithoutNewlineAreDelivered",
+    "skipped": false
+  },
+  {
+    "classname": "com.deniscerri.ytdl.core.stream.StreamReaderTest",
+    "name": "oldCallbackFailureLeavesTheActualNativeWriterBlockedOnItsPipe",
+    "skipped": false
+  },
+  {
+    "classname": "com.fuhbe.ytdlpg.simple.AnalyzeActionTest",
+    "name": "processHttpFailureIsAVisibleErrorNotASuccessOrActivityClose",
+    "skipped": false
+  },
+  {
+    "classname": "com.fuhbe.ytdlpg.simple.AnalyzeActionTest",
+    "name": "cancellingAnalysisDoesNotPublishLateMetadataOrAnError",
+    "skipped": false
+  },
+  {
+    "classname": "com.fuhbe.ytdlpg.simple.AnalyzeActionTest",
+    "name": "updateClickSurvivesLinkageFailureAndKeepsDiagnosticsAvailable",
+    "skipped": false
+  },
+  {
+    "classname": "com.fuhbe.ytdlpg.simple.AnalyzeActionTest",
+    "name": "analyzeClickSurvivesTheOldZipErrorAndCanRetrySuccessfully",
+    "skipped": false
+  },
+  {
+    "classname": "com.fuhbe.ytdlpg.simple.BatchRunnerTest",
+    "name": "pauseOrCancellationWinsOverAProcessFailure",
+    "skipped": false
+  },
+  {
+    "classname": "com.fuhbe.ytdlpg.simple.BatchRunnerTest",
+    "name": "retryTargetsOnlyEligibleFailuresAndNeverDownloadsCompletedFilesAgain",
+    "skipped": false
+  },
+  {
+    "classname": "com.fuhbe.ytdlpg.simple.BatchRunnerTest",
+    "name": "diskFullStopsTheBatchAndPreservesCompletedFilesAndPendingItems",
+    "skipped": false
+  },
+  {
+    "classname": "com.fuhbe.ytdlpg.simple.BatchRunnerTest",
+    "name": "concurrencyIsBoundedAndGlobalProgressNeverMovesBackOnStageChanges",
+    "skipped": false
+  },
+  {
+    "classname": "com.fuhbe.ytdlpg.simple.BatchRunnerTest",
+    "name": "permanentFailureFiveAndTwelveDoNotStopItemsSixToSixteen",
+    "skipped": false
+  },
+  {
+    "classname": "com.fuhbe.ytdlpg.simple.BatchRunnerTest",
+    "name": "oldQueueJsonMigrationKeepsIdsUrisAndPartialPaths",
+    "skipped": false
+  },
+  {
+    "classname": "com.fuhbe.ytdlpg.simple.DownloadCacheTest",
+    "name": "cancelledOrPermanentFailuresDoNotBecomeRetryTargets",
+    "skipped": false
+  },
+  {
+    "classname": "com.fuhbe.ytdlpg.simple.DownloadCacheTest",
+    "name": "validatedOutputsCanBeReusedWithoutNetworkButChangedOrPartialFilesCannot",
+    "skipped": false
+  },
+  {
+    "classname": "com.fuhbe.ytdlpg.simple.DownloadCacheTest",
+    "name": "cleanupRemovesIntermediatesOnlyAfterTheCommitHookAndKeepsFinalAndRecoveryMarkers",
+    "skipped": false
+  },
+  {
+    "classname": "com.fuhbe.ytdlpg.simple.DownloadCacheTest",
+    "name": "integrityRetryPreservesRejectedSourceAndPartialsButFreesTheFinalFilename",
+    "skipped": false
+  },
+  {
+    "classname": "com.fuhbe.ytdlpg.simple.ElasticGlassButtonTest",
+    "name": "realRenderedDarkOutlineChangesWithoutDuplicateLabels",
+    "skipped": false
+  },
+  {
+    "classname": "com.fuhbe.ytdlpg.simple.ElasticGlassButtonTest",
+    "name": "aVerticalAncestorScrollKeepsItsPriority",
+    "skipped": false
+  },
+  {
+    "classname": "com.fuhbe.ytdlpg.simple.ElasticGlassButtonTest",
+    "name": "stationaryLongPressDoesNotActBeforeTheNormalRelease",
+    "skipped": false
+  },
+  {
+    "classname": "com.fuhbe.ytdlpg.simple.ElasticGlassButtonTest",
+    "name": "tapAccessibilityAndKeyboardUseExactlyTheSameSingleCallback",
+    "skipped": false
+  },
+  {
+    "classname": "com.fuhbe.ytdlpg.simple.ElasticGlassButtonTest",
+    "name": "phoneDensityActionButtonCanSampleItsCachedBackground",
+    "skipped": false
+  },
+  {
+    "classname": "com.fuhbe.ytdlpg.simple.ElasticGlassButtonTest",
+    "name": "smallVerticalJitterRetainsAValidTap",
+    "skipped": false
+  },
+  {
+    "classname": "com.fuhbe.ytdlpg.simple.ElasticGlassButtonTest",
+    "name": "actualCancelAndSecondPointerResetWithoutAction",
+    "skipped": false
+  },
+  {
+    "classname": "com.fuhbe.ytdlpg.simple.ElasticGlassButtonTest",
+    "name": "draggingOutsideAndReturningInsideCannotTurnIntoAClick",
+    "skipped": false
+  },
+  {
+    "classname": "com.fuhbe.ytdlpg.simple.ElasticGlassButtonTest",
+    "name": "moveSamplesDoNotComposeCaptureReadBackOrLaunchSprings",
+    "skipped": false
+  },
+  {
+    "classname": "com.fuhbe.ytdlpg.simple.ElasticGlassButtonTest",
+    "name": "directionalPullDeformsOnlyMaterialAndNeverClicks[32]",
+    "skipped": false
+  },
+  {
+    "classname": "com.fuhbe.ytdlpg.simple.ElasticGlassButtonTest",
+    "name": "disabledAndLoadingTransitionsCancelInput",
+    "skipped": false
+  },
+  {
+    "classname": "com.fuhbe.ytdlpg.simple.ElasticGlassButtonTest",
+    "name": "directionalPullDeformsOnlyMaterialAndNeverClicks[26]",
+    "skipped": false
+  },
+  {
+    "classname": "com.fuhbe.ytdlpg.simple.ElasticGlassButtonTest",
+    "name": "directionalPullDeformsOnlyMaterialAndNeverClicks",
+    "skipped": false
+  },
+  {
+    "classname": "com.fuhbe.ytdlpg.simple.ExportRecoveryTest",
+    "name": "cancellationDeletesOnlyTheIncompleteExportAndRetainsTheSource",
+    "skipped": false
+  },
+  {
+    "classname": "com.fuhbe.ytdlpg.simple.ExportRecoveryTest",
+    "name": "completedAndCopiedJournalsRecoverTheSameUriWithoutCreatingDuplicateFiles",
+    "skipped": false
+  },
+  {
+    "classname": "com.fuhbe.ytdlpg.simple.ExportRecoveryTest",
+    "name": "aNewArchiveRevisionNeverDeletesThePreviouslyCommittedExport",
+    "skipped": false
+  },
+  {
+    "classname": "com.fuhbe.ytdlpg.simple.Glass067CaptureTest",
+    "name": "actualQualityLightSequence",
+    "skipped": false
+  },
+  {
+    "classname": "com.fuhbe.ytdlpg.simple.Glass067CaptureTest",
+    "name": "actualButtonDarkSequence",
+    "skipped": false
+  },
+  {
+    "classname": "com.fuhbe.ytdlpg.simple.Glass067CaptureTest",
+    "name": "actualQualityDarkSequence",
+    "skipped": false
+  },
+  {
+    "classname": "com.fuhbe.ytdlpg.simple.Glass067CaptureTest",
+    "name": "actualButtonLightSequence",
+    "skipped": false
+  },
+  {
+    "classname": "com.fuhbe.ytdlpg.simple.Glass067ReducedMotionTest",
+    "name": "buttonAndMenuSettleAndRemainActionableWithoutAnimation",
+    "skipped": false
+  },
+  {
+    "classname": "com.fuhbe.ytdlpg.simple.GlassApiMatrixTest",
+    "name": "largeFontSettings",
+    "skipped": false
+  },
+  {
+    "classname": "com.fuhbe.ytdlpg.simple.GlassApiMatrixTest",
+    "name": "settingsDark[31]",
+    "skipped": false
+  },
+  {
+    "classname": "com.fuhbe.ytdlpg.simple.GlassApiMatrixTest",
+    "name": "playlistDark[31]",
+    "skipped": false
+  },
+  {
+    "classname": "com.fuhbe.ytdlpg.simple.GlassApiMatrixTest",
+    "name": "managerLight[31]",
+    "skipped": false
+  },
+  {
+    "classname": "com.fuhbe.ytdlpg.simple.GlassApiMatrixTest",
+    "name": "homeLight[31]",
+    "skipped": false
+  },
+  {
+    "classname": "com.fuhbe.ytdlpg.simple.GlassApiMatrixTest",
+    "name": "settingsDark[26]",
+    "skipped": false
+  },
+  {
+    "classname": "com.fuhbe.ytdlpg.simple.GlassApiMatrixTest",
+    "name": "playlistDark[26]",
+    "skipped": false
+  },
+  {
+    "classname": "com.fuhbe.ytdlpg.simple.GlassApiMatrixTest",
+    "name": "managerLight[26]",
+    "skipped": false
+  },
+  {
+    "classname": "com.fuhbe.ytdlpg.simple.GlassApiMatrixTest",
+    "name": "homeLight[26]",
+    "skipped": false
+  },
+  {
+    "classname": "com.fuhbe.ytdlpg.simple.GlassApiMatrixTest",
+    "name": "settingsDark[28]",
+    "skipped": false
+  },
+  {
+    "classname": "com.fuhbe.ytdlpg.simple.GlassApiMatrixTest",
+    "name": "playlistDark[28]",
+    "skipped": false
+  },
+  {
+    "classname": "com.fuhbe.ytdlpg.simple.GlassApiMatrixTest",
+    "name": "managerLight[28]",
+    "skipped": false
+  },
+  {
+    "classname": "com.fuhbe.ytdlpg.simple.GlassApiMatrixTest",
+    "name": "homeLight[28]",
+    "skipped": false
+  },
+  {
+    "classname": "com.fuhbe.ytdlpg.simple.GlassApiMatrixTest",
+    "name": "settingsDark[33]",
+    "skipped": false
+  },
+  {
+    "classname": "com.fuhbe.ytdlpg.simple.GlassApiMatrixTest",
+    "name": "playlistDark[33]",
+    "skipped": false
+  },
+  {
+    "classname": "com.fuhbe.ytdlpg.simple.GlassApiMatrixTest",
+    "name": "managerLight[33]",
+    "skipped": false
+  },
+  {
+    "classname": "com.fuhbe.ytdlpg.simple.GlassApiMatrixTest",
+    "name": "homeLight[33]",
+    "skipped": false
+  },
+  {
+    "classname": "com.fuhbe.ytdlpg.simple.GlassApiMatrixTest",
+    "name": "settingsDark",
+    "skipped": false
+  },
+  {
+    "classname": "com.fuhbe.ytdlpg.simple.GlassApiMatrixTest",
+    "name": "playlistDark",
+    "skipped": false
+  },
+  {
+    "classname": "com.fuhbe.ytdlpg.simple.GlassApiMatrixTest",
+    "name": "managerLight",
+    "skipped": false
+  },
+  {
+    "classname": "com.fuhbe.ytdlpg.simple.GlassApiMatrixTest",
+    "name": "homeLight",
+    "skipped": false
+  },
+  {
+    "classname": "com.fuhbe.ytdlpg.simple.GlassContrastTest",
+    "name": "disabledAnalyzeRetainsItsBehaviorAndReadableForegroundInBothThemes",
+    "skipped": false
+  },
+  {
+    "classname": "com.fuhbe.ytdlpg.simple.GlassDiagonalGestureTest",
+    "name": "realCancelOutsideTheTrackDoesNotCommitAndTheNextDragStillWorks",
+    "skipped": false
+  },
+  {
+    "classname": "com.fuhbe.ytdlpg.simple.GlassDiagonalGestureTest",
+    "name": "ownedMovesAreConsumedBeforeAncestorMainPassHandlers",
+    "skipped": false
+  },
+  {
+    "classname": "com.fuhbe.ytdlpg.simple.GlassDiagonalGestureTest",
+    "name": "leavingAndReenteringTheVisualBoundsDoesNotCancelTheCapturedPointer",
+    "skipped": false
+  },
+  {
+    "classname": "com.fuhbe.ytdlpg.simple.GlassDiagonalGestureTest",
+    "name": "diagonalReleaseAboveTheTrackReproducesTheReportedReturn",
+    "skipped": false
+  },
+  {
+    "classname": "com.fuhbe.ytdlpg.simple.GlassDiagonalGestureTest",
+    "name": "actualFormatZipHistoryAndNavigationAcceptUpAndDownDiagonalReleases",
+    "skipped": false
+  },
+  {
+    "classname": "com.fuhbe.ytdlpg.simple.GlassDiagonalGestureTest",
+    "name": "parentScrollCannotStealAnOwnedDiagonalButVerticalIntentStillScrolls",
+    "skipped": false
+  },
+  {
+    "classname": "com.fuhbe.ytdlpg.simple.GlassDiagonalGestureTest",
+    "name": "diagonalsUpAndDownInsideAndOutsideSelectTheLastHorizontalDestination[32]",
+    "skipped": false
+  },
+  {
+    "classname": "com.fuhbe.ytdlpg.simple.GlassDiagonalGestureTest",
+    "name": "aSecondFingerCannotReplaceTheCapturedPointer",
+    "skipped": false
+  },
+  {
+    "classname": "com.fuhbe.ytdlpg.simple.GlassDiagonalGestureTest",
+    "name": "settlingAfterAnOutsideReleaseNeverRestoresTheOldSelection",
+    "skipped": false
+  },
+  {
+    "classname": "com.fuhbe.ytdlpg.simple.GlassDiagonalGestureTest",
+    "name": "rtlAndOutsideFingerUpWithoutAFinalMoveUseHorizontalPosition",
+    "skipped": false
+  },
+  {
+    "classname": "com.fuhbe.ytdlpg.simple.GlassDiagonalGestureTest",
+    "name": "diagonalsUpAndDownInsideAndOutsideSelectTheLastHorizontalDestination[26]",
+    "skipped": false
+  },
+  {
+    "classname": "com.fuhbe.ytdlpg.simple.GlassDiagonalGestureTest",
+    "name": "diagonalsUpAndDownInsideAndOutsideSelectTheLastHorizontalDestination",
+    "skipped": false
+  },
+  {
+    "classname": "com.fuhbe.ytdlpg.simple.GlassDockGestureTest",
+    "name": "theReservedSystemNavigationAreaIsNotIntercepted",
+    "skipped": false
+  },
+  {
+    "classname": "com.fuhbe.ytdlpg.simple.GlassDockGestureTest",
+    "name": "invalidCoordinatesAndBoundaryHitsAreHandledSafely",
+    "skipped": false
+  },
+  {
+    "classname": "com.fuhbe.ytdlpg.simple.GlassDockGestureTest",
+    "name": "capsuleMovesThroughIntermediatePositionsAndSettles",
+    "skipped": false
+  },
+  {
+    "classname": "com.fuhbe.ytdlpg.simple.GlassDockGestureTest",
+    "name": "returningToTheCurrentDestinationDoesNotInvokeItsCallback",
+    "skipped": false
+  },
+  {
+    "classname": "com.fuhbe.ytdlpg.simple.GlassDockGestureTest",
+    "name": "cancelledDragReturnsToTheCurrentSelection",
+    "skipped": false
+  },
+  {
+    "classname": "com.fuhbe.ytdlpg.simple.GlassDockGestureTest",
+    "name": "capsuleFollowsTheFingerBeforeDispatchingTheRelease",
+    "skipped": false
+  },
+  {
+    "classname": "com.fuhbe.ytdlpg.simple.GlassDockGestureTest",
+    "name": "reverseDragUsesTheSameHomeCallback",
+    "skipped": false
+  },
+  {
+    "classname": "com.fuhbe.ytdlpg.simple.GlassDockGestureTest",
+    "name": "keyboardEnterStillUsesTheFocusedDestination",
+    "skipped": false
+  },
+  {
+    "classname": "com.fuhbe.ytdlpg.simple.GlassDockGestureTest",
+    "name": "verticalGestureDoesNotChangeDestinations",
+    "skipped": false
+  },
+  {
+    "classname": "com.fuhbe.ytdlpg.simple.GlassDockGestureTest",
+    "name": "gestureStartingOutsideTheDockCannotNavigate",
+    "skipped": false
+  },
+  {
+    "classname": "com.fuhbe.ytdlpg.simple.GlassDockGestureTest",
+    "name": "horizontalDragDispatchesOnlyTheReleasedDestinationAcrossApis[31]",
+    "skipped": false
+  },
+  {
+    "classname": "com.fuhbe.ytdlpg.simple.GlassDockGestureTest",
+    "name": "largeFontAndSmallViewportKeepTheDockTouchable",
+    "skipped": false
+  },
+  {
+    "classname": "com.fuhbe.ytdlpg.simple.GlassDockGestureTest",
+    "name": "releaseBeyondRightEdgeSelectsTheExtremeDestination",
+    "skipped": false
+  },
+  {
+    "classname": "com.fuhbe.ytdlpg.simple.GlassDockGestureTest",
+    "name": "capturedDragReleasedOutsideTheDockKeepsItsHorizontalDestination",
+    "skipped": false
+  },
+  {
+    "classname": "com.fuhbe.ytdlpg.simple.GlassDockGestureTest",
+    "name": "normalTapsAndSelectedIndicatorKeepTheirOriginalCallbacks",
+    "skipped": false
+  },
+  {
+    "classname": "com.fuhbe.ytdlpg.simple.GlassDockGestureTest",
+    "name": "horizontalDragDispatchesOnlyTheReleasedDestinationAcrossApis[26]",
+    "skipped": false
+  },
+  {
+    "classname": "com.fuhbe.ytdlpg.simple.GlassDockGestureTest",
+    "name": "horizontalDragDispatchesOnlyTheReleasedDestinationAcrossApis[28]",
+    "skipped": false
+  },
+  {
+    "classname": "com.fuhbe.ytdlpg.simple.GlassDockGestureTest",
+    "name": "horizontalDragDispatchesOnlyTheReleasedDestinationAcrossApis[33]",
+    "skipped": false
+  },
+  {
+    "classname": "com.fuhbe.ytdlpg.simple.GlassDockGestureTest",
+    "name": "horizontalDragDispatchesOnlyTheReleasedDestinationAcrossApis",
+    "skipped": false
+  },
+  {
+    "classname": "com.fuhbe.ytdlpg.simple.GlassEdgeGestureTest",
+    "name": "releaseUsesTheFinalFingerPositionEvenWithoutAFinalMoveEvent",
+    "skipped": false
+  },
+  {
+    "classname": "com.fuhbe.ytdlpg.simple.GlassEdgeGestureTest",
+    "name": "cancelledDragsNeverCommitButVerticalEscapeKeepsHorizontalSelection",
+    "skipped": false
+  },
+  {
+    "classname": "com.fuhbe.ytdlpg.simple.GlassEdgeGestureTest",
+    "name": "targetCalculationIncludesTheRealMarginsAndKeepsIntermediateTolerance",
+    "skipped": false
+  },
+  {
+    "classname": "com.fuhbe.ytdlpg.simple.GlassEdgeGestureTest",
+    "name": "bothEdgesIncludePaddingAndOvershootFromEveryInitialOptionAndWidth[32]",
+    "skipped": false
+  },
+  {
+    "classname": "com.fuhbe.ytdlpg.simple.GlassEdgeGestureTest",
+    "name": "edgesOnRegularPhoneWindow",
+    "skipped": false
+  },
+  {
+    "classname": "com.fuhbe.ytdlpg.simple.GlassEdgeGestureTest",
+    "name": "rtlAndUnequalWidthsUsePhysicalExtremeOptions",
+    "skipped": false
+  },
+  {
+    "classname": "com.fuhbe.ytdlpg.simple.GlassEdgeGestureTest",
+    "name": "edgesOnSmallPhoneWindow",
+    "skipped": false
+  },
+  {
+    "classname": "com.fuhbe.ytdlpg.simple.GlassEdgeGestureTest",
+    "name": "actualFormatZipHistoryAndNavigationKeepBothEdgeSelections",
+    "skipped": false
+  },
+  {
+    "classname": "com.fuhbe.ytdlpg.simple.GlassEdgeGestureTest",
+    "name": "shellRightBoundaryReproducesTheReportedReturn",
+    "skipped": false
+  },
+  {
+    "classname": "com.fuhbe.ytdlpg.simple.GlassEdgeGestureTest",
+    "name": "aDragCanStartInsideEitherInternalPaddingMargin",
+    "skipped": false
+  },
+  {
+    "classname": "com.fuhbe.ytdlpg.simple.GlassEdgeGestureTest",
+    "name": "elasticReturnSettlesAtTheConfirmedNewOptionAtBothEnds",
+    "skipped": false
+  },
+  {
+    "classname": "com.fuhbe.ytdlpg.simple.GlassEdgeGestureTest",
+    "name": "edgesOnTabletWindow",
+    "skipped": false
+  },
+  {
+    "classname": "com.fuhbe.ytdlpg.simple.GlassEdgeGestureTest",
+    "name": "bothEdgesIncludePaddingAndOvershootFromEveryInitialOptionAndWidth[26]",
+    "skipped": false
+  },
+  {
+    "classname": "com.fuhbe.ytdlpg.simple.GlassEdgeGestureTest",
+    "name": "bothEdgesIncludePaddingAndOvershootFromEveryInitialOptionAndWidth",
+    "skipped": false
+  },
+  {
+    "classname": "com.fuhbe.ytdlpg.simple.GlassEvolutionPreviewTest",
+    "name": "darkTheme",
+    "skipped": false
+  },
+  {
+    "classname": "com.fuhbe.ytdlpg.simple.GlassEvolutionPreviewTest",
+    "name": "singleVideo",
+    "skipped": false
+  },
+  {
+    "classname": "com.fuhbe.ytdlpg.simple.GlassEvolutionPreviewTest",
+    "name": "settingsLight",
+    "skipped": false
+  },
+  {
+    "classname": "com.fuhbe.ytdlpg.simple.GlassEvolutionPreviewTest",
+    "name": "homeDark",
+    "skipped": false
+  },
+  {
+    "classname": "com.fuhbe.ytdlpg.simple.GlassEvolutionPreviewTest",
+    "name": "settingsDark",
+    "skipped": false
+  },
+  {
+    "classname": "com.fuhbe.ytdlpg.simple.GlassEvolutionPreviewTest",
+    "name": "playlistDark",
+    "skipped": false
+  },
+  {
+    "classname": "com.fuhbe.ytdlpg.simple.GlassEvolutionPreviewTest",
+    "name": "downloadManager",
+    "skipped": false
+  },
+  {
+    "classname": "com.fuhbe.ytdlpg.simple.GlassEvolutionPreviewTest",
+    "name": "playlist",
+    "skipped": false
+  },
+  {
+    "classname": "com.fuhbe.ytdlpg.simple.GlassMorphGeometryTest",
+    "name": "actualRasterHasAConnectedThinNeckThenTwoSeparatedBodies",
+    "skipped": false
+  },
+  {
+    "classname": "com.fuhbe.ytdlpg.simple.GlassMorphGeometryTest",
+    "name": "silhouetteIsNotAnAffineScaleOfTheOriginAndNeckTapersContinuously",
+    "skipped": false
+  },
+  {
+    "classname": "com.fuhbe.ytdlpg.simple.GlassMorphGeometryTest",
+    "name": "invalidOrWhollyClippedAnchorsCannotStrandAMenu",
+    "skipped": false
+  },
+  {
+    "classname": "com.fuhbe.ytdlpg.simple.GlassMorphGeometryTest",
+    "name": "extremelyShortWindowsUseAnHonestCompactFallback",
+    "skipped": false
+  },
+  {
+    "classname": "com.fuhbe.ytdlpg.simple.GlassMorphGeometryTest",
+    "name": "measuredMenusFitPortraitLandscapeInsetsRtlAndLongLists",
+    "skipped": false
+  },
+  {
+    "classname": "com.fuhbe.ytdlpg.simple.GlassMorphMenuTest",
+    "name": "actualBackAndOutsidePointerDismissWithoutChangingSelection",
+    "skipped": false
+  },
+  {
+    "classname": "com.fuhbe.ytdlpg.simple.GlassMorphMenuTest",
+    "name": "longLargeFontListScrollsToLastActualItem",
+    "skipped": false
+  },
+  {
+    "classname": "com.fuhbe.ytdlpg.simple.GlassMorphMenuTest",
+    "name": "formingItemsCannotActOrClickThrough",
+    "skipped": false
+  },
+  {
+    "classname": "com.fuhbe.ytdlpg.simple.GlassMorphMenuTest",
+    "name": "clippedAwayAnchorCancelsTheOverlaySafely",
+    "skipped": false
+  },
+  {
+    "classname": "com.fuhbe.ytdlpg.simple.GlassMorphMenuTest",
+    "name": "sameReleasedOptionCannotDispatchTwiceDuringAnimatedClosure",
+    "skipped": false
+  },
+  {
+    "classname": "com.fuhbe.ytdlpg.simple.GlassMorphMenuTest",
+    "name": "rapidOpenCloseOpenUsesOneWindowAndOneCurrentProgress",
+    "skipped": false
+  },
+  {
+    "classname": "com.fuhbe.ytdlpg.simple.GlassMorphMenuTest",
+    "name": "restoredCompositionDoesNotRestoreAnInvisibleBlockingWindow",
+    "skipped": false
+  },
+  {
+    "classname": "com.fuhbe.ytdlpg.simple.GlassMorphMenuTest",
+    "name": "sourceRecordsOnceAndNeverRecapturesTheMorphItself",
+    "skipped": false
+  },
+  {
+    "classname": "com.fuhbe.ytdlpg.simple.GlassMorphMenuTest",
+    "name": "physicalRtlMenuBoundsMatchThePlacementInsteadOfDoubleMirroring",
+    "skipped": false
+  },
+  {
+    "classname": "com.fuhbe.ytdlpg.simple.GlassMorphMenuTest",
+    "name": "actualChoicesHighlightAndCallbackRemainExact[32]",
+    "skipped": false
+  },
+  {
+    "classname": "com.fuhbe.ytdlpg.simple.GlassMorphMenuTest",
+    "name": "optionsCanChangeWhileOpenWithoutInventingQualitiesOrRetainingStaleActions",
+    "skipped": false
+  },
+  {
+    "classname": "com.fuhbe.ytdlpg.simple.GlassMorphMenuTest",
+    "name": "actualChoicesHighlightAndCallbackRemainExact[26]",
+    "skipped": false
+  },
+  {
+    "classname": "com.fuhbe.ytdlpg.simple.GlassMorphMenuTest",
+    "name": "actualChoicesHighlightAndCallbackRemainExact[31]",
+    "skipped": false
+  },
+  {
+    "classname": "com.fuhbe.ytdlpg.simple.GlassMorphMenuTest",
+    "name": "actualChoicesHighlightAndCallbackRemainExact",
+    "skipped": false
+  },
+  {
+    "classname": "com.fuhbe.ytdlpg.simple.GlassOpticsRegressionTest",
+    "name": "heldMotionDoesNotRecomposeLabelsOrReadBackTheSourcePerSample",
+    "skipped": false
+  },
+  {
+    "classname": "com.fuhbe.ytdlpg.simple.GlassOpticsRegressionTest",
+    "name": "reproducePreviousSpringLagAndCompareTheSameInputOnTheSameClock",
+    "skipped": false
+  },
+  {
+    "classname": "com.fuhbe.ytdlpg.simple.GlassOpticsRegressionTest",
+    "name": "everyInputSampleIsAppliedBeforeAnyAnimationFrame",
+    "skipped": false
+  },
+  {
+    "classname": "com.fuhbe.ytdlpg.simple.GlassOpticsRegressionTest",
+    "name": "meshIsFiniteAndReusableForReversedAndOffEdgeDrags",
+    "skipped": false
+  },
+  {
+    "classname": "com.fuhbe.ytdlpg.simple.GlassOpticsRegressionTest",
+    "name": "actualMeshMovesSourceTextPixelsAndKeepsTheExteriorUnchanged",
+    "skipped": false
+  },
+  {
+    "classname": "com.fuhbe.ytdlpg.simple.GlassSliderRippleTest",
+    "name": "standardRippleIsAbsentButGlassResponseAndOutsideButtonIndicationRemain",
+    "skipped": true
+  },
+  {
+    "classname": "com.fuhbe.ytdlpg.simple.GlassSliderRippleTest",
+    "name": "disablingOnlySliderIndicationPreservesPressTapAndDragInteractions",
+    "skipped": false
+  },
+  {
+    "classname": "com.fuhbe.ytdlpg.simple.GlassTotalInteractionTest",
+    "name": "wholeTrackCanAcquireTheCapsuleAndCommitOnceAtTolerantMiddle[26]",
+    "skipped": false
+  },
+  {
+    "classname": "com.fuhbe.ytdlpg.simple.GlassTotalInteractionTest",
+    "name": "qualityPanelKeepsExactOptionsAndSelectsOnceThenDismisses[26]",
+    "skipped": false
+  },
+  {
+    "classname": "com.fuhbe.ytdlpg.simple.GlassTotalInteractionTest",
+    "name": "wholeTrackCanAcquireTheCapsuleAndCommitOnceAtTolerantMiddle[32]",
+    "skipped": false
+  },
+  {
+    "classname": "com.fuhbe.ytdlpg.simple.GlassTotalInteractionTest",
+    "name": "qualityPanelKeepsExactOptionsAndSelectsOnceThenDismisses[32]",
+    "skipped": false
+  },
+  {
+    "classname": "com.fuhbe.ytdlpg.simple.GlassTotalInteractionTest",
+    "name": "edgeRubberBandIsContinuousBoundedAndRelaxesAtTheDestination",
+    "skipped": false
+  },
+  {
+    "classname": "com.fuhbe.ytdlpg.simple.GlassTotalInteractionTest",
+    "name": "qualityPanelProducesActualOpenAndCloseFramesInBothThemes",
+    "skipped": false
+  },
+  {
+    "classname": "com.fuhbe.ytdlpg.simple.GlassTotalInteractionTest",
+    "name": "illuminationIsContinuousNormalizedAndWorksInPhysicalRtlOrder",
+    "skipped": false
+  },
+  {
+    "classname": "com.fuhbe.ytdlpg.simple.GlassTotalInteractionTest",
+    "name": "actualControlCacheSeparatesGlyphsFromBackgroundAndFreezesBothDuringDrag",
+    "skipped": false
+  },
+  {
+    "classname": "com.fuhbe.ytdlpg.simple.GlassTotalInteractionTest",
+    "name": "qualityBackdropCapturesTheRealScreenOnlyWhileThePopupIsOpen",
+    "skipped": false
+  },
+  {
+    "classname": "com.fuhbe.ytdlpg.simple.GlassTotalInteractionTest",
+    "name": "generousSnappingRecognizesMiddleAndLastBeforeTheirOldRectBoundary",
+    "skipped": false
+  },
+  {
+    "classname": "com.fuhbe.ytdlpg.simple.GlassTotalInteractionTest",
+    "name": "qualityPositionFitsShortWindowsAndHonorsRtlAnchor",
+    "skipped": false
+  },
+  {
+    "classname": "com.fuhbe.ytdlpg.simple.GlassTotalInteractionTest",
+    "name": "actualMeshGlyphPixelsIlluminateProgressivelyWithoutRecapturingTheTexture",
+    "skipped": false
+  },
+  {
+    "classname": "com.fuhbe.ytdlpg.simple.GlassTotalInteractionTest",
+    "name": "largeFontQualityPopupCanScrollToTheLastExistingResolution",
+    "skipped": false
+  },
+  {
+    "classname": "com.fuhbe.ytdlpg.simple.GlassTotalInteractionTest",
+    "name": "wholeTrackCanAcquireTheCapsuleAndCommitOnceAtTolerantMiddle",
+    "skipped": false
+  },
+  {
+    "classname": "com.fuhbe.ytdlpg.simple.GlassTotalInteractionTest",
+    "name": "qualityPanelKeepsExactOptionsAndSelectsOnceThenDismisses",
+    "skipped": false
+  },
+  {
+    "classname": "com.fuhbe.ytdlpg.simple.GlassUiTest",
+    "name": "tabletUsesReadableCenteredContent",
+    "skipped": false
+  },
+  {
+    "classname": "com.fuhbe.ytdlpg.simple.GlassUiTest",
+    "name": "landscapeRemainsScrollable",
+    "skipped": false
+  },
+  {
+    "classname": "com.fuhbe.ytdlpg.simple.GlassUiTest",
+    "name": "analysisLoadingStateCanBeDisplayedAndCancelled",
+    "skipped": false
+  },
+  {
+    "classname": "com.fuhbe.ytdlpg.simple.GlassUiTest",
+    "name": "smallScreenAndLargeFontsCanReachTheDownloadButton",
+    "skipped": false
+  },
+  {
+    "classname": "com.fuhbe.ytdlpg.simple.GlassUiTest",
+    "name": "playlistSelectionsControlWhetherZipIsAvailable",
+    "skipped": false
+  },
+  {
+    "classname": "com.fuhbe.ytdlpg.simple.GlassUiTest",
+    "name": "managerShowsActualStoredStateAndRetryControl",
+    "skipped": false
+  },
+  {
+    "classname": "com.fuhbe.ytdlpg.simple.GlassUiTest",
+    "name": "individualScreenHasRealMp4SelectionAndNoZip",
+    "skipped": false
+  },
+  {
+    "classname": "com.fuhbe.ytdlpg.simple.GlassUiTest",
+    "name": "analysisLoadingStateCanBeDisplayedAndCancelled[26]",
+    "skipped": false
+  },
+  {
+    "classname": "com.fuhbe.ytdlpg.simple.GlassUiTest",
+    "name": "analysisLoadingStateCanBeDisplayedAndCancelled[31]",
+    "skipped": false
+  },
+  {
+    "classname": "com.fuhbe.ytdlpg.simple.GlassWallpaperTest",
+    "name": "themesSelectDifferentActualResourcesWithDistinctPixels",
+    "skipped": false
+  },
+  {
+    "classname": "com.fuhbe.ytdlpg.simple.GlassWallpaperTest",
+    "name": "repeatedProgressIndependentRequestsReuseTheSameThemeBitmap",
+    "skipped": false
+  },
+  {
+    "classname": "com.fuhbe.ytdlpg.simple.HostPipelineTest",
+    "name": "realHttpDisconnectResumesWithRangeAndTransient503RetriesWithoutDuplicateCompletion",
+    "skipped": false
+  },
+  {
+    "classname": "com.fuhbe.ytdlpg.simple.HostPipelineTest",
+    "name": "combinedSplitAndIncompatibleMp4FinishWithAudioAndVideoAndOneFailureDoesNotAbort",
+    "skipped": false
+  },
+  {
+    "classname": "com.fuhbe.ytdlpg.simple.HostPipelineTest",
+    "name": "missingFragmentNeverProducesACompletedFileAndOneSuccessCanStillFormSelectedZip",
+    "skipped": false
+  },
+  {
+    "classname": "com.fuhbe.ytdlpg.simple.HostPipelineTest",
+    "name": "corruptMediaIsNotAValidMp4",
+    "skipped": false
+  },
+  {
+    "classname": "com.fuhbe.ytdlpg.simple.HostPipelineTest",
+    "name": "incompatibleMp4KeepsItsOriginalUntilNativeValidationAndCommit",
+    "skipped": false
+  },
+  {
+    "classname": "com.fuhbe.ytdlpg.simple.HostPipelineTest",
+    "name": "sixteenRealMp3TransfersContinuePastUnavailableFifthAndTwelfthAndZipFourteen",
+    "skipped": false
+  },
+  {
+    "classname": "com.fuhbe.ytdlpg.simple.LiquidGlassInteractionTest",
+    "name": "relocatedNavigationUsesTheExistingDestinationsAndBackBehavior",
+    "skipped": false
+  },
+  {
+    "classname": "com.fuhbe.ytdlpg.simple.LiquidGlassInteractionTest",
+    "name": "renderingCapabilitiesRespectApiHardwareMemoryAndPowerSaver",
+    "skipped": false
+  },
+  {
+    "classname": "com.fuhbe.ytdlpg.simple.LiquidGlassInteractionTest",
+    "name": "formatQualityAndZipKeepTheirOriginalModelValuesAndSelectionRules",
+    "skipped": false
+  },
+  {
+    "classname": "com.fuhbe.ytdlpg.simple.LiquidGlassInteractionTest",
+    "name": "destinationStillLaunchesTheAndroidDocumentTreePicker",
+    "skipped": false
+  },
+  {
+    "classname": "com.fuhbe.ytdlpg.simple.LiquidGlassInteractionTest",
+    "name": "pauseResumeCancelAndEligibleRetryDispatchTheExactOriginalIds",
+    "skipped": false
+  },
+  {
+    "classname": "com.fuhbe.ytdlpg.simple.LiquidGlassInteractionTest",
+    "name": "downloadActionRemainsAboveTheDockOnSmallScreens",
+    "skipped": false
+  },
+  {
+    "classname": "com.fuhbe.ytdlpg.simple.LiquidGlassInteractionTest",
+    "name": "exactDependencyLensShaderCompilesAndRefractsRealPixels",
+    "skipped": true
+  },
+  {
+    "classname": "com.fuhbe.ytdlpg.simple.LiquidGlassUiPreviewTest",
+    "name": "darkTheme",
+    "skipped": false
+  },
+  {
+    "classname": "com.fuhbe.ytdlpg.simple.LiquidGlassUiPreviewTest",
+    "name": "singleVideo",
+    "skipped": false
+  },
+  {
+    "classname": "com.fuhbe.ytdlpg.simple.LiquidGlassUiPreviewTest",
+    "name": "downloadManager",
+    "skipped": false
+  },
+  {
+    "classname": "com.fuhbe.ytdlpg.simple.LiquidGlassUiPreviewTest",
+    "name": "playlist",
+    "skipped": false
+  },
+  {
+    "classname": "com.fuhbe.ytdlpg.simple.PolicyTest",
+    "name": "accessDenialAndDiskErrorsAreActionable",
+    "skipped": false
+  },
+  {
+    "classname": "com.fuhbe.ytdlpg.simple.PolicyTest",
+    "name": "zipIsNeverEnabledForOneFileAndSelectionChangesClearIt",
+    "skipped": false
+  },
+  {
+    "classname": "com.fuhbe.ytdlpg.simple.PolicyTest",
+    "name": "offersOnlyRealHeightsUpTo4kAndUsesAnExplicitFallback",
+    "skipped": false
+  },
+  {
+    "classname": "com.fuhbe.ytdlpg.simple.PolicyTest",
+    "name": "acceptsDistinctYoutubeLinksAndRejectsOtherHostsAndSchemes",
+    "skipped": false
+  },
+  {
+    "classname": "com.fuhbe.ytdlpg.simple.RuntimeSafetyTest",
+    "name": "missingNativeLibraryFailsClearlyBeforeStartingAnyProcess",
+    "skipped": false
+  },
+  {
+    "classname": "com.fuhbe.ytdlpg.simple.RuntimeSafetyTest",
+    "name": "incompatibleAbiFailsBeforeExecution",
+    "skipped": false
+  },
+  {
+    "classname": "com.fuhbe.ytdlpg.simple.RuntimeSafetyTest",
+    "name": "zipInitializerErrorIsReportedWithoutLosingItsCauseOrRunningOnMain",
+    "skipped": false
+  },
+  {
+    "classname": "com.fuhbe.ytdlpg.simple.RuntimeSafetyTest",
+    "name": "cancellationAndUnrelatedFatalErrorsAreNotDisguisedAsSuccessfulAnalysis",
+    "skipped": false
+  },
+  {
+    "classname": "com.fuhbe.ytdlpg.simple.SquareGlassGestureTest",
+    "name": "liveDownloadCountDoesNotJumpOrPrematurelyCommitTheHeldPane",
+    "skipped": false
+  },
+  {
+    "classname": "com.fuhbe.ytdlpg.simple.SquareGlassGestureTest",
+    "name": "outsideReleaseCommitsButUnclaimedVerticalGestureDoesNot",
+    "skipped": false
+  },
+  {
+    "classname": "com.fuhbe.ytdlpg.simple.SquareGlassGestureTest",
+    "name": "returningToSelectedItemNeverDispatchesOrChangesTheModelEarly",
+    "skipped": false
+  },
+  {
+    "classname": "com.fuhbe.ytdlpg.simple.SquareGlassGestureTest",
+    "name": "measuredGeometryHandlesAsymmetricBoundsAndInvalidPoints",
+    "skipped": false
+  },
+  {
+    "classname": "com.fuhbe.ytdlpg.simple.SquareGlassGestureTest",
+    "name": "unequalChildrenKeepThePaneAlignedToTheirActualWidths",
+    "skipped": false
+  },
+  {
+    "classname": "com.fuhbe.ytdlpg.simple.SquareGlassGestureTest",
+    "name": "actualHistoryTabsStillFilterCompletedJobs",
+    "skipped": false
+  },
+  {
+    "classname": "com.fuhbe.ytdlpg.simple.SquareGlassGestureTest",
+    "name": "captureRealDragAndReleaseFramesFromTheSharedComponent",
+    "skipped": false
+  },
+  {
+    "classname": "com.fuhbe.ytdlpg.simple.SquareGlassGestureTest",
+    "name": "dragSelectsExactlyOnceAcrossAllRequiredApis[32]",
+    "skipped": false
+  },
+  {
+    "classname": "com.fuhbe.ytdlpg.simple.SquareGlassGestureTest",
+    "name": "rtlDragUsesMeasuredPhysicalBounds",
+    "skipped": false
+  },
+  {
+    "classname": "com.fuhbe.ytdlpg.simple.SquareGlassGestureTest",
+    "name": "cancellationAndMultitouchNeverCommit",
+    "skipped": false
+  },
+  {
+    "classname": "com.fuhbe.ytdlpg.simple.SquareGlassGestureTest",
+    "name": "actualMp3Mp4AndZipGesturesKeepTheExistingChoiceRules",
+    "skipped": false
+  },
+  {
+    "classname": "com.fuhbe.ytdlpg.simple.SquareGlassGestureTest",
+    "name": "dragSelectsExactlyOnceAcrossAllRequiredApis[26]",
+    "skipped": false
+  },
+  {
+    "classname": "com.fuhbe.ytdlpg.simple.SquareGlassGestureTest",
+    "name": "dragSelectsExactlyOnceAcrossAllRequiredApis[28]",
+    "skipped": false
+  },
+  {
+    "classname": "com.fuhbe.ytdlpg.simple.SquareGlassGestureTest",
+    "name": "dragSelectsExactlyOnceAcrossAllRequiredApis[31]",
+    "skipped": false
+  },
+  {
+    "classname": "com.fuhbe.ytdlpg.simple.SquareGlassGestureTest",
+    "name": "dragSelectsExactlyOnceAcrossAllRequiredApis[33]",
+    "skipped": false
+  },
+  {
+    "classname": "com.fuhbe.ytdlpg.simple.SquareGlassGestureTest",
+    "name": "dragSelectsExactlyOnceAcrossAllRequiredApis",
+    "skipped": false
+  },
+  {
+    "classname": "com.fuhbe.ytdlpg.simple.SquareGlassMotionTest",
+    "name": "darkThemeFrames",
+    "skipped": false
+  },
+  {
+    "classname": "com.fuhbe.ytdlpg.simple.SquareGlassMotionTest",
+    "name": "lightThemeFrames",
+    "skipped": false
+  },
+  {
+    "classname": "com.fuhbe.ytdlpg.simple.SquareGlassReducedMotionTest",
+    "name": "zeroDurationScaleSettlesWithoutBlockingInputOrLeavingAStalePane",
+    "skipped": false
+  },
+  {
+    "classname": "com.fuhbe.ytdlpg.simple.StableReleaseCaptureTest",
+    "name": "aboutDark",
+    "skipped": false
+  },
+  {
+    "classname": "com.fuhbe.ytdlpg.simple.StableReleaseCaptureTest",
+    "name": "mp3Light",
+    "skipped": false
+  },
+  {
+    "classname": "com.fuhbe.ytdlpg.simple.StableReleaseCaptureTest",
+    "name": "mp4Light",
+    "skipped": false
+  },
+  {
+    "classname": "com.fuhbe.ytdlpg.simple.StableReleaseCaptureTest",
+    "name": "settingsLight",
+    "skipped": false
+  },
+  {
+    "classname": "com.fuhbe.ytdlpg.simple.StableReleaseCaptureTest",
+    "name": "qualityDark",
+    "skipped": false
+  },
+  {
+    "classname": "com.fuhbe.ytdlpg.simple.StableReleaseCaptureTest",
+    "name": "homeDark",
+    "skipped": false
+  },
+  {
+    "classname": "com.fuhbe.ytdlpg.simple.StableReleaseCaptureTest",
+    "name": "qualityLight",
+    "skipped": false
+  },
+  {
+    "classname": "com.fuhbe.ytdlpg.simple.StableReleaseCaptureTest",
+    "name": "downloadsDark",
+    "skipped": false
+  },
+  {
+    "classname": "com.fuhbe.ytdlpg.simple.StableReleaseCaptureTest",
+    "name": "completedDark",
+    "skipped": false
+  },
+  {
+    "classname": "com.fuhbe.ytdlpg.simple.StableReleaseCaptureTest",
+    "name": "settingsDark",
+    "skipped": false
+  },
+  {
+    "classname": "com.fuhbe.ytdlpg.simple.StableReleaseCaptureTest",
+    "name": "playlistDark",
+    "skipped": false
+  },
+  {
+    "classname": "com.fuhbe.ytdlpg.simple.StableReleaseCaptureTest",
+    "name": "playlistLight",
+    "skipped": false
+  },
+  {
+    "classname": "com.fuhbe.ytdlpg.simple.StableReleaseCaptureTest",
+    "name": "mp3Dark",
+    "skipped": false
+  },
+  {
+    "classname": "com.fuhbe.ytdlpg.simple.StableReleaseCaptureTest",
+    "name": "mp4Dark",
+    "skipped": false
+  },
+  {
+    "classname": "com.fuhbe.ytdlpg.simple.StableReleaseCaptureTest",
+    "name": "aboutLight",
+    "skipped": false
+  },
+  {
+    "classname": "com.fuhbe.ytdlpg.simple.StableReleaseCaptureTest",
+    "name": "downloadsLight",
+    "skipped": false
+  },
+  {
+    "classname": "com.fuhbe.ytdlpg.simple.StableReleaseCaptureTest",
+    "name": "completedLight",
+    "skipped": false
+  },
+  {
+    "classname": "com.fuhbe.ytdlpg.simple.StableReleaseCaptureTest",
+    "name": "homeLight",
+    "skipped": false
+  },
+  {
+    "classname": "com.fuhbe.ytdlpg.simple.StorageTest",
+    "name": "metadataSeparatesVideoFromAudioAndExcludesDrmAndUnavailableResolutions",
+    "skipped": false
+  },
+  {
+    "classname": "com.fuhbe.ytdlpg.simple.StorageTest",
+    "name": "writesAndVerifiesAStreamingArchiveWithoutDeletingSources",
+    "skipped": false
+  },
+  {
+    "classname": "com.fuhbe.ytdlpg.simple.StorageTest",
+    "name": "queueControlsAndSavedLocationsSurviveDatabaseReopening",
+    "skipped": false
+  },
+  {
+    "classname": "com.fuhbe.ytdlpg.simple.StorageTest",
+    "name": "cancellationRemovesOnlyThePartialArchive",
+    "skipped": false
+  },
+  {
+    "classname": "com.fuhbe.ytdlpg.simple.TransferProtocolTest",
+    "name": "processingUsesRealOutputTimeAndUnknownDurationIsIndeterminate",
+    "skipped": false
+  },
+  {
+    "classname": "com.fuhbe.ytdlpg.simple.TransferProtocolTest",
+    "name": "truncatedOutputOrIncompatibleCodecsNeverPassValidation",
+    "skipped": false
+  },
+  {
+    "classname": "com.fuhbe.ytdlpg.simple.TransferProtocolTest",
+    "name": "actualCliRequestUsesNativeFragmentsStrictFragmentFailureAndNoIgnoredPostprocessingErrors",
+    "skipped": false
+  },
+  {
+    "classname": "com.fuhbe.ytdlpg.simple.TurboPolicyTest",
+    "name": "slowTransfersAndLongActiveConversionsAreNotKilledByTotalDuration",
+    "skipped": false
+  },
+  {
+    "classname": "com.fuhbe.ytdlpg.simple.TurboPolicyTest",
+    "name": "fragmentAndFileConcurrencyRespectMemoryThermalPowerAndMetering",
+    "skipped": false
+  },
+  {
+    "classname": "com.fuhbe.ytdlpg.simple.TurboPolicyTest",
+    "name": "permanentAccessAndSystemicDiskFailuresAreNotMisclassifiedAsNetworkRetries",
+    "skipped": false
+  },
+  {
+    "classname": "com.fuhbe.ytdlpg.simple.TurboUiTest",
+    "name": "unknownConversionProgressIsIndeterminateAndDoesNotDisplayZeroPercent",
+    "skipped": false
+  },
+  {
+    "classname": "com.fuhbe.ytdlpg.simple.TurboUiTest",
+    "name": "warningsOpenAPerItemReportAndOnlyEligibleFailuresOfferRetry",
+    "skipped": false
+  }
+]
