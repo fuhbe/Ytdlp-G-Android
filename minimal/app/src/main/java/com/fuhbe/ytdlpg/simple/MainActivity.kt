@@ -336,7 +336,7 @@ private val Shape = RoundedCornerShape(23.dp)
                 Icon(Icons.Default.FolderOpen, null); Spacer(Modifier.width(12.dp))
                 Column(Modifier.weight(1f)) {
                     Text(uiText("Save to"), fontSize = 13.sp, fontWeight = FontWeight.SemiBold)
-                    Text(uiText(label), fontSize = 12.sp, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                    Text(label, fontSize = 12.sp, color = MaterialTheme.colorScheme.onSurfaceVariant)
                 }
                 Icon(Icons.Default.ChevronRight, uiText("Change folder"))
             }

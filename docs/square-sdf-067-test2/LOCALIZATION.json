@@ -245,14 +245,12 @@
         },
         {
           "start": 333,
-          "end": 335,
+          "end": 334,
           "before": [
-            "                    Text(\"Save to\", fontSize = 13.sp, fontWeight = FontWeight.SemiBold)\n",
-            "                    Text(label, fontSize = 12.sp, color = MaterialTheme.colorScheme.onSurfaceVariant)\n"
+            "                    Text(\"Save to\", fontSize = 13.sp, fontWeight = FontWeight.SemiBold)\n"
           ],
           "after": [
-            "                    Text(uiText(\"Save to\"), fontSize = 13.sp, fontWeight = FontWeight.SemiBold)\n",
-            "                    Text(uiText(label), fontSize = 12.sp, color = MaterialTheme.colorScheme.onSurfaceVariant)\n"
+            "                    Text(uiText(\"Save to\"), fontSize = 13.sp, fontWeight = FontWeight.SemiBold)\n"
           ]
         },
         {
